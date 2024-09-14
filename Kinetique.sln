@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "main", "main", "{AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Main.Model", "main\Kinetique.Main.Model\Kinetique.Main.Model.csproj", "{8F9E87ED-229F-479E-801F-10D77065C860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Main.DAL", "main\Kinetique.Main.DAL\Kinetique.Main.DAL.csproj", "{971F4FF8-8215-4D0C-A295-673531AA0A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Main.API", "main\Kinetique.Main.API\Kinetique.Main.API.csproj", "{7935634F-8341-455E-ADDD-89E7B32DED71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Main.Application", "main\Kinetique.Main.Application\Kinetique.Main.Application.csproj", "{D7DF147A-5DD6-4899-8960-A8E7529F1F14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F9E87ED-229F-479E-801F-10D77065C860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9E87ED-229F-479E-801F-10D77065C860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9E87ED-229F-479E-801F-10D77065C860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9E87ED-229F-479E-801F-10D77065C860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971F4FF8-8215-4D0C-A295-673531AA0A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971F4FF8-8215-4D0C-A295-673531AA0A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971F4FF8-8215-4D0C-A295-673531AA0A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971F4FF8-8215-4D0C-A295-673531AA0A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7935634F-8341-455E-ADDD-89E7B32DED71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7935634F-8341-455E-ADDD-89E7B32DED71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7935634F-8341-455E-ADDD-89E7B32DED71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7935634F-8341-455E-ADDD-89E7B32DED71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7DF147A-5DD6-4899-8960-A8E7529F1F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7DF147A-5DD6-4899-8960-A8E7529F1F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7DF147A-5DD6-4899-8960-A8E7529F1F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7DF147A-5DD6-4899-8960-A8E7529F1F14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8F9E87ED-229F-479E-801F-10D77065C860} = {AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}
+		{971F4FF8-8215-4D0C-A295-673531AA0A98} = {AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}
+		{7935634F-8341-455E-ADDD-89E7B32DED71} = {AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}
+		{D7DF147A-5DD6-4899-8960-A8E7529F1F14} = {AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}
+	EndGlobalSection
+EndGlobal
