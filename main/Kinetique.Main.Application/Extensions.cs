@@ -17,6 +17,12 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
         
+        services.Scan(s => s.FromAssemblies(applicationAssembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
+        
         services.AddScoped<IPatientRepository, InMemoryPatientRepository>()
             .AddScoped<IDoctorRepository, InMemoryDoctorRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();

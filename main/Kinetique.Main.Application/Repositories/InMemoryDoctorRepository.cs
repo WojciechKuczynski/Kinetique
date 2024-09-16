@@ -5,7 +5,7 @@ namespace Kinetique.Main.Application.Repositories;
 
 public class InMemoryDoctorRepository : IDoctorRepository
 {
-    private readonly List<Doctor> _doctors;
+    private readonly List<Doctor> _doctors = [];
 
     public Task<IEnumerable<Doctor>> GetAll()
         => Task.FromResult(_doctors.Select(x => x));

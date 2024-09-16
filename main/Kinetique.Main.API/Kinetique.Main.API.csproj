@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\shared\Kinetique.Shared\Kinetique.Shared.csproj" />
       <ProjectReference Include="..\Kinetique.Main.Application\Kinetique.Main.Application.csproj" />
       <ProjectReference Include="..\Kinetique.Main.DAL\Kinetique.Main.DAL.csproj" />
     </ItemGroup>

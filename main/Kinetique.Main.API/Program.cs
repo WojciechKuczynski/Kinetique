@@ -1,15 +1,15 @@
 using Kinetique.Main.Application;
 using Kinetique.Main.DAL;
+using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // var provider = builder.Configuration.GetValue("Provider", "Postgres");
 
 builder.Services.AddDAL(builder.Configuration, "Postgres")
     .AddApplication()
+    .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
-
+// app.UseHttpsRedirection();
+app.UseRouting();
+app.UseEndpoints(e => e.MapControllers());
 app.Run();
