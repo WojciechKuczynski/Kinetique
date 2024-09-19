@@ -1,4 +1,5 @@
 using Kinetique.Main.Model.ValueObjects;
+using Kinetique.Shared.Model;
 
 namespace Kinetique.Main.Model;
 

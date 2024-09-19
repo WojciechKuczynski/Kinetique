@@ -1,3 +1,5 @@
+using Kinetique.Shared.Model;
+
 namespace Kinetique.Main.Model;
 
 public class Doctor : BaseModel

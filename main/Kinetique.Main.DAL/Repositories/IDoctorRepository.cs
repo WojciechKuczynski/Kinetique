@@ -1,11 +1,8 @@
 using Kinetique.Main.Model;
+using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Main.DAL.Repositories;
 
-public interface IDoctorRepository
+public interface IDoctorRepository : IBaseRepository<Doctor>
 {
-    public Task<IEnumerable<Doctor>> GetAll();
-    public Task<Doctor?> Get(long id);
-    public Task<Doctor> Add(Doctor appointment);
-    public Task Update(Doctor appointment);
 }

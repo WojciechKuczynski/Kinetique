@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kinetique.Main.Model;
+namespace Kinetique.Shared.Model;
 
 public abstract class BaseModel
 {

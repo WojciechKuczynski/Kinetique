@@ -1,6 +1,6 @@
 @Kinetique.Appointment.API_HostAddress = http://localhost:5254
 
-GET {{Kinetique.Appointment.API_HostAddress}}/weatherforecast/
+#GET {{Kinetique.Appointment.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
