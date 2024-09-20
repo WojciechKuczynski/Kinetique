@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Appointment.DAL",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Shared.Model", "shared\Kinetique.Shared.Model\Kinetique.Shared.Model.csproj", "{6FBCDA1C-EF6B-416F-ABAE-C522E5A0802B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinetique.Appointment.Application", "appointments\Kinetique.Appointment.Application\Kinetique.Appointment.Application.csproj", "{B8B9E155-05FB-400A-A05E-5C353CEBA3E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{6FBCDA1C-EF6B-416F-ABAE-C522E5A0802B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FBCDA1C-EF6B-416F-ABAE-C522E5A0802B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FBCDA1C-EF6B-416F-ABAE-C522E5A0802B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B9E155-05FB-400A-A05E-5C353CEBA3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B9E155-05FB-400A-A05E-5C353CEBA3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B9E155-05FB-400A-A05E-5C353CEBA3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B9E155-05FB-400A-A05E-5C353CEBA3E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8F9E87ED-229F-479E-801F-10D77065C860} = {AFD2B9F6-3AA9-4F86-AE27-1271F45D6707}
@@ -84,5 +90,6 @@ Global
 		{3EBE2732-62DB-4C8B-95A2-EA548AC8509B} = {F34613E5-F4AC-4CB6-8AAF-6F898CEC717A}
 		{2A3E5638-5389-4F88-ABF5-75F028E6A94A} = {F34613E5-F4AC-4CB6-8AAF-6F898CEC717A}
 		{6FBCDA1C-EF6B-416F-ABAE-C522E5A0802B} = {18C6A4B7-C7C3-49A1-A53E-C61F369ECCD7}
+		{B8B9E155-05FB-400A-A05E-5C353CEBA3E2} = {F34613E5-F4AC-4CB6-8AAF-6F898CEC717A}
 	EndGlobalSection
 EndGlobal

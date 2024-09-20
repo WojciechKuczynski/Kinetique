@@ -1,4 +1,4 @@
-namespace Kinetique.Main.Application.Storage;
+namespace Kinetique.Shared.Model.Storage;
 
 public class ResponseStorage : IResponseStorage
 {

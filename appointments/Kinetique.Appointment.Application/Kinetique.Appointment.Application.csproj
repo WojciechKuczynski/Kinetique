@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\shared\Kinetique.Shared.Model\Kinetique.Shared.Model.csproj" />
+      <ProjectReference Include="..\Kinetique.Appointment.DAL\Kinetique.Appointment.DAL.csproj" />
+      <ProjectReference Include="..\Kinetique.Appointment.Model\Kinetique.Appointment.Model.csproj" />
+    </ItemGroup>
+
+</Project>

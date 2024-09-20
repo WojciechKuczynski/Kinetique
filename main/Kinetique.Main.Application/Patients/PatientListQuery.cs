@@ -1,5 +1,5 @@
-using Kinetique.Main.Application.Abstractions;
 using Kinetique.Main.Application.Dtos;
+using Kinetique.Shared.Model.Abstractions;
 
 namespace Kinetique.Main.Application.Patients;
 

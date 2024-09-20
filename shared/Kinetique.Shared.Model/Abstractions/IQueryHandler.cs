@@ -1,4 +1,4 @@
-namespace Kinetique.Main.Application.Abstractions;
+namespace Kinetique.Shared.Model.Abstractions;
 
 public interface IQueryHandler<in TQuery, TResult> where TQuery: class, IQuery<TResult>
 {

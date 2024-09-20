@@ -1,7 +1,7 @@
-using Kinetique.Main.Application.Abstractions;
 using Kinetique.Main.Application.Dtos;
 using Kinetique.Main.Application.Mappers;
 using Kinetique.Main.DAL.Repositories;
+using Kinetique.Shared.Model.Abstractions;
 
 namespace Kinetique.Main.Application.Patients.Handlers;
 

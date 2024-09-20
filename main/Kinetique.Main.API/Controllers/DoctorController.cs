@@ -2,6 +2,7 @@ using Kinetique.Main.Application.Doctors;
 using Kinetique.Main.Application.Doctors.Handlers;
 using Kinetique.Main.Application.Dtos;
 using Kinetique.Main.Application.Storage;
+using Kinetique.Shared.Model.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kinetique.Main.API.Controllers;

@@ -1,7 +1,8 @@
-using Kinetique.Main.Application.Abstractions;
 using Kinetique.Main.Application.Repositories;
 using Kinetique.Main.Application.Storage;
 using Kinetique.Main.DAL.Repositories;
+using Kinetique.Shared.Model.Abstractions;
+using Kinetique.Shared.Model.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kinetique.Main.Application;

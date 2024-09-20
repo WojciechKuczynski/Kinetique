@@ -1,4 +1,4 @@
-namespace Kinetique.Main.Application.Abstractions;
+namespace Kinetique.Shared.Model.Abstractions;
 
 public interface ICommandHandler<in TCommand> where TCommand : class, ICommandRequest
 {
