@@ -12,7 +12,7 @@ public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, 
     private readonly IModel _channel;
     private readonly IConnection _connection;
     
-    public RcpServer(string queue,Func<TRequest,TResponse> func)
+    public RcpServer(string queue,Func<TRequest,Task<TResponse>> func)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
         _connection = factory.CreateConnection();

@@ -7,13 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kinetique.Appointment.API.Controllers;
 
-public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler, IResponseStorage _storage) : BaseController
+public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
+    IAppointmentListHandler _appointmentListHandler,IResponseStorage _storage) : BaseController
 {
 
     [HttpGet("{id:long}")]
     public async Task<ActionResult<AppointmentDto>> GetById(long id)
     {
-        throw new NotImplementedException();
+        return Ok(await _appointmentSingleHandler.Handle(new AppointmentSingleQuery(id)));
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<AppointmentDto>> GetAll()
+    {
+        return Ok(await _appointmentListHandler.Handle(new AppointmentListQuery()));
     }
     
     [HttpPost]

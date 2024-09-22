@@ -7,13 +7,13 @@ Console.WriteLine("Hello, World!");
 
 
 
-using var srv = new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
-Console.ReadKey();
-srv.Dispose();
-return;
-
-PatientAppointmentResponse TestResponse(PatientAppointmentRequest request)
-{
-    return new PatientAppointmentResponse("test");
-}
+// using var srv = new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
+// Console.ReadKey();
+// srv.Dispose();
+// return;
+//
+// PatientAppointmentResponse TestResponse(PatientAppointmentRequest request)
+// {
+//     return new PatientAppointmentResponse("test");
+// }
 

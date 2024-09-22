@@ -1,11 +1,9 @@
-using Kinetique.Main.Application.Repositories;
-using Kinetique.Main.Application.Storage;
-using Kinetique.Main.DAL.Repositories;
+using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kinetique.Main.Application;
+namespace Kinetique.Appointment.Application;
 
 public static class Extensions
 {
@@ -23,9 +21,7 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        
-        services.AddScoped<IPatientRepository, InMemoryPatientRepository>()
-            .AddScoped<IDoctorRepository, InMemoryDoctorRepository>()
+        services.AddSingleton<IAppointmentRepository, InMemoryAppointmentRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();
         
         return services;

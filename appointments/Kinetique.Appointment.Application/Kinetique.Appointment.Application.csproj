@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\shared\Kinetique.Shared.Model\Kinetique.Shared.Model.csproj" />
+      <ProjectReference Include="..\..\shared\Kinetique.Shared\Kinetique.Shared.csproj" />
       <ProjectReference Include="..\Kinetique.Appointment.DAL\Kinetique.Appointment.DAL.csproj" />
       <ProjectReference Include="..\Kinetique.Appointment.Model\Kinetique.Appointment.Model.csproj" />
     </ItemGroup>
