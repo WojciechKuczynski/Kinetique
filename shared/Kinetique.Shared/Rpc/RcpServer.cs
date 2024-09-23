@@ -45,7 +45,7 @@ public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, 
             }
 
             var response = func.Invoke(requestMsg);
-            var serializedResponse = JsonSerializer.SerializeToUtf8Bytes(response);
+            var serializedResponse = JsonSerializer.SerializeToUtf8Bytes(response.Result);
             _channel.BasicPublish(exchange: string.Empty,
                 routingKey: props.ReplyTo,
                 basicProperties: replyProps,
