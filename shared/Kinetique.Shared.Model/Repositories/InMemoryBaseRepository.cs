@@ -2,7 +2,7 @@ namespace Kinetique.Shared.Model.Repositories;
 
 public abstract class InMemoryBaseRepository<T> : IBaseRepository<T> where T: BaseModel
 {
-    private readonly List<T> _objects = [];
+    protected readonly List<T> _objects = [];
     
     public virtual Task<IEnumerable<T>> GetAll()
         => Task.FromResult(_objects.Select(x => x));

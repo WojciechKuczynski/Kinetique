@@ -1,3 +1,4 @@
+using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;

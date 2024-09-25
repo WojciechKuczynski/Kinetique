@@ -13,4 +13,8 @@
       <ProjectReference Include="..\Kinetique.Appointment.Model\Kinetique.Appointment.Model.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Kinetique.Appointment.Test" />
+    </ItemGroup>
+
 </Project>
