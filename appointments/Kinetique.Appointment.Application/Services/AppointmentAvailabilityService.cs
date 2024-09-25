@@ -16,11 +16,11 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
     
     public async Task<AppointmentDto> TryBook(AppointmentDto dto)
     {
-        var doctors =
+        var doctors = await
             _appointmentRepository.GetAppointmentsForDoctor(dto.DoctorId, dto.StartDate,
                 dto.StartDate.Add(dto.Duration));
         
-        var patients =
+        var patients = await
             _appointmentRepository.GetAppointmentsForPatient(dto.PatientId.Value, dto.StartDate,
                 dto.StartDate.Add(dto.Duration));
 
