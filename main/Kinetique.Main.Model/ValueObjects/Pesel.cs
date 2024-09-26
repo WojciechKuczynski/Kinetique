@@ -9,4 +9,8 @@ public sealed class Pesel
         // validaton later
         Value = value;
     }
+    
+    public static implicit operator string(Pesel pesel) => pesel.Value;
+    public static implicit operator Pesel(string pesel) => new(pesel);
+    public override string ToString() => Value;
 }
