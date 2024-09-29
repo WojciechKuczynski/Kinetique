@@ -19,13 +19,13 @@ internal sealed class RabbitPublisher(IConnection connection) : IRabbitPublisher
             body: messageBytes);
     }
 
-    public void PublishToExchange<TMessage>(TMessage message, string exchange) where TMessage : class, IRabbitRequest
+    public void PublishToExchange<TMessage>(TMessage message, string exchange, string routingKey = default) where TMessage : class, IRabbitRequest
     {
         var json = JsonSerializer.Serialize(message);
         var messageBytes = Encoding.UTF8.GetBytes(json);
         using var channel = connection.CreateModel();
         channel.BasicPublish(exchange: exchange,
-            routingKey: string.Empty,
+            routingKey: routingKey,
             basicProperties: null,
             body: messageBytes);
     }

@@ -1,6 +1,8 @@
+using Kinetique.Shared.Messaging;
+
 namespace Kinetique.Shared.Dtos;
 
-public class AppointmentSharedDto
+public class AppointmentSharedDto : IRabbitRequest
 {
     public long Id { get; set; }
     public long? PatientId { get; set; }

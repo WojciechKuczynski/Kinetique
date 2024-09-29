@@ -1,8 +1,6 @@
 using Kinetique.Appointment.API.Services;
 using Kinetique.Appointment.Application;
 using Kinetique.Appointment.DAL;
-using Kinetique.Appointment.DAL.Repositories;
-using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDAL(builder.Configuration, "Postgres")
-    .AddApplication()
-    // .AddScoped<AppointmentRabbitService>()
+    .AddApplication(builder.Configuration)
     .AddHostedService<AppointmentRabbitService>()
     .AddSwaggerGen()
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
