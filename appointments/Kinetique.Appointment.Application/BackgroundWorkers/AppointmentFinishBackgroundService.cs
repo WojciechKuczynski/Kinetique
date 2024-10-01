@@ -33,7 +33,7 @@ public class AppointmentFinishBackgroundService(
     private async IAsyncEnumerable<Model.Appointment> GetFinishedAppointments(CancellationToken token)
     {
         var lastCreatedAppointment = await _appointmentJournalRepository.GetLatestJournal();
-        var appointmentsToSent = await _appointmentRepository.GetAppointmentsFinishedAfter(lastCreatedAppointment.CreatedAt);
+        var appointmentsToSent = await _appointmentRepository.GetAppointmentsFinishedAfter(lastCreatedAppointment?.CreatedAt);
         
         if (appointmentsToSent.Count == 0)
         {

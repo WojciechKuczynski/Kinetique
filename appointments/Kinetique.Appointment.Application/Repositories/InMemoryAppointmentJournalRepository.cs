@@ -1,12 +1,11 @@
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
+using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
-public class InMemoryAppointmentJournalRepository : IAppointmentJournalRepository
+public class InMemoryAppointmentJournalRepository : InMemoryBaseRepository<AppointmentJournal>, IAppointmentJournalRepository
 {
-    private readonly List<AppointmentJournal> _objects = [];
-    
     public Task AddJournal(long appointmentId, JournalStatus status)
     {
         var journal = new AppointmentJournal

@@ -3,7 +3,7 @@ using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Appointment.DAL.Repositories;
 
-public interface IAppointmentJournalRepository
+public interface IAppointmentJournalRepository : IBaseRepository<Model.AppointmentJournal>
 {
     Task AddJournal(long appointmentId, JournalStatus status);
     Task UpdateJournal(long appointmentId, JournalStatus status);

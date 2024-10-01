@@ -48,9 +48,14 @@ public class InMemoryAppointmentRepository : InMemoryBaseRepository<Model.Appoin
         return await Task.FromResult(query.ToList());
     }
 
-    public async Task<IList<Model.Appointment>> GetAppointmentsFinishedAfter(DateTime date)
+    public async Task<IList<Model.Appointment>> GetAppointmentsFinishedAfter(DateTime? date)
     {
-        var appointents = _objects.Where(x => x.StartDate.Add(x.Duration) >= date).ToList();
+        List<Model.Appointment> appointents;
+        if (date == null)
+            appointents = _objects.Where(x => x.StartDate.Add(x.Duration) < DateTime.UtcNow).ToList();
+        else
+            appointents = _objects.Where(x => x.StartDate.Add(x.Duration) >= date).ToList();
+        
         return await Task.FromResult(appointents);
     }
 }
