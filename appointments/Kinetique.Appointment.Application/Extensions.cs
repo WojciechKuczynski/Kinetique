@@ -1,3 +1,4 @@
+using Kinetique.Appointment.Application.BackgroundWorkers;
 using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Messaging;
@@ -25,6 +26,8 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
+        services.AddHostedService<AppointmentFinishBackgroundService>();
+        
         services.AddSingleton<IAppointmentRepository, InMemoryAppointmentRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();
         
