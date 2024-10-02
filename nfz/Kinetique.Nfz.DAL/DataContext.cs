@@ -1,4 +1,5 @@
-﻿using Kinetique.Shared.Model;
+﻿using Kinetique.Nfz.Model;
+using Kinetique.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Nfz.DAL;
@@ -7,6 +8,16 @@ public class DataContext : DbContext
 {
     public DataContext(DbContextOptions options) : base(options)
     { }
+
+    public DbSet<SettlemenetProcedure> SettlemenetProcedures { get; set; }
+    public DbSet<StatisticProcedureGroup> StatisticProcedureGroups { get; set; }
+    public DbSet<PatientProcedure> PatientProcedures { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
     
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {

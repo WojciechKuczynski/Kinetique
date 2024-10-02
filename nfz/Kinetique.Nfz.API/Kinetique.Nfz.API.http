@@ -1,0 +1,5 @@
+@Kinetique.Nfz.API_HostAddress = http://localhost:5020
+
+Accept: application/json
+
+###
