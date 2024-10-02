@@ -7,14 +7,12 @@ namespace Kinetique.Appointment.API.Services;
 
 public class AppointmentRabbitService: IHostedService
 {
-    // private readonly IAppointmentRepository _appointmentRepository;
     private readonly IServiceProvider _serviceProvider;
     private RcpServer<PatientAppointmentRequest, PatientAppointmentResponse> _rabbitServer;
 
     public AppointmentRabbitService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        // _appointmentRepository = appointmentRepository;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)

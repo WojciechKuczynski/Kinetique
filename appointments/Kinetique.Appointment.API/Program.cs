@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDAL(builder.Configuration, "Postgres")
+builder.Services.AddDAL(builder.Configuration)
     .AddApplication(builder.Configuration)
     .AddHostedService<AppointmentRabbitService>()
     .AddSwaggerGen()
@@ -19,6 +17,7 @@ var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 await dbContext.Database.MigrateAsync();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

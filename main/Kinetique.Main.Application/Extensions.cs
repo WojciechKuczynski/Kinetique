@@ -1,5 +1,4 @@
 using Kinetique.Main.Application.Repositories;
-using Kinetique.Main.Application.Storage;
 using Kinetique.Main.DAL.Repositories;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;

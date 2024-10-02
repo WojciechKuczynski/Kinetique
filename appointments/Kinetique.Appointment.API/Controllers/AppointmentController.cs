@@ -2,6 +2,7 @@ using Kinetique.Appointment.Application.Appointments;
 using Kinetique.Appointment.Application.Appointments.Handlers;
 using Kinetique.Appointment.Application.Dtos;
 using Kinetique.Appointment.Application.Storage;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
 using Microsoft.AspNetCore.Mvc;
 

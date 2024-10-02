@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // var provider = builder.Configuration.GetValue("Provider", "Postgres");
 
-builder.Services.AddDAL(builder.Configuration, "Postgres")
+builder.Services.AddDAL(builder.Configuration)
     .AddApplication()
     .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()

@@ -1,5 +1,6 @@
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Messaging.Messages;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Rpc;
 using Microsoft.AspNetCore.Mvc;
 
