@@ -4,10 +4,10 @@ namespace Kinetique.Nfz.Model;
 
 public class PatientProcedure : BaseModel
 {
-    public long PatientId { get; set; }
-    public long AppointmentId { get; set; }
-    public virtual List<StatisticProcedureGroup> Procedures { get; set; }
-    public SendStatus Status { get; set; }
+    public long PatientId { get; init; }
+    public long AppointmentId { get; init; }
+    public virtual List<StatisticProcedureGroup> Procedures { get; init; } = [];
+    public SendStatus Status { get; init; }
 
     public bool IsValid => Procedures
         .GroupBy(x => x.SettlemenetProcedure.Code)

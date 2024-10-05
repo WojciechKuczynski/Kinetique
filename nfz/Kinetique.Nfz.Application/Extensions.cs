@@ -21,7 +21,7 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        services.AddScoped<IPatientProcedureRepository, InMemoryPatientProcedureRepository>();
+        services.AddSingleton<IPatientProcedureRepository, InMemoryPatientProcedureRepository>();
         
         return services;
     }

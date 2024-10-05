@@ -1,13 +1,16 @@
+using Kinetique.Nfz.API.Services;
 using Kinetique.Nfz.Application;
 using Kinetique.Nfz.DAL;
+using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddRabbitMq(builder.Configuration)
     .AddDAL(builder.Configuration)
     .AddApplication()
+    .AddHostedService<AppointmentEndRabbitService>()
     .AddSwaggerGen()
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
