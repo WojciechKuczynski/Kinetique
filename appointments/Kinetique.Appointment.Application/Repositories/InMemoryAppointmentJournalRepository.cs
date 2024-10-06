@@ -39,7 +39,7 @@ public class InMemoryAppointmentJournalRepository : InMemoryBaseRepository<Appoi
         return Task.CompletedTask;
     }
 
-    public Task<AppointmentJournal> GetLatestJournal()
+    public Task<AppointmentJournal?> GetLatestJournal()
     {
         return Task.FromResult(_objects.OrderByDescending(x => x.CreatedAt).FirstOrDefault());
     }

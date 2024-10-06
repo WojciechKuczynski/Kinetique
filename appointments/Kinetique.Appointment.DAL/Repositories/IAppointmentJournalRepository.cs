@@ -7,6 +7,6 @@ public interface IAppointmentJournalRepository : IBaseRepository<Model.Appointme
 {
     Task AddJournal(long appointmentId, JournalStatus status);
     Task UpdateJournal(long appointmentId, JournalStatus status);
-    Task<AppointmentJournal> GetLatestJournal();
+    Task<AppointmentJournal?> GetLatestJournal();
     Task<IList<AppointmentJournal>> GetJournalsForAppointment(long[] appointmentId);
 }

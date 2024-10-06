@@ -6,7 +6,7 @@ public class DoctorNotFoundException : Exception
     {
     }
 
-    public DoctorNotFoundException(string pesel) : base($"Doctor with licence number {pesel} was not found")
+    public DoctorNotFoundException(string licence) : base($"Doctor with licence number {licence} was not found")
     {
     }
 }
