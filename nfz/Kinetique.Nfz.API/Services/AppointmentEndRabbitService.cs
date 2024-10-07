@@ -7,11 +7,11 @@ namespace Kinetique.Nfz.API.Services;
 
 public class AppointmentEndRabbitService(IServiceProvider serviceProvider) : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var scope = serviceProvider.CreateScope();
+        var scope = _serviceProvider.CreateScope();
         var rabbitConsumer = scope.ServiceProvider.GetRequiredService<IRabbitConsumer>();
         var patientProcedureRepository = scope.ServiceProvider.GetRequiredService<IPatientProcedureRepository>();
         

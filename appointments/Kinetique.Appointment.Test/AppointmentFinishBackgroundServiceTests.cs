@@ -66,7 +66,8 @@ public class AppointmentFinishBackgroundServiceTests
         // Assert
         _mockRabbitPublisher.Received(2)
             .PublishToExchange(Arg.Any<AppointmentSharedDto>(), "appointment", "appointment.finished");
-        // Assert.Null((await _appointmentJournalRepository.GetJournalsForAppointment(new [] {appointmentId})).FirstOrDefault(x => x.Status == JournalStatus.Sent));
+        Assert.NotNull((await _appointmentJournalRepository.GetJournalsForAppointment(new [] {appointmentId}))
+            .FirstOrDefault(x => x.Status == JournalStatus.Sent));
     }
     
     [Fact]
