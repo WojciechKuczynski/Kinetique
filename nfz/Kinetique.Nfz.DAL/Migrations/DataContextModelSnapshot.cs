@@ -51,7 +51,7 @@ namespace Kinetique.Nfz.DAL.Migrations
                     b.ToTable("PatientProcedures");
                 });
 
-            modelBuilder.Entity("Kinetique.Nfz.Model.SettlemenetProcedure", b =>
+            modelBuilder.Entity("Kinetique.Nfz.Model.SettlementProcedure", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace Kinetique.Nfz.DAL.Migrations
                     b.ToTable("SettlemenetProcedures");
                 });
 
-            modelBuilder.Entity("Kinetique.Nfz.Model.StatisticProcedureGroup", b =>
+            modelBuilder.Entity("Kinetique.Nfz.Model.StatisticProcedure", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,19 +108,19 @@ namespace Kinetique.Nfz.DAL.Migrations
                     b.ToTable("StatisticProcedureGroups");
                 });
 
-            modelBuilder.Entity("Kinetique.Nfz.Model.StatisticProcedureGroup", b =>
+            modelBuilder.Entity("Kinetique.Nfz.Model.StatisticProcedure", b =>
                 {
                     b.HasOne("Kinetique.Nfz.Model.PatientProcedure", null)
                         .WithMany("Procedures")
                         .HasForeignKey("PatientProcedureId");
 
-                    b.HasOne("Kinetique.Nfz.Model.SettlemenetProcedure", "SettlemenetProcedure")
+                    b.HasOne("Kinetique.Nfz.Model.SettlementProcedure", "SettlementProcedure")
                         .WithMany("StatisticProcedures")
                         .HasForeignKey("SettlemenetProcedureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SettlemenetProcedure");
+                    b.Navigation("SettlementProcedure");
                 });
 
             modelBuilder.Entity("Kinetique.Nfz.Model.PatientProcedure", b =>
@@ -128,7 +128,7 @@ namespace Kinetique.Nfz.DAL.Migrations
                     b.Navigation("Procedures");
                 });
 
-            modelBuilder.Entity("Kinetique.Nfz.Model.SettlemenetProcedure", b =>
+            modelBuilder.Entity("Kinetique.Nfz.Model.SettlementProcedure", b =>
                 {
                     b.Navigation("StatisticProcedures");
                 });

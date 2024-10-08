@@ -11,7 +11,7 @@ public static partial class Mapper
         {
             PatientId = patientProcedure.PatientId,
             AppointmentId = patientProcedure.AppointmentId,
-            Procedures = patientProcedure.Procedures.SelectMany(x => x.Codes).ToList()
+            Procedures = patientProcedure.Procedures.Select(x => x.Code).ToList()
         };
     }
 }
