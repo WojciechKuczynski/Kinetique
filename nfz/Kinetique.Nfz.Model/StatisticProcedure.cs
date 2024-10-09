@@ -8,5 +8,5 @@ public class StatisticProcedure : BaseModel
     public string Code { get; set; }
     // treatment, for example 1139
     public string Treatment { get; set; }
-    public virtual SettlementProcedure SettlementProcedure { get; set; }
+    public virtual required SettlementProcedure SettlementProcedure { get; set; }
 }

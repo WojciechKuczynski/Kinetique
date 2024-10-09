@@ -11,5 +11,6 @@ public class SettlementProcedure : BaseModel
     // for what ever Statistic Procedure, always there is same amount of points.
     public decimal Points { get; set; }
     
+    public long StatisticProcedureId { get; set; }
     public virtual StatisticProcedure StatisticProcedure { get; set; }
 }

@@ -25,5 +25,9 @@
       <ProjectReference Include="..\..\shared\Kinetique.Shared.Model\Kinetique.Shared.Model.csproj" />
       <ProjectReference Include="..\Kinetique.Nfz.Model\Kinetique.Nfz.Model.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
     
 </Project>

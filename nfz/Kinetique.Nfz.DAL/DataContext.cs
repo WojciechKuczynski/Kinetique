@@ -9,8 +9,8 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions options) : base(options)
     { }
 
-    public DbSet<SettlementProcedure> SettlemenetProcedures { get; set; }
-    public DbSet<StatisticProcedure> StatisticProcedureGroups { get; set; }
+    public DbSet<SettlementProcedure> SettlementProcedures { get; set; }
+    public DbSet<StatisticProcedure> StatisticProcedures { get; set; }
     public DbSet<PatientProcedure> PatientProcedures { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,6 +19,12 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<StatisticProcedure>()
             .HasIndex(x => x.Treatment).IsUnique();
+        
+        modelBuilder.Entity<StatisticProcedure>()
+            .HasOne(sp => sp.SettlementProcedure)
+            .WithOne(s => s.StatisticProcedure)
+            .HasForeignKey<SettlementProcedure>(s => s.StatisticProcedureId);
+
         
         base.OnModelCreating(modelBuilder);
     }
