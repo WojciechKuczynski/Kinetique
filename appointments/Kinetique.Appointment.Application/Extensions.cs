@@ -28,7 +28,8 @@ public static class Extensions
 
         services.AddHostedService<AppointmentFinishBackgroundService>();
         
-        services.AddSingleton<IAppointmentRepository, InMemoryAppointmentRepository>()
+        services.AddScoped<IAppointmentRepository, PostgresAppointmentRepository>()
+            .AddScoped<IAppointmentJournalRepository, PostgresAppointmentJournalRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();
         
         return services;

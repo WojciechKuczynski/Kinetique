@@ -23,8 +23,8 @@ public static class Extensions
             .WithScopedLifetime());
 
         
-        services.AddScoped<IPatientRepository, InMemoryPatientRepository>()
-            .AddScoped<IDoctorRepository, InMemoryDoctorRepository>()
+        services.AddScoped<IPatientRepository, PostgresPatientRepository>()
+            .AddScoped<IDoctorRepository, PostgresDoctorRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();
         
         return services;
