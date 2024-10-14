@@ -26,11 +26,18 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        services.AddHostedService<AppointmentFinishBackgroundService>();
-        
         services.AddScoped<IAppointmentRepository, PostgresAppointmentRepository>()
             .AddScoped<IAppointmentJournalRepository, PostgresAppointmentJournalRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>();
+        
+        services.AddHostedService<AppointmentFinishBackgroundService>(x =>
+        {
+            var scope = x.CreateScope();
+            var appointmentJournalRepository = scope.ServiceProvider.GetRequiredService<IAppointmentJournalRepository>();
+            var appointmentRepository = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
+            var rabbitPublisher = scope.ServiceProvider.GetRequiredService<IRabbitPublisher>();
+            return new AppointmentFinishBackgroundService(appointmentJournalRepository, appointmentRepository, rabbitPublisher);
+        });
         
         return services;
     }

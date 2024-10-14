@@ -1,13 +1,14 @@
 using Kinetique.Appointment.API.Services;
 using Kinetique.Appointment.Application;
 using Kinetique.Appointment.DAL;
+using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDAL(builder.Configuration)
-    .AddApplication(builder.Configuration)
     .AddHostedService<AppointmentRabbitService>()
+    .AddApplication(builder.Configuration)
     .AddSwaggerGen()
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 

@@ -4,6 +4,7 @@ using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
 using Kinetique.Shared.Dtos;
 using Kinetique.Shared.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Xunit;
 
@@ -22,10 +23,13 @@ public class AppointmentFinishBackgroundServiceTests
         _appointmentRepository = new InMemoryAppointmentRepository();
         _mockRabbitPublisher = Substitute.For<IRabbitPublisher>();
 
-        _service = new AppointmentFinishBackgroundService(
-            _appointmentJournalRepository,
-            _appointmentRepository,
-            _mockRabbitPublisher);
+        var serviceProvider = Substitute.For<IServiceProvider>();
+        var serviceScope = Substitute.For<IServiceScope>();
+        
+        serviceProvider.GetService<IServiceScope>().Returns(serviceScope);
+        serviceScope.ServiceProvider.GetService<IAppointmentRepository>().Returns(_appointmentRepository);
+        serviceScope.ServiceProvider.GetService<IAppointmentJournalRepository>().Returns(_appointmentJournalRepository);
+        serviceScope.ServiceProvider.GetService<IRabbitPublisher>().Returns(_mockRabbitPublisher);
     }
 
     [Fact]
@@ -95,6 +99,5 @@ public class AppointmentFinishBackgroundServiceTests
                 dto.Id == appointmentId && dto.StartDate == startDate), 
                 "appointment", "appointment.finished");
         Assert.NotNull((await _appointmentJournalRepository.GetJournalsForAppointment(new [] {appointmentId})).FirstOrDefault(x => x.Status == JournalStatus.Sent));
-        
     }
 }
