@@ -9,13 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kinetique.Appointment.API.Controllers;
 
 public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
-    IAppointmentListHandler _appointmentListHandler,IResponseStorage _storage) : BaseController
+    IAppointmentListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler) : BaseController
 {
 
     [HttpGet("{id:long}")]
     public async Task<ActionResult<AppointmentDto>> GetById(long id)
     {
         return Ok(await _appointmentSingleHandler.Handle(new AppointmentSingleQuery(id)));
+    }
+    
+    [HttpGet("journal")]
+    public async Task<ActionResult<AppointmentDto>> GetJournal()
+    {
+        return Ok(await _appointmentJournalHandler.Handle(new AppointmentJournalQuery()));
     }
     
     [HttpGet]

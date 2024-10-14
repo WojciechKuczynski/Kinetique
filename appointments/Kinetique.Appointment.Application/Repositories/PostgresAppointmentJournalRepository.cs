@@ -44,11 +44,11 @@ public class PostgresAppointmentJournalRepository(DataContext context) : Postgre
 
     public async Task<AppointmentJournal?> GetLatestJournal()
     {
-        return await _objects.OrderByDescending(x => x.CreatedAt).SingleOrDefaultAsync();
+        return await _objects.Where(x => x.Status == JournalStatus.Sent).OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
     }
 
     public async Task<IList<AppointmentJournal>> GetJournalsForAppointment(long[] appointmentId)
     {
-        return await _objects.Where(x => appointmentId.Contains(x.AppointmentId)).ToListAsync();
+        return await _objects.Where(x => appointmentId.Contains(x.AppointmentId) && x.Status == JournalStatus.Sent).ToListAsync();
     }
 }
