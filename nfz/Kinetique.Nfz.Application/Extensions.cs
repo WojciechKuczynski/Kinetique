@@ -21,7 +21,7 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        services.AddSingleton<IPatientProcedureRepository, PostgresPatientProcedureRepository>();
+        services.AddScoped<IPatientProcedureRepository, PostgresPatientProcedureRepository>();
         
         return services;
     }

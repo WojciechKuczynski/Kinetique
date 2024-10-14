@@ -21,8 +21,9 @@ public class PatientProcedure : BaseModel
         }
         
         Procedures.Add(procedure);
+        Status = SendStatus.InProgress;
     }
-    public SendStatus Status { get; init; }
+    public SendStatus Status { get; set; }
     
     public decimal Points => Procedures.Sum(x => x.SettlementProcedure.Points);    
 
