@@ -22,14 +22,14 @@ public class DataContext : DbContext
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
         var entries = ChangeTracker.Entries().Where(x => x is { Entity: BaseModel, State: EntityState.Added or EntityState.Modified });
-        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.Now; }
+        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.UtcNow; }
         return base.SaveChanges();
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
     {
         var entries = ChangeTracker.Entries().Where(x => x is {Entity: BaseModel, State: EntityState.Added or EntityState.Modified});
-        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.Now; }
+        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.UtcNow; }
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

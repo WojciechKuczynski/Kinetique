@@ -14,7 +14,8 @@ public static partial class Mapper
             LastName: patient.LastName,
             Gender: patient.Gender,
             PhoneNumber: patient.PhoneNumber,
-            Address: patient.Address
+            Address: patient.Address,
+            Pesel: patient.Pesel
         );
     }
 
@@ -26,6 +27,10 @@ public static partial class Mapper
             FirstName = patientDto.FirstName,
             LastName = patientDto.LastName,
             Gender = patientDto.Gender,
+            Pesel = patientDto.Pesel,
+            PhoneNumber = patientDto.PhoneNumber,
+            Address = patientDto.Address,
+            Description = ""
         };
     }
 }
