@@ -22,14 +22,7 @@ public class AppointmentFinishBackgroundServiceTests
         _appointmentJournalRepository = new InMemoryAppointmentJournalRepository();
         _appointmentRepository = new InMemoryAppointmentRepository();
         _mockRabbitPublisher = Substitute.For<IRabbitPublisher>();
-
-        var serviceProvider = Substitute.For<IServiceProvider>();
-        var serviceScope = Substitute.For<IServiceScope>();
-        
-        serviceProvider.GetService<IServiceScope>().Returns(serviceScope);
-        serviceScope.ServiceProvider.GetService<IAppointmentRepository>().Returns(_appointmentRepository);
-        serviceScope.ServiceProvider.GetService<IAppointmentJournalRepository>().Returns(_appointmentJournalRepository);
-        serviceScope.ServiceProvider.GetService<IRabbitPublisher>().Returns(_mockRabbitPublisher);
+        _service = new AppointmentFinishBackgroundService(_appointmentJournalRepository, _appointmentRepository, _mockRabbitPublisher);
     }
 
     [Fact]

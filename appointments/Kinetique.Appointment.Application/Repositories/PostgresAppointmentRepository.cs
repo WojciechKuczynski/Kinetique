@@ -1,10 +1,11 @@
+using Kinetique.Appointment.DAL;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Model.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
-public class PostgresAppointmentRepository(DbContext context) : PostgresRepositoryBase<Model.Appointment>(context), IAppointmentRepository
+public class PostgresAppointmentRepository(DataContext context) : PostgresRepositoryBase<Model.Appointment>(context), IAppointmentRepository
 {
     public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
     {
@@ -48,14 +49,21 @@ public class PostgresAppointmentRepository(DbContext context) : PostgresReposito
         return await query.ToListAsync();
     }
 
+    //TODO: to be refactored later
     public async Task<IList<Model.Appointment>> GetAppointmentsFinishedAfter(DateTime? date)
     {
-        var appointments = _objects.AsQueryable();
+        List<Model.Appointment> appointments = null;
         if (date == null)
-            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) < DateTime.UtcNow);
+        {
+            appointments = await _objects.AsQueryable().Where(x => x.StartDate < DateTime.UtcNow).ToListAsync();
+            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) < DateTime.UtcNow).ToList();
+        }
         else
-            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) >= date);
+        {
+            appointments = await _objects.AsQueryable().Where(x => x.StartDate >= date).ToListAsync();
+            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) >= date).ToList();
+        }
         
-        return await appointments.ToListAsync();
+        return await Task.FromResult(appointments);
     }
 }
