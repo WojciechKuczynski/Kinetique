@@ -11,7 +11,18 @@ internal sealed class PatientSingleHandler(IPatientRepository _patientRepository
 {
     public async Task<PatientDto?> Handle(PatientSingleQuery query, CancellationToken token = default)
     {
-        var patient = await _patientRepository.Get(query.Id);
-        return patient?.MapToDto();
+        if (query.Args.Id != null)
+        {
+            var patient = await _patientRepository.Get(query.Args.Id.Value);
+            return patient?.MapToDto();
+        }
+
+        if (!string.IsNullOrEmpty(query.Args.Pesel))
+        {
+            var patient = await _patientRepository.FindByPesel(query.Args.Pesel);
+            return patient?.MapToDto();
+        }
+
+        return null;
     }
 }

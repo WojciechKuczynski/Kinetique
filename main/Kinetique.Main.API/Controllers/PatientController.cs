@@ -1,6 +1,7 @@
 using Kinetique.Main.Application.Dtos;
 using Kinetique.Main.Application.Patients;
 using Kinetique.Main.Application.Patients.Handlers;
+using Kinetique.Main.Application.Patients.RequestArgs;
 using Kinetique.Main.Application.Storage;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
@@ -21,7 +22,13 @@ public class PatientController(IPatientCreateHandler _patientCreateHandler, IPat
     [HttpGet("{id:long}")]
     public async Task<ActionResult<IList<PatientDto>>> GetById(long id)
     {
-        return Ok(await _patientSingleHandler.Handle(new PatientSingleQuery(id)));
+        return Ok(await _patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest(){Id = id})));
+    }
+    
+    [HttpGet("{pesel:string}")]
+    public async Task<ActionResult<IList<PatientDto>>> GetByPesel(string pesel)
+    {
+        return Ok(await _patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest(){Pesel = pesel})));
     }
 
     [HttpPost]
