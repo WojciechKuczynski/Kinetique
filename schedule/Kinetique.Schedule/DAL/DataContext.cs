@@ -1,4 +1,4 @@
-using Kinetique.Schedule.Model;
+using Kinetique.Schedule.Models;
 using Kinetique.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 

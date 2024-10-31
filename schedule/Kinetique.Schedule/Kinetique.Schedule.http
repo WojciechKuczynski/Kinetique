@@ -1,0 +1,6 @@
+@Kinetique.Schedule_HostAddress = http://localhost:5197
+
+GET {{Kinetique.Schedule_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

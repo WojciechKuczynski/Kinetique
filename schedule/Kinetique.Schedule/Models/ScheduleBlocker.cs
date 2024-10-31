@@ -1,6 +1,6 @@
 using Kinetique.Shared.Model;
 
-namespace Kinetique.Schedule.Model;
+namespace Kinetique.Schedule.Models;
 
 public class ScheduleBlocker : BaseModel
 {

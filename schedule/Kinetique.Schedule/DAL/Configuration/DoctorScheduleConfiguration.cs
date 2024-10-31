@@ -1,5 +1,5 @@
-using Kinetique.Schedule.Model;
-using Kinetique.Schedule.Model.ValueObjects;
+using Kinetique.Schedule.Models;
+using Kinetique.Schedule.Models.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

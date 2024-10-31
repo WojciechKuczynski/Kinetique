@@ -1,4 +1,4 @@
-namespace Kinetique.Schedule.Model;
+namespace Kinetique.Schedule.Models;
 
 public class DoctorScheduleSlot
 {

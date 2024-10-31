@@ -1,8 +1,8 @@
 
-using Kinetique.Schedule.Model.ValueObjects;
+using Kinetique.Schedule.Models.ValueObjects;
 using Kinetique.Shared.Model;
 
-namespace Kinetique.Schedule.Model;
+namespace Kinetique.Schedule.Models;
 
 public class DoctorSchedule : BaseModel
 {

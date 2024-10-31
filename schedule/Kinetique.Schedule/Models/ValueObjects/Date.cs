@@ -1,4 +1,4 @@
-namespace Kinetique.Schedule.Model.ValueObjects;
+namespace Kinetique.Schedule.Models.ValueObjects;
 
 public class Date
 {
