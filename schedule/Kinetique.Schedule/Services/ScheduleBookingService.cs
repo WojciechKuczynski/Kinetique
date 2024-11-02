@@ -1,12 +1,25 @@
 using Kinetique.Schedule.Models;
+using Kinetique.Schedule.Repositories;
 using Kinetique.Schedule.Requests;
 
 namespace Kinetique.Schedule.Services;
 
-public class ScheduleBookingService
+public class ScheduleBookingService(IScheduleRepository _repository)
 {
-    public List<DoctorScheduleSlot> GetSlotsForRequestedTime(BookTimeRequest request)
+    public async Task<List<DoctorScheduleSlot>> GetSlotsForRequestedTime(BookTimeRequest request)
     {
+        var schedulesFound = await _repository.GetSchedulesForDoctorPeriod(request.DoctorId, request.StartDate, request.EndDate);
+        var requestDayOfWeek = request.StartDate.DayOfWeek;
+        // schedule slots in current Datetime period for certain DayOfWeek
+        var scheduleSlots = schedulesFound.SelectMany(x => x.Slots)
+            .Where(x => x.DayOfWeek == requestDayOfWeek);
+
+        // schedule slots that are between requested appointment
+        var bookSlots = scheduleSlots.Where(x =>
+            (x.StartTime <= request.StartDate.TimeOfDay && x.EndTime >= request.StartDate.TimeOfDay) 
+            || (x.StartTime <= request.EndDate.TimeOfDay && x.EndTime >= request.EndDate.TimeOfDay)
+            );
         
+        return bookSlots.ToList();
     }
 }

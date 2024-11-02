@@ -1,3 +1,7 @@
+using Kinetique.Schedule.Models;
+using Kinetique.Schedule.Requests;
+using Kinetique.Schedule.Services;
+
 namespace Kinetique.Schedule.Tests;
 
 public class BookingServiceTests
@@ -5,6 +9,45 @@ public class BookingServiceTests
     [Fact]
     public void SlotsAreBetweenRequestedAppointment_CanBook()
     {
+        //Setup
+        var repo = new InMemoryScheduleRepository();
+        var service = new ScheduleBookingService(repo);
+
+        var now = DateTime.UtcNow;
+        now = now.AddHours(-1 * now.Hour).AddMinutes(-1 * now.Minute).AddSeconds(-1 * now.Second);
         
+        //Arrange
+        var slots = new List<DoctorScheduleSlot>
+        {
+            new DoctorScheduleSlot()
+            {
+                DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("10:00:00"),
+                EndTime = TimeSpan.Parse("10:59:00")
+            },
+            new DoctorScheduleSlot()
+            {
+                DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("11:00:00"),
+                EndTime = TimeSpan.Parse("11:59:00")
+            },
+            new DoctorScheduleSlot()
+            {
+                DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("12:00:00"),
+                EndTime = TimeSpan.Parse("12:59:00")
+            },
+        };
+
+        var doctorSchedule = new DoctorSchedule()
+            { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
+        doctorSchedule.AddSlots(slots);
+        repo.Add(doctorSchedule);
+        
+        var request = new BookTimeRequest()
+            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+        
+        // act
+        var result = service.GetSlotsForRequestedTime(request).Result;
+        
+        // assert
+        Assert.Equal(2, result.Count);
     }
 }

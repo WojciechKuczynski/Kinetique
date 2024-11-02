@@ -3,7 +3,7 @@ using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Schedule.Repositories;
 
-public interface IScheduleRepository
+public interface IScheduleRepository : IBaseRepository<DoctorSchedule>
 {
-    Task<List<DoctorSchedule>> GetSchedulesForDoctorPeriod(long doctorId, DateTime startTime, DateTime endTime)
+    Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctorPeriod(long doctorId, DateTime startTime, DateTime endTime);
 }

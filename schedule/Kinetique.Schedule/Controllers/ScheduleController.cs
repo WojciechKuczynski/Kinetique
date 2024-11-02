@@ -17,15 +17,6 @@ public class ScheduleController(DataContext context) : BaseController
         var schedulesFound = await schedules.Where(x => x.StartDate>= request.StartDate && x.EndDate <= request.EndDate)
             .ToListAsync();
 
-        var requestDayOfWeek = request.StartDate.DayOfWeek;
-        var scheduleSlots = schedulesFound.SelectMany(x => x.Slots)
-                                                                     .Where(x => x.DayOfWeek == requestDayOfWeek);
-
-        var bookSlots = scheduleSlots.Where(x =>
-                                                    x.StartTime >= request.StartDate.TimeOfDay 
-                                                    && x.EndTime <= request.EndDate.TimeOfDay);
-        
-        
-        
+        return false;
     }
 }
