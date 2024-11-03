@@ -1,4 +1,5 @@
 using Kinetique.Appointment.Application.Mappers;
+using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.Application.Storage;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Model.Abstractions;
@@ -10,13 +11,13 @@ public interface IAppointmentCreateHandler : ICommandHandler<AppointmentCreateCo
 {
 }
 
-internal sealed class AppointmentCreateHandler(IAppointmentRepository _appointmentRepository, IResponseStorage _responseStorage)
+internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _appointmentAvailabilityService, IResponseStorage _responseStorage)
     : IAppointmentCreateHandler
 {
     public async Task Handle(AppointmentCreateCommand request, CancellationToken cancellationToken)
     {
-        var appointmentEntity = request.Appointment.MapToEntity();
-        var result = await _appointmentRepository.Add(appointmentEntity);
-        _responseStorage.Set(ObjectConstants.Appointment, result.Id);
+        var appointment = await _appointmentAvailabilityService.TryBook(request.Appointment);
+        
+        _responseStorage.Set(ObjectConstants.Appointment, appointment.Id);
     }
 }
