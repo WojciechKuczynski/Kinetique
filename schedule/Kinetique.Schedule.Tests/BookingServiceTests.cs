@@ -11,15 +11,13 @@ public class BookingServiceTests
     [Fact]
     public void SlotsAreBetweenRequestedAppointment_CanBook()
     {
-        var now = DateTime.UtcNow;
-        var repo = new InMemoryScheduleRepository();
         //Setup
+        var now = GetPureUtcToday();
+        var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
 
-        now = now.AddHours(-1 * now.Hour).AddMinutes(-1 * now.Minute).AddSeconds(-1 * now.Second);
-
+        // arrange
         var slots = GetSlots(now);
-        
         var doctorSchedule = new DoctorSchedule()
             { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
         doctorSchedule.AddSlots(slots);
@@ -38,13 +36,10 @@ public class BookingServiceTests
     [Fact]
     public void SlotsAreBetweenRequestedAppointment_WithBlockedSamePeriod_CannotBook()
     {
-        var now = DateTime.UtcNow;
-        var repo = new InMemoryScheduleRepository();
-        
         //Setup
+        var now = GetPureUtcToday();
+        var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
-
-        now = now.AddHours(-1 * now.Hour).AddMinutes(-1 * now.Minute).AddSeconds(-1 * now.Second);
         
         //Arrange
         var slots = GetSlots(now);
@@ -72,15 +67,49 @@ public class BookingServiceTests
     [Fact]
     public void ThereAreNoSlotsForCurrentTime_CannotBook()
     {
+        //Setup
+        var now = GetPureUtcToday();
+        var repo = new InMemoryScheduleRepository();
+        var service = new ScheduleBookingService(repo);
+
+        var doctorSchedule = new DoctorSchedule()
+            { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
+        repo.Add(doctorSchedule);
         
+        var request = new BookTimeRequest()
+            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+
+
+        var result = service.GetSlotsForRequestedTime(request).Result;
+        
+        //assert
+        Assert.Equal(0, result.Count);
     }
     
     [Fact]
     public void ThereIsNoScheduleForCurrentDate_CannotBook()
     {
+        //Setup
+        var now = GetPureUtcToday();
+        var repo = new InMemoryScheduleRepository();
+        var service = new ScheduleBookingService(repo);
+
+        var request = new BookTimeRequest()
+            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+
+
+        var result = service.GetSlotsForRequestedTime(request).Result;
         
+        //assert
+        Assert.Equal(0, result.Count);
     }
-    
+
+    private DateTime GetPureUtcToday()
+    {
+        var now = DateTime.UtcNow;
+        now = now.AddHours(-1 * now.Hour).AddMinutes(-1 * now.Minute).AddSeconds(-1 * now.Second);
+        return now;
+    }
     
     private IEnumerable<DoctorScheduleSlot> GetSlots(DateTime now)
     {
