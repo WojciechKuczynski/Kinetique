@@ -1,6 +1,7 @@
 using Kinetique.Schedule.Models;
 using Kinetique.Schedule.Repositories;
 using Kinetique.Schedule.Requests;
+using Kinetique.Shared.Extensions;
 
 namespace Kinetique.Schedule.Services;
 
@@ -19,6 +20,13 @@ public class ScheduleBookingService(IScheduleRepository _repository)
             (x.StartTime <= request.StartDate.TimeOfDay && x.EndTime >= request.StartDate.TimeOfDay) 
             || (x.StartTime <= request.EndDate.TimeOfDay && x.EndTime >= request.EndDate.TimeOfDay)
             );
+
+        var blocks = schedulesFound.SelectMany(x => x.Blockers)
+            .Where(x => x.StartDate.IsBetween(request.StartDate,request.EndDate) 
+                                  || x.EndDate.IsBetween(request.StartDate,request.EndDate));
+        bookSlots = bookSlots.Where(x =>
+            blocks.All(y => !x.StartTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay)
+                                        && !x.EndTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay)));
         
         return bookSlots.ToList();
     }

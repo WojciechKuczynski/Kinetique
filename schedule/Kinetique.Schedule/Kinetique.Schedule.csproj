@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\shared\Kinetique.Shared.Model\Kinetique.Shared.Model.csproj" />
+      <ProjectReference Include="..\..\shared\Kinetique.Shared\Kinetique.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
