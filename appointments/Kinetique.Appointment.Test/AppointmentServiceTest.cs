@@ -4,6 +4,8 @@ using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.Application.Services;
 using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Shared;
+using Kinetique.Shared.Model.Abstractions;
 using Xunit;
 
 namespace Kinetique.Appointment.Test;
@@ -12,10 +14,12 @@ public class AppointmentServiceTest
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IAppointmentAvailabilityService _appointmentAvailabilityService;
+    private readonly IClock _clock;
 
     public AppointmentServiceTest()
     {
-        _appointmentRepository = new InMemoryAppointmentRepository();
+        _clock = new UtcClock();
+        _appointmentRepository = new InMemoryAppointmentRepository(_clock);
         _appointmentAvailabilityService = new AppointmentAvailabilityService(_appointmentRepository);
     }
     
@@ -27,7 +31,7 @@ public class AppointmentServiceTest
             Id = 1,
             PatientId = 1,
             DoctorId = 1,
-            StartDate = DateTime.UtcNow,
+            StartDate = _clock.GetNow(),
             Duration = TimeSpan.FromHours(2)
         };
         var appointment2 = new Model.Appointment()
@@ -35,7 +39,7 @@ public class AppointmentServiceTest
             Id = 1,
             PatientId = 1,
             DoctorId = 1,
-            StartDate = DateTime.UtcNow.AddHours(1),
+            StartDate = _clock.GetNow().AddHours(1),
             Duration = TimeSpan.FromHours(1)
         };
 
@@ -52,7 +56,7 @@ public class AppointmentServiceTest
             Id = 1,
             PatientId = 1,
             DoctorId = 1,
-            StartDate = DateTime.UtcNow,
+            StartDate = _clock.GetNow(),
             Duration = TimeSpan.FromHours(2)
         }.MapToDto();
         
@@ -67,7 +71,7 @@ public class AppointmentServiceTest
             Id = 1,
             PatientId = 1,
             DoctorId = 1,
-            StartDate = DateTime.UtcNow,
+            StartDate = _clock.GetNow(),
             Duration = TimeSpan.FromHours(2)
         };
         var appointment2 = new Model.Appointment()
@@ -75,7 +79,7 @@ public class AppointmentServiceTest
             Id = 2,
             PatientId = 2,
             DoctorId = 1,
-            StartDate = DateTime.UtcNow.AddHours(1),
+            StartDate = _clock.GetNow().AddHours(1),
             Duration = TimeSpan.FromHours(1)
         };
 
@@ -88,7 +92,7 @@ public class AppointmentServiceTest
     public async Task for_3_appointments_for_same_doctor_should_return_3_appointments()
     {
         const long doctorId = 1;
-        var startDate = DateTime.UtcNow;
+        var startDate = _clock.GetNow();
         
         var appointment1 = new Model.Appointment()
         {
@@ -129,7 +133,7 @@ public class AppointmentServiceTest
     {
         const int doctorId = 1;
 
-        var startDate = DateTime.UtcNow;
+        var startDate = _clock.GetNow();
         
         var appointment1 = new Model.Appointment()
         {

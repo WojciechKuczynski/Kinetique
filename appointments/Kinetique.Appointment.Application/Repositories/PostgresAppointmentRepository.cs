@@ -1,12 +1,16 @@
 using Kinetique.Appointment.DAL;
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
-public class PostgresAppointmentRepository(DataContext context) : PostgresRepositoryBase<Model.Appointment>(context), IAppointmentRepository
+public class PostgresAppointmentRepository(DataContext context, IClock clock)
+    : PostgresRepositoryBase<Model.Appointment>(context), IAppointmentRepository
 {
+    private readonly IClock _clock = clock;
+
     public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
     {
         var query = _objects.AsQueryable().Where(x => x.DoctorId == doctorId);
@@ -55,8 +59,8 @@ public class PostgresAppointmentRepository(DataContext context) : PostgresReposi
         List<Model.Appointment> appointments = null;
         if (date == null)
         {
-            appointments = await _objects.AsQueryable().Where(x => x.StartDate < DateTime.UtcNow).ToListAsync();
-            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) < DateTime.UtcNow).ToList();
+            appointments = await _objects.AsQueryable().Where(x => x.StartDate < _clock.GetNow()).ToListAsync();
+            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) < _clock.GetNow()).ToList();
         }
         else
         {

@@ -1,4 +1,5 @@
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,12 @@ namespace Kinetique.Appointment.Application.Repositories;
 
 public class InMemoryAppointmentRepository : InMemoryBaseRepository<Model.Appointment>, IAppointmentRepository
 {
+    private readonly IClock _clock;
+    public InMemoryAppointmentRepository(IClock clock)
+    {
+        _clock = clock;
+    }
+    
     public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
     {
         var query = _objects.AsQueryable().Where(x => x.DoctorId == doctorId);
@@ -52,7 +59,7 @@ public class InMemoryAppointmentRepository : InMemoryBaseRepository<Model.Appoin
     {
         List<Model.Appointment> appointents;
         if (date == null)
-            appointents = _objects.Where(x => x.StartDate.Add(x.Duration) < DateTime.UtcNow).ToList();
+            appointents = _objects.Where(x => x.StartDate.Add(x.Duration) < _clock.GetNow()).ToList();
         else
             appointents = _objects.Where(x => x.StartDate.Add(x.Duration) >= date).ToList();
         

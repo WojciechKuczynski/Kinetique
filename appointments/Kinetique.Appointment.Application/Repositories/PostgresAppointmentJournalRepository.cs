@@ -1,21 +1,27 @@
 using Kinetique.Appointment.DAL;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
-public class PostgresAppointmentJournalRepository(DataContext context) : PostgresRepositoryBase<AppointmentJournal>(context), IAppointmentJournalRepository
+public class PostgresAppointmentJournalRepository : PostgresRepositoryBase<AppointmentJournal>, IAppointmentJournalRepository
 {
-    private readonly DataContext _context = context;
+    private readonly IClock _clock;
+    public PostgresAppointmentJournalRepository(DataContext context, IClock clock) : base(context)
+    {
+        _clock = clock;
+    }
+    
     public async Task AddJournal(long appointmentId, JournalStatus status)
     {
         var journal = new AppointmentJournal
         {
             AppointmentId = appointmentId,
             Status = status,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = _clock.GetNow()
         };
         
         if (await _objects.SingleOrDefaultAsync(x => x.AppointmentId == appointmentId) == null)
@@ -37,7 +43,7 @@ public class PostgresAppointmentJournalRepository(DataContext context) : Postgre
 
         journal.Status = status;
         if (status == JournalStatus.Sent)
-            journal.SentAt = DateTime.UtcNow;
+            journal.SentAt = _clock.GetNow();
 
         await _context.SaveChangesAsync();
     }

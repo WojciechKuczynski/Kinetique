@@ -5,6 +5,7 @@ namespace Kinetique.Shared.Model.Repositories;
 public class PostgresRepositoryBase<T>(DbContext context) : IBaseRepository<T>
     where T : BaseModel
 {
+    protected readonly DbContext _context = context;
     protected readonly DbSet<T> _objects = context.Set<T>();
 
     public async Task<IEnumerable<T>> GetAll()

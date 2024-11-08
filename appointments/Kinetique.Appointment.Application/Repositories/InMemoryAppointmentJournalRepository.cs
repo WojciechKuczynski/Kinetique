@@ -1,18 +1,25 @@
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
+using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
 public class InMemoryAppointmentJournalRepository : InMemoryBaseRepository<AppointmentJournal>, IAppointmentJournalRepository
 {
+    private readonly IClock _clock;
+    public InMemoryAppointmentJournalRepository(IClock clock)
+    {
+        _clock = clock;
+    }
+    
     public Task AddJournal(long appointmentId, JournalStatus status)
     {
         var journal = new AppointmentJournal
         {
             AppointmentId = appointmentId,
             Status = status,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = _clock.GetNow()
         };
         
         if (_objects.Find(x => x.AppointmentId == appointmentId) == null)
@@ -34,7 +41,7 @@ public class InMemoryAppointmentJournalRepository : InMemoryBaseRepository<Appoi
 
         journal.Status = status;
             if (status == JournalStatus.Sent)
-                journal.SentAt = DateTime.UtcNow;
+                journal.SentAt = _clock.GetNow();
         
         return Task.CompletedTask;
     }

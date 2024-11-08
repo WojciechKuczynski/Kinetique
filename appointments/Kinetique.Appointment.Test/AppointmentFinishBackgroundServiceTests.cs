@@ -2,8 +2,10 @@ using Kinetique.Appointment.Application.BackgroundWorkers;
 using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
+using Kinetique.Shared;
 using Kinetique.Shared.Dtos;
 using Kinetique.Shared.Messaging;
+using Kinetique.Shared.Model.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Xunit;
@@ -16,11 +18,13 @@ public class AppointmentFinishBackgroundServiceTests
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IRabbitPublisher _mockRabbitPublisher;
     private readonly AppointmentFinishBackgroundService _service;
+    private readonly IClock _clock;
 
     public AppointmentFinishBackgroundServiceTests()
     {
-        _appointmentJournalRepository = new InMemoryAppointmentJournalRepository();
-        _appointmentRepository = new InMemoryAppointmentRepository();
+        _clock = new UtcClock();
+        _appointmentJournalRepository = new InMemoryAppointmentJournalRepository(_clock);
+        _appointmentRepository = new InMemoryAppointmentRepository(_clock);
         _mockRabbitPublisher = Substitute.For<IRabbitPublisher>();
         _service = new AppointmentFinishBackgroundService(_appointmentJournalRepository, _appointmentRepository, _mockRabbitPublisher);
     }
@@ -30,7 +34,7 @@ public class AppointmentFinishBackgroundServiceTests
     {
         // Arrange
         var cancellationToken = new CancellationTokenSource().Token;
-        var startDate = DateTime.UtcNow.AddMinutes(-10);
+        var startDate = _clock.GetNow().AddMinutes(-10);
         long appointmentId = 1;
         
         var ongoingAppointment1 = new Model.Appointment()
@@ -72,7 +76,7 @@ public class AppointmentFinishBackgroundServiceTests
     {
         // Arrange
         var cancellationToken = new CancellationTokenSource().Token;
-        var startDate = DateTime.UtcNow.AddMinutes(-10);
+        var startDate = _clock.GetNow().AddMinutes(-10);
         long appointmentId = 1;
         
         var finishedAppointment = new Model.Appointment()

@@ -1,14 +1,12 @@
 ﻿using Kinetique.Nfz.Model;
 using Kinetique.Shared.Model;
+using Kinetique.Shared.Model.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Nfz.DAL;
 
-public class DataContext : DbContext
+public class DataContext(DbContextOptions options, IClock clock) : DbContext(options)
 {
-    public DataContext(DbContextOptions options) : base(options)
-    { }
-
     public DbSet<SettlementProcedure> SettlementProcedures { get; set; }
     public DbSet<StatisticProcedure> StatisticProcedures { get; set; }
     public DbSet<PatientProcedure> PatientProcedures { get; set; }
@@ -32,14 +30,14 @@ public class DataContext : DbContext
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
         var entries = ChangeTracker.Entries().Where(x => x is { Entity: BaseModel, State: EntityState.Added or EntityState.Modified });
-        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.UtcNow; }
+        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = clock.GetNow(); }
         return base.SaveChanges();
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker.Entries().Where(x => x is {Entity: BaseModel, State: EntityState.Added or EntityState.Modified});
-        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = DateTime.UtcNow; }
+        foreach (var entry in entries) { ((BaseModel)entry.Entity).LastUpdate = clock.GetNow(); }
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

@@ -3,16 +3,20 @@ using Kinetique.Schedule.Models;
 using Kinetique.Schedule.Repositories;
 using Kinetique.Schedule.Requests;
 using Kinetique.Schedule.Services;
+using Kinetique.Shared;
+using Kinetique.Shared.Model.Abstractions;
 
 namespace Kinetique.Schedule.Tests;
 
 public class BookingServiceTests
 {
+    private readonly IClock _clock = new UtcClock();
+
     [Fact]
     public void SlotsAreBetweenRequestedAppointment_CanBook()
     {
         //Setup
-        var now = GetPureUtcToday();
+        var now = _clock.GetTodayMidnight();
         var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
 
@@ -37,7 +41,7 @@ public class BookingServiceTests
     public void SlotsAreBetweenRequestedAppointment_WithBlockedSamePeriod_CannotBook()
     {
         //Setup
-        var now = GetPureUtcToday();
+        var now = _clock.GetTodayMidnight();
         var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
         
@@ -68,7 +72,7 @@ public class BookingServiceTests
     public void ThereAreNoSlotsForCurrentTime_CannotBook()
     {
         //Setup
-        var now = GetPureUtcToday();
+        var now = _clock.GetTodayMidnight();
         var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
 
@@ -90,7 +94,7 @@ public class BookingServiceTests
     public void ThereIsNoScheduleForCurrentDate_CannotBook()
     {
         //Setup
-        var now = GetPureUtcToday();
+        var now = _clock.GetTodayMidnight();
         var repo = new InMemoryScheduleRepository();
         var service = new ScheduleBookingService(repo);
 
@@ -102,13 +106,6 @@ public class BookingServiceTests
         
         //assert
         Assert.Equal(0, result.Count);
-    }
-
-    private DateTime GetPureUtcToday()
-    {
-        var now = DateTime.UtcNow;
-        now = now.AddHours(-1 * now.Hour).AddMinutes(-1 * now.Minute).AddSeconds(-1 * now.Second);
-        return now;
     }
     
     private IEnumerable<DoctorScheduleSlot> GetSlots(DateTime now)
