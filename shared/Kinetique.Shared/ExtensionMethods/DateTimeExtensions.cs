@@ -1,4 +1,4 @@
-namespace Kinetique.Shared.Extensions;
+namespace Kinetique.Shared.ExtensionMethods;
 
 public static class DateTimeExtensions
 {

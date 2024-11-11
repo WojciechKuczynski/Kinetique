@@ -1,7 +1,7 @@
 using Kinetique.Schedule.Models;
 using Kinetique.Schedule.Repositories;
 using Kinetique.Schedule.Requests;
-using Kinetique.Shared.Extensions;
+using Kinetique.Shared.ExtensionMethods;
 
 namespace Kinetique.Schedule.Services;
 

@@ -16,7 +16,7 @@ public class ScheduleController(DataContext context) : BaseController
 
         var schedulesFound = await schedules.Where(x => x.StartDate>= request.StartDate && x.EndDate <= request.EndDate)
             .ToListAsync();
-
+        throw new Exception("some exceptuoin");
         return false;
     }
 }
