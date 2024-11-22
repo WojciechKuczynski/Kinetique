@@ -1,3 +1,4 @@
+using Kinetique.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -22,8 +23,13 @@ internal class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) 
 
     private async Task HandleErrorAsync(HttpContext context, Exception exception)
     {
-        var err = new { code = exception.GetType().Name, message = exception.Message };
         context.Response.StatusCode = 400;
-        await context.Response.WriteAsJsonAsync(err);
+        if (exception is KinetiqueException kinetiqueException)
+        {
+            await context.Response.WriteAsJsonAsync(new
+                { code = kinetiqueException.Code, message = kinetiqueException.ExceptionMessage });
+        }
+        
+        await context.Response.WriteAsJsonAsync(new { code = "Critical error", message = "There was some error" });
     }
 }

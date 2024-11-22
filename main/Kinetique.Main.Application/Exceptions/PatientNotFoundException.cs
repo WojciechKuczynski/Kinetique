@@ -1,6 +1,8 @@
+using Kinetique.Shared.Model;
+
 namespace Kinetique.Main.Application.Exceptions;
 
-public class PatientNotFoundException : Exception
+public class PatientNotFoundException : KinetiqueException
 {
     public PatientNotFoundException(long id) : base($"Patient with Id {id} was not found")
     {
