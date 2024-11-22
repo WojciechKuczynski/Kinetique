@@ -1,0 +1,87 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-kinetique
+    restart: unless-stopped
+    ports:
+      - "5672:5672"  # AMQP protocol port
+      - "15672:15672" # Management console port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-kinetique
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: Kinetique_Appointment
+      POSTGRES_USER: kinetique_user
+      POSTGRES_PASSWORD: kinetique
+    ports:
+      - "5432:5432" # PostgreSQL default port
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  appointmentService:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: AppointmentsService
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./appointments/Kinetique.Appointment.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: Kinetique_Appointment
+      POSTGRES_USER: kinetique_user
+      POSTGRES_PASSWORD: kinetique
+    ports:
+      - "5002:8080"
+
+  # nfzService:
+  #   image: mcr.microsoft.com/dotnet/aspnet:8.0
+  #   container_name: NfzService
+  #   restart: unless-stopped
+  #   build:
+  #     context: ./nfz/Kinetique.Nfz.API
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - rabbitmq
+  #     - postgres
+  #   environment:
+  #     RABBITMQ_HOST: rabbitmq
+  #     POSTGRES_HOST: postgres
+  #     POSTGRES_DB: mydatabase
+  #     POSTGRES_USER: myuser
+  #     POSTGRES_PASSWORD: mypassword
+  #   ports:
+  #     - "5003:8080"
+
+  # scheduleService:
+  #   image: mcr.microsoft.com/dotnet/aspnet:8.0
+  #   container_name: ScheduleService
+  #   restart: unless-stopped
+  #   build:
+  #     context: ./schedule/Kinetique.Schedule
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - rabbitmq
+  #     - postgres
+  #   environment:
+  #     RABBITMQ_HOST: rabbitmq
+  #     POSTGRES_HOST: postgres
+  #     POSTGRES_DB: mydatabase
+  #     POSTGRES_USER: myuser
+  #     POSTGRES_PASSWORD: mypassword
+  #   ports:
+  #     - "5004:8080"
+
+volumes:
+  postgres_data:
