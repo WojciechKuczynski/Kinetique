@@ -17,7 +17,15 @@ public class AppointmentRabbitService: IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _rabbitServer = new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue",TestResponse);
+        try
+        {
+            _rabbitServer =
+                new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
+        }
+        catch
+        {
+            
+        }
 
         return Task.CompletedTask;
     }
