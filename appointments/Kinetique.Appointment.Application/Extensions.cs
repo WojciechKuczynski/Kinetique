@@ -1,5 +1,7 @@
 using Kinetique.Appointment.Application.BackgroundWorkers;
 using Kinetique.Appointment.Application.Repositories;
+using Kinetique.Appointment.Application.Services;
+using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Model.Abstractions;
@@ -28,7 +30,8 @@ public static class Extensions
 
         services.AddScoped<IAppointmentRepository, PostgresAppointmentRepository>()
             .AddScoped<IAppointmentJournalRepository, PostgresAppointmentJournalRepository>()
-            .AddScoped<IResponseStorage, ResponseStorage>();
+            .AddScoped<IResponseStorage, ResponseStorage>()
+            .AddScoped<IAppointmentAvailabilityService, AppointmentAvailabilityService>();
         
         services.AddHostedService<AppointmentFinishBackgroundService>(x =>
         {
