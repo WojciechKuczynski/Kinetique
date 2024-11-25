@@ -6,11 +6,13 @@ namespace Kinetique.Shared.Messaging;
 
 public static class Extensions
 {
-    private const string ConfigSection = "RabbitMq";
+    private const string ConfigSection = "RabbitMqConnection";
     
     public static IServiceCollection AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var factory = new ConnectionFactory { HostName = "localhost" };
+        var rabbitMqConnection = configuration.GetConnectionString(ConfigSection);
+        var factory = new ConnectionFactory { Uri = new Uri(rabbitMqConnection!)};
+        // var factory = new ConnectionFactory() { HostName = "localhost" };
         var connection = factory.CreateConnection();
 
         services.AddSingleton(connection);
@@ -22,7 +24,9 @@ public static class Extensions
     
     public static IServiceCollection AddRabbitMqRpc(this IServiceCollection services, IConfiguration configuration)
     {
-        var factory = new ConnectionFactory { HostName = "localhost" };
+        var rabbitMqConnection = configuration.GetConnectionString(ConfigSection);
+        var factory = new ConnectionFactory { Uri = new Uri(rabbitMqConnection!)};
+        // var factory = new ConnectionFactory() { HostName = "localhost" };
         var connection = factory.CreateConnection();
 
         services.AddSingleton(connection);
