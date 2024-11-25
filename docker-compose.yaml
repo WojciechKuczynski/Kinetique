@@ -17,7 +17,7 @@ services:
     container_name: postgres-kinetique
     restart: unless-stopped
     environment:
-      POSTGRES_DB: Kinetique_Appointment
+      POSTGRES_MULTIPLE_DATABASES: Kinetique_Appointment,Kinetique_Nfz,Kinetique_Main
       POSTGRES_USER: kinetique_user
       POSTGRES_PASSWORD: kinetique
     ports:
@@ -43,67 +43,57 @@ services:
       POSTGRES_USER: kinetique_user
       POSTGRES_PASSWORD: kinetique
     ports:
-      - "5002:8080"
+      - "5675:5675"
 
-  # mainService:
-  #   image: mcr.microsoft.com/dotnet/aspnet:8.0
-  #   container_name: MainService
-  #   restart: unless-stopped
-  #   build:
-  #     context: .
-  #     dockerfile: ./main/Kinetique.Main.API/Dockerfile
-  #   depends_on:
-  #     - rabbitmq
-  #     - postgres
-  #   environment:
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     POSTGRES_HOST: postgres
-  #     POSTGRES_DB: Kinetique_Main
-  #     POSTGRES_USER: kinetique_user
-  #     POSTGRES_PASSWORD: kinetique
-  #   ports:
-  #     - "5003:8080"
+  mainService:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: MainService
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./main/Kinetique.Main.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: Kinetique_Main
+      POSTGRES_USER: kinetique_user
+      POSTGRES_PASSWORD: kinetique
+    ports:
+      - "5161:5161"
 
-  # nfzService:
-  #   image: mcr.microsoft.com/dotnet/aspnet:8.0
-  #   container_name: NfzService
-  #   restart: unless-stopped
-  #   build:
-  #     context: .
-  #     dockerfile: ./nfz/Kinetique.Nfz.API/Dockerfile
-  #   depends_on:
-  #     - rabbitmq
-  #     - postgres
-  #   environment:
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     POSTGRES_HOST: postgres
-  #     POSTGRES_DB: Kinetique_Nfz
-  #     POSTGRES_USER: kinetique_user
-  #     POSTGRES_PASSWORD: kinetique
-  #   ports:
-  #     - "5004:8080"
+  nfzService:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: NfzService
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./nfz/Kinetique.Nfz.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: Kinetique_Nfz
+      POSTGRES_USER: kinetique_user
+      POSTGRES_PASSWORD: kinetique
+    ports:
+      - "5020:5020"
 
-  # scheduleService:
-  #   image: mcr.microsoft.com/dotnet/aspnet:8.0
-  #   container_name: ScheduleService
-  #   restart: unless-stopped
-  #   build:
-  #     context: .
-  #     dockerfile: ./schedule/Kinetique.Schedule/Dockerfile
-  #   depends_on:
-  #     - rabbitmq
-  #     - postgres
-  #   environment:
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     POSTGRES_HOST: postgres
-  #     POSTGRES_DB: Kinetique_Schedule
-  #     POSTGRES_USER: kinetique_user
-  #     POSTGRES_PASSWORD: kinetique
-  #   ports:
-  #     - "5005:8080"
+  scheduleService:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: ScheduleService
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./schedule/Kinetique.Schedule/Dockerfile
+    ports:
+      - "5197:5197"
 
 volumes:
   postgres_data:
