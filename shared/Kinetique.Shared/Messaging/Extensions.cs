@@ -15,6 +15,7 @@ public static class Extensions
         // var factory = new ConnectionFactory() { HostName = "localhost" };
         var connection = factory.CreateConnection();
 
+        var channel = connection.CreateModel();
         services.AddSingleton(connection);
         services.AddSingleton<IRabbitPublisher, RabbitPublisher>();
         services.AddSingleton<IRabbitConsumer, RabbitConsumer>();
@@ -33,6 +34,21 @@ public static class Extensions
         services.AddSingleton<IRabbitPublisher, RabbitPublisher>();
         services.AddSingleton<IRabbitRequestWorker, RabbitRequestWorker>();
         
+        return services;
+    }
+
+    public static IServiceCollection CreateRabbitTopology(this IServiceCollection services, IConfiguration configuration)
+    {
+        var rabbitMqConnection = configuration.GetConnectionString(ConfigSection);
+        var factory = new ConnectionFactory { Uri = new Uri(rabbitMqConnection!)};
+        var connection = factory.CreateConnection();
+        var channel = connection.CreateModel();
+        
+        channel.ExchangeDeclare("appointment", "direct", durable:true, autoDelete: false);
+        
+        channel.QueueDeclare("appointment-queue", durable: true, exclusive: false, autoDelete: false);
+        channel.QueueDeclare("appointment-finished-queue", durable: true, exclusive: false, autoDelete: false);
+
         return services;
     }
 }

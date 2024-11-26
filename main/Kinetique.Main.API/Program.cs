@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // var provider = builder.Configuration.GetValue("Provider", "Postgres");
 
 builder.Services.AddDAL(builder.Configuration)
+    .CreateRabbitTopology(builder.Configuration)
     .AddApplication()
     .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()
@@ -26,7 +27,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
+Console.WriteLine("Version 1.0");
 // app.UseHttpsRedirection();
 app.UseRouting();
 app.UseEndpoints(e => e.MapControllers());
