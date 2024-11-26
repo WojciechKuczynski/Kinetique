@@ -26,7 +26,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   appointmentService:
-    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    image: kinetique/appointment.api
     container_name: AppointmentsService
     restart: unless-stopped
     build:
@@ -35,18 +35,11 @@ services:
     depends_on:
       - rabbitmq
       - postgres
-    environment:
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: Kinetique_Appointment
-      POSTGRES_USER: kinetique_user
-      POSTGRES_PASSWORD: kinetique
     ports:
       - "5675:5675"
 
   mainService:
-    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    image: kinetique/main.api
     container_name: MainService
     restart: unless-stopped
     build:
@@ -55,18 +48,11 @@ services:
     depends_on:
       - rabbitmq
       - postgres
-    environment:
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: Kinetique_Main
-      POSTGRES_USER: kinetique_user
-      POSTGRES_PASSWORD: kinetique
     ports:
       - "5161:5161"
 
   nfzService:
-    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    image: kinetique/nfz.api
     container_name: NfzService
     restart: unless-stopped
     build:
@@ -75,18 +61,11 @@ services:
     depends_on:
       - rabbitmq
       - postgres
-    environment:
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: Kinetique_Nfz
-      POSTGRES_USER: kinetique_user
-      POSTGRES_PASSWORD: kinetique
     ports:
       - "5020:5020"
 
   scheduleService:
-    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    image: kinetique/schedule.api
     container_name: ScheduleService
     restart: unless-stopped
     build:
