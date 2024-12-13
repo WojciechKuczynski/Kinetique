@@ -9,14 +9,14 @@ public static class Extensions
 {
     public static IServiceCollection AddShared(this IServiceCollection services)
     {
-        services.AddSingleton<ErrorHandlingMiddleware>();
+        // services.AddSingleton<ErrorHandlingMiddleware>();
         services.AddScoped<IClock, UtcClock>();
         return services;
     }
     
     public static IApplicationBuilder UseShared(this IApplicationBuilder app)
     {
-        app.UseMiddleware<ErrorHandlingMiddleware>();
+        // app.UseMiddleware<ErrorHandlingMiddleware>();
         return app;
     }
 }

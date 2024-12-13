@@ -16,11 +16,11 @@ var app = builder.Build();
 app.UseShared();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseRouting();
 app.UseEndpoints(e => e.MapControllers());

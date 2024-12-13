@@ -22,11 +22,11 @@ await dbContext.Database.MigrateAsync();
 
 // Configure the HTTP request pipeline.
 app.UseShared();
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 // app.UseHttpsRedirection();
 app.UseRouting();
 app.UseEndpoints(e => e.MapControllers());

@@ -35,8 +35,11 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+      - mainService
     ports:
       - "5675:5675"
+    environment:
+      ASPNETCORE_URLS: http://+:5675
 
   mainService:
     image: kinetique/main.api
@@ -50,6 +53,8 @@ services:
       - postgres
     ports:
       - "5161:5161"
+    environment:
+      ASPNETCORE_URLS: http://+:5161
 
   nfzService:
     image: kinetique/nfz.api
@@ -61,8 +66,11 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+      - mainService
     ports:
       - "5020:5020"
+    environment:
+      ASPNETCORE_URLS: http://+:5020
 
   scheduleService:
     image: kinetique/schedule.api
@@ -71,8 +79,12 @@ services:
     build:
       context: .
       dockerfile: ./schedule/Kinetique.Schedule/Dockerfile
+    depends_on:
+      - mainService
     ports:
       - "5197:5197"
+    environment:
+      ASPNETCORE_URLS: http://+:5197
 
 volumes:
   postgres_data:
