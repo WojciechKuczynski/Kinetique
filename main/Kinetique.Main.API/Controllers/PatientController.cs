@@ -25,7 +25,7 @@ public class PatientController(IPatientCreateHandler _patientCreateHandler, IPat
         return Ok(await _patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest(){Id = id})));
     }
     
-    [HttpGet("{pesel:string}")]
+    [HttpGet("pesel/{pesel}")]
     public async Task<ActionResult<IList<PatientDto>>> GetByPesel(string pesel)
     {
         return Ok(await _patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest(){Pesel = pesel})));
