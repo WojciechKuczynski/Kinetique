@@ -1,0 +1,21 @@
+### Simple requests
+
+@apiHost = http://localhost:5675/api/appointment
+
+# @name GetAppointments 
+GET {{apiHost}}
+Content-Type: application/json
+###
+
+# @name CreateAppointment
+POST {{apiHost}}
+Content-Type: application/json
+
+{
+  "patientId": 1,
+  "doctorId": 1,
+  "startDate": "2024-10-14T20:00:00.000Z",
+  "duration": "00:30:00",
+  "description": "Wizyta kontrolna"
+}
+###

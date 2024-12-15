@@ -28,6 +28,7 @@ internal class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) 
         {
             await context.Response.WriteAsJsonAsync(new
                 { code = kinetiqueException.Code, message = kinetiqueException.ExceptionMessage });
+            return;
         }
         
         await context.Response.WriteAsJsonAsync(new { code = "Critical error", message = "There was some error" });

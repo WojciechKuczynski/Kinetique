@@ -19,14 +19,14 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         {
             query = query.Where(a => 
                 a.StartDate >= start.Value 
-                || a.StartDate.Add(a.Duration) > start.Value); 
+                || a.StartDate.AddMinutes(a.Duration.TotalMinutes) > start.Value); 
         }
        
         if (end.HasValue)
         {
             query = query.Where(a => 
                 a.StartDate <= end.Value 
-                && a.StartDate.Add(a.Duration) < end.Value); 
+                && a.StartDate.AddMinutes(a.Duration.TotalMinutes) < end.Value); 
         }
 
         return await query.ToListAsync();
@@ -40,14 +40,14 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         {
             query = query.Where(a => 
                 a.StartDate >= start.Value 
-                || a.StartDate.Add(a.Duration) >= start.Value); 
+                || a.StartDate.AddMinutes(a.Duration.TotalMinutes) >= start.Value); 
         }
        
         if (end.HasValue)
         {
             query = query.Where(a => 
                 a.StartDate <= end.Value 
-                && a.StartDate.Add(a.Duration) <= end.Value); 
+                && a.StartDate.AddMinutes(a.Duration.TotalMinutes) <= end.Value); 
         }
 
         return await query.ToListAsync();
@@ -60,12 +60,12 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         if (date == null)
         {
             appointments = await _objects.AsQueryable().Where(x => x.StartDate < _clock.GetNow()).ToListAsync();
-            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) < _clock.GetNow()).ToList();
+            appointments = appointments.Where(x => x.StartDate.AddMinutes(x.Duration.TotalMinutes) < _clock.GetNow()).ToList();
         }
         else
         {
             appointments = await _objects.AsQueryable().Where(x => x.StartDate >= date).ToListAsync();
-            appointments = appointments.Where(x => x.StartDate.Add(x.Duration) >= date).ToList();
+            appointments = appointments.Where(x => x.StartDate.AddMinutes(x.Duration.TotalMinutes) >= date).ToList();
         }
         
         return await Task.FromResult(appointments);
