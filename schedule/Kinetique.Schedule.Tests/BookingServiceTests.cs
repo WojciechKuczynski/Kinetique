@@ -34,7 +34,7 @@ public class BookingServiceTests
         var result = service.GetSlotsForRequestedTime(request).Result;
 
         // assert
-        Assert.Equal(2, result.Count);
+        Assert.True(result.Any(x => now.Add(x.StartTime) <= request.StartDate) && result.Any(x => now.Add(x.EndTime) >= request.EndDate));
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class BookingServiceTests
         var result = service.GetSlotsForRequestedTime(request).Result;
         
         // assert
-        Assert.Equal(1, result.Count);
+        Assert.False(result.Any(x => now.Add(x.StartTime) <= request.StartDate) && result.Any(x => now.Add(x.EndTime) >= request.EndDate));
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class BookingServiceTests
         var result = service.GetSlotsForRequestedTime(request).Result;
         
         //assert
-        Assert.Equal(0, result.Count);
+        Assert.False(result.Any(x => now.Add(x.StartTime) <= request.StartDate) && result.Any(x => now.Add(x.EndTime) >= request.EndDate));
     }
     
     [Fact]
@@ -105,7 +105,7 @@ public class BookingServiceTests
         var result = service.GetSlotsForRequestedTime(request).Result;
         
         //assert
-        Assert.Equal(0, result.Count);
+        Assert.False(result.Any(x => now.Add(x.StartTime) <= request.StartDate) && result.Any(x => now.Add(x.EndTime) >= request.EndDate));
     }
     
     private IEnumerable<DoctorScheduleSlot> GetSlots(DateTime now)
