@@ -10,6 +10,8 @@ public class DataContext(DbContextOptions options, IClock clock) : DbContext(opt
     public DbSet<SettlementProcedure> SettlementProcedures { get; set; }
     public DbSet<StatisticProcedure> StatisticProcedures { get; set; }
     public DbSet<PatientProcedure> PatientProcedures { get; set; }
+    public DbSet<Referral> Referrals { get; set; }
+    
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
