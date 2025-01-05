@@ -9,6 +9,7 @@ public class DataContext(DbContextOptions options, IClock clock) : DbContext(opt
 {
     private readonly IClock _clock = clock;
     public DbSet<Model.Appointment> Appointments { get; set; }
+    public DbSet<Model.AppointmentCycle> AppointmentCycles { get; set; }
     
     public DbSet<AppointmentJournal> Journals { get; set; }
     
