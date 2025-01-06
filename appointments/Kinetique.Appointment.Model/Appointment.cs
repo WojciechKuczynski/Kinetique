@@ -9,4 +9,6 @@ public class Appointment : BaseModel
     public DateTime StartDate { get; set; }
     public TimeSpan Duration { get; set; }
     public string Description { get; set; }
+    
+    public virtual AppointmentCycle Cycle { get; set; }
 }
