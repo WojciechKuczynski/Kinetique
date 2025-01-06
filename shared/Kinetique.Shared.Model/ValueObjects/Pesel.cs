@@ -1,6 +1,4 @@
-using System.Text.RegularExpressions;
-
-namespace Kinetique.Main.Model.ValueObjects;
+namespace Kinetique.Shared.Model.ValueObjects;
 
 public sealed class Pesel
 {

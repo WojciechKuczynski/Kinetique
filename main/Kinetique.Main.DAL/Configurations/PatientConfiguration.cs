@@ -1,5 +1,6 @@
 using Kinetique.Main.Model;
 using Kinetique.Main.Model.ValueObjects;
+using Kinetique.Shared.Model.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
