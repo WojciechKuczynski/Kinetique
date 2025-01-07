@@ -9,7 +9,7 @@ public class AppointmentCycle : BaseModel
     public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
     public virtual Referral? Referral { get; set; }
 
-    public bool CycleCompleted => Referral != null && Limit > 0;
+    public bool CycleReady => Referral != null && Limit > 0;
     public AppointmentCycle()
     {
         

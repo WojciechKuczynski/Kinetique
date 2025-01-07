@@ -1,3 +1,4 @@
+using Kinetique.Appointment.Model;
 using Kinetique.Shared.Model.Repositories;
 
 namespace Kinetique.Appointment.DAL.Repositories;

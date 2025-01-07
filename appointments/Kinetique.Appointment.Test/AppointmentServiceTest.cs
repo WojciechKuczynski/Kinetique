@@ -3,6 +3,7 @@ using Kinetique.Appointment.Application.Mappers;
 using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.Application.Services;
 using Kinetique.Appointment.Application.Services.Interfaces;
+using Kinetique.Appointment.DAL;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared;
 using Kinetique.Shared.Model.Abstractions;
@@ -20,7 +21,7 @@ public class AppointmentServiceTest
     {
         _clock = new UtcClock();
         _appointmentRepository = new InMemoryAppointmentRepository(_clock);
-        _appointmentAvailabilityService = new AppointmentAvailabilityService(_appointmentRepository);
+        _appointmentAvailabilityService = new AppointmentAvailabilityService(_appointmentRepository, new DataContext(null,_clock));
     }
     
     [Fact]

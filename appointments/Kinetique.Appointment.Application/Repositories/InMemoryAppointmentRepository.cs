@@ -1,4 +1,5 @@
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Appointment.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
 using Microsoft.EntityFrameworkCore;
