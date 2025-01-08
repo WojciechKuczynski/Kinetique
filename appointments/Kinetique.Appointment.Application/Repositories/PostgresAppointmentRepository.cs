@@ -13,7 +13,7 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
 
     public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
     {
-        var query = _objects.AsQueryable().Where(x => x.DoctorId == doctorId);
+        var query = _objects.AsQueryable().Where(x => x.Cycle.DoctorId == doctorId);
 
         if (start.HasValue)
         {
@@ -34,7 +34,7 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
 
     public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(long patientId, DateTime? start = null, DateTime? end = null)
     {
-        var query = _objects.AsQueryable().Where(x => x.PatientId == patientId);
+        var query = _objects.AsQueryable().Where(x => x.Cycle.PatientId == patientId);
 
         if (start.HasValue)
         {

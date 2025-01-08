@@ -3,8 +3,10 @@ using Kinetique.Appointment.Application.Repositories;
 using Kinetique.Appointment.Application.Services;
 using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Appointment.Model;
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Model.Abstractions;
+using Kinetique.Shared.Model.Repositories;
 using Kinetique.Shared.Model.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,7 @@ public static class Extensions
 
         services.AddScoped<IAppointmentRepository, PostgresAppointmentRepository>()
             .AddScoped<IAppointmentJournalRepository, PostgresAppointmentJournalRepository>()
+            .AddScoped<IAppointmentCycleRepository, PostgresAppointmentCycleRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>()
             .AddScoped<IAppointmentAvailabilityService, AppointmentAvailabilityService>();
         
