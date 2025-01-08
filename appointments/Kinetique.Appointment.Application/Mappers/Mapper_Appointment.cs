@@ -9,8 +9,6 @@ public static partial class Mapper
         => new AppointmentDto()
         {
             Id = appointment.Id,
-            DoctorId = appointment.DoctorId,
-            PatientId = appointment.PatientId,
             Description = appointment.Description,
             Duration = appointment.Duration,
             StartDate = appointment.StartDate
@@ -20,8 +18,6 @@ public static partial class Mapper
         => new AppointmentSharedDto()
         {
             Id = appointment.Id,
-            DoctorId = appointment.DoctorId,
-            PatientId = appointment.PatientId,
             Description = appointment.Description,
             Duration = appointment.Duration,
             StartDate = appointment.StartDate
@@ -31,8 +27,6 @@ public static partial class Mapper
         => new Model.Appointment()
         {
             Id = appointmentDto.Id,
-            DoctorId = appointmentDto.DoctorId,
-            PatientId = appointmentDto.PatientId,
             Description = appointmentDto.Description,
             Duration = appointmentDto.Duration,
             StartDate = appointmentDto.StartDate

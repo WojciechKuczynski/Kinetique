@@ -6,5 +6,7 @@ public class AppointmentCycleDto
     public DateTime? StartDate { get; set; }                                                        
     public byte Limit { get; set; }                                                                 
     public virtual List<AppointmentDto> Appointments { get; set; }   
-    public virtual ReferralDto? Referral { get; set; }                                                 
+    public virtual ReferralDto? Referral { get; set; }         
+    public long? PatientId { get; set; }
+    public long DoctorId { get; set; }
 }

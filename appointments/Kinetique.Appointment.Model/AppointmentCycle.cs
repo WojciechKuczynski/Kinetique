@@ -1,14 +1,18 @@
 using Kinetique.Shared.Model;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Kinetique.Appointment.Model;
 
 public class AppointmentCycle : BaseModel
 {
     public DateTime? StartDate { get; set; }
-    public byte Limit { get; set; }
+    public byte Limit { get; init; }
     public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
     public virtual Referral? Referral { get; set; }
-
+    public long? PatientId { get; set; }
+    
+    public long DoctorId { get; set; }
+    public bool CycleFull { get; set; }
     public bool CycleReady => Referral != null && Limit > 0;
     public AppointmentCycle()
     {
@@ -41,5 +45,7 @@ public class AppointmentCycle : BaseModel
         
         // Validation of Appointment not required.
         Appointments.Add(appointment);
+        if (Appointments.Count == Limit)
+            CycleFull = true;
     }
 }
