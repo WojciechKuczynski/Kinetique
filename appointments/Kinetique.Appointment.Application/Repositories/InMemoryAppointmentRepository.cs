@@ -21,6 +21,8 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
                 a.StartDate >= start.Value 
                 || a.StartDate.Add(a.Duration) > start.Value); 
         }
+
+        var checkPoint = query.ToList();
        
         if (end.HasValue)
         {
@@ -29,7 +31,8 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
                 && a.StartDate.Add(a.Duration) < end.Value); 
         }
 
-        return await Task.FromResult(query.ToList());
+        var result = query.ToList();
+        return await Task.FromResult(result);
     }
 
     public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(long patientId, DateTime? start = null, DateTime? end = null)
@@ -105,5 +108,10 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
     {
         var cycles = _appointmentCycles.Where(x => x.DoctorId == doctorId && !x.CycleFull);
         return Task.FromResult(cycles);
+    }
+
+    public Task<AppointmentCycle> AddOrUpdate(AppointmentCycle cycle)
+    {
+        return cycle.Id == 0 ? Add(cycle) : Task.FromResult(cycle);
     }
 }

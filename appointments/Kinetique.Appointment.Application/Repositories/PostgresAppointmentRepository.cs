@@ -89,4 +89,12 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         var cycles = await _objects.Where(x => x.DoctorId == doctorId && !x.CycleFull).ToListAsync();
         return cycles;
     }
+
+    public async Task<AppointmentCycle> AddOrUpdate(AppointmentCycle cycle)
+    {
+        if (cycle.Id == 0)
+            return await Add(cycle);
+        await Update(cycle);
+        return cycle;
+    }
 }

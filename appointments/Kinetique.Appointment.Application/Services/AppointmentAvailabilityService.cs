@@ -67,7 +67,7 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
 
         var appointment = appointmentDto.MapToEntity();
         cycle.AddAppointment(appointment);
-        await _appointmentRepository.Add(cycle);
+        await _appointmentRepository.AddOrUpdate(cycle);
         return appointment.MapToDto();
     }
 }

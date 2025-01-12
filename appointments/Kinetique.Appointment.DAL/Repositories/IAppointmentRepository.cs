@@ -11,4 +11,5 @@ public interface IAppointmentRepository : IBaseRepository<AppointmentCycle>
     Task<Model.Appointment?> GetById(long id);
     Task<AppointmentCycle?> GetOngoingCycleForPatient(long patientId);
     Task<IEnumerable<AppointmentCycle>> GetOngoingCyclesForDoctor(long doctorId);
+    Task<AppointmentCycle> AddOrUpdate(AppointmentCycle cycle);
 }
