@@ -19,8 +19,8 @@ public class AppointmentRabbitService: IHostedService
     {
         try
         {
-            _rabbitServer =
-                new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
+            // _rabbitServer =
+            //     new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
         }
         catch
         {
@@ -36,12 +36,12 @@ public class AppointmentRabbitService: IHostedService
         return Task.CompletedTask;
     }
     
-    private async Task<PatientAppointmentResponse> TestResponse(PatientAppointmentRequest request)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
-        // Use the repository here
-        var response = await repo.GetAll();
-        return new PatientAppointmentResponse(response.Select(x => x.MapToSharedDto()).ToList());
-    }
+    // private async Task<PatientAppointmentResponse> TestResponse(PatientAppointmentRequest request)
+    // {
+    //     using var scope = _serviceProvider.CreateScope();
+    //     var repo = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
+    //     // Use the repository here
+    //     var response = await repo.GetById(1);
+    //     return new PatientAppointmentResponse(response.Select(x => x.MapToSharedDto()).ToList());
+    // }
 }

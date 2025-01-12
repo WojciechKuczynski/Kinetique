@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kinetique.Appointment.API.Controllers;
 
 public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
-    IAppointmentListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler) : BaseController
+    IAppointmentCycleListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler) : BaseController
 {
 
     [HttpGet("{id:long}")]
@@ -32,9 +32,9 @@ public class AppointmentController(IAppointmentCreateHandler _appointmentCreateH
     }
     
     [HttpGet]
-    public async Task<ActionResult<AppointmentDto>> GetAll()
+    public async Task<ActionResult<AppointmentCycleDto>> GetAll()
     {
-        return Ok(await _appointmentListHandler.Handle(new AppointmentListQuery()));
+        return Ok(await _appointmentListHandler.Handle(new AppointmentCycleListQuery()));
     }
     
     [HttpPost]

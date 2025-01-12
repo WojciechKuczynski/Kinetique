@@ -9,11 +9,11 @@ namespace Kinetique.Appointment.Application.Appointments.Handlers;
 
 public interface IAppointmentSingleHandler : IQueryHandler<AppointmentSingleQuery, AppointmentDto?>, IQueryHandler<AppointmentCycleSingleQuery, AppointmentCycleDto?> ;
 
-public class AppointmentSingleHandler(IAppointmentRepository _appointmentRepository, IAppointmentCycleRepository _appointmentCycleRepository) : IAppointmentSingleHandler
+public class AppointmentSingleHandler(IAppointmentRepository _appointmentRepository) : IAppointmentSingleHandler
 {
     public async Task<AppointmentDto?> Handle(AppointmentSingleQuery query, CancellationToken token = default)
     {
-        var appointment = await _appointmentRepository.Get(query?.Id ?? 0);
+        var appointment = await _appointmentRepository.GetById(query?.Id ?? 0);
         if (appointment == null)
         {
             // create custom exception
@@ -25,7 +25,7 @@ public class AppointmentSingleHandler(IAppointmentRepository _appointmentReposit
 
     public async Task<AppointmentCycleDto?> Handle(AppointmentCycleSingleQuery query, CancellationToken token = default)
     {
-        var appointmentCycle = await _appointmentCycleRepository.Get(query?.Id ?? 0);
+        var appointmentCycle = await _appointmentRepository.Get(query?.Id ?? 0);
         if (appointmentCycle == null)
         {
             // create custom exception

@@ -32,7 +32,6 @@ public static class Extensions
 
         services.AddScoped<IAppointmentRepository, PostgresAppointmentRepository>()
             .AddScoped<IAppointmentJournalRepository, PostgresAppointmentJournalRepository>()
-            .AddScoped<IAppointmentCycleRepository, PostgresAppointmentCycleRepository>()
             .AddScoped<IResponseStorage, ResponseStorage>()
             .AddScoped<IAppointmentAvailabilityService, AppointmentAvailabilityService>();
         

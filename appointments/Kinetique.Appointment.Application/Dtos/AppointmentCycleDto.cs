@@ -7,6 +7,6 @@ public class AppointmentCycleDto
     public byte Limit { get; set; }                                                                 
     public virtual List<AppointmentDto> Appointments { get; set; }   
     public virtual ReferralDto? Referral { get; set; }         
-    public long? PatientId { get; set; }
+    public long PatientId { get; set; }
     public long DoctorId { get; set; }
 }
