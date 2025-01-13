@@ -33,7 +33,7 @@ public class AppointmentServiceTest
     public async Task for_2_appointments_at_same_time_2nd_booking_is_not_available()
     {
         var appointment1 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2));
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2), 1);
         
 
         var appointmentResponse = await _appointmentAvailabilityService.TryBook(appointment1);
@@ -41,6 +41,7 @@ public class AppointmentServiceTest
         var appointment2 = new AppointmentCreateCommand(
             appointment: new AppointmentDto()
             {
+                Id = 2,
                 DoctorId = 1,
                 PatientId = 1,
                 StartDate = _clock.GetNow().AddHours(1),
@@ -56,7 +57,7 @@ public class AppointmentServiceTest
     public void patient_new_appointment_with_referral_cycle_is_created()
     {
         var command =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2));
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2), 1);
         
         Assert.NotNull(_appointmentAvailabilityService.TryBook(command).Result);
     }
@@ -65,11 +66,11 @@ public class AppointmentServiceTest
     public async Task for_2_appointments_for_different_patient_but_same_doctor_is_not_available()
     {
         var appointmentCommand1 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2));
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 1, _clock.GetNow(), TimeSpan.FromHours(2), 1);
 
         var appointmentCommand2 =
             _appointmentFactory.CreateAppointmentCommandWithFakeReferral(1, 2, _clock.GetNow().AddHours(1),
-                TimeSpan.FromHours(1));
+                TimeSpan.FromHours(1),2);
         
         await _appointmentAvailabilityService.TryBook(appointmentCommand1);
         
@@ -84,12 +85,12 @@ public class AppointmentServiceTest
         var duration = TimeSpan.FromHours(1);
 
         var appointmentCommand1 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 1, startDate, duration);
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 1, startDate, duration, 1);
         var appointmentCommand2 =
             _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 2, startDate.AddHours(1),
-                duration);
+                duration, 2);
         var appointmentCommand3 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 3, startDate.AddHours(2), duration);
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 3, startDate.AddHours(2), duration, 3);
         
         await _appointmentAvailabilityService.TryBook(appointmentCommand1);
         await _appointmentAvailabilityService.TryBook(appointmentCommand2);
@@ -108,11 +109,11 @@ public class AppointmentServiceTest
         var duration = TimeSpan.FromHours(1);
 
         var appointmentCommand1 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 1, startDate, duration);
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 1, startDate, duration, 1);
         var appointmentCommand2 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 2, startDate.AddHours(3), duration);
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 2, startDate.AddHours(3), duration, 2);
         var appointmentCommand3 =
-            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 3, startDate.AddHours(4), duration);
+            _appointmentFactory.CreateAppointmentCommandWithFakeReferral(doctorId, 3, startDate.AddHours(4), duration, 3);
         
         await _appointmentAvailabilityService.TryBook(appointmentCommand1);
         await _appointmentAvailabilityService.TryBook(appointmentCommand2);
