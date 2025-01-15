@@ -97,4 +97,14 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         await Update(cycle);
         return cycle;
     }
+
+    public new async Task Update(AppointmentCycle obj)
+    {
+        if (obj.Referral != null)
+        {
+            context.Set<Referral>().Add(obj.Referral);
+            // context.Entry(obj.Referral).State = EntityState.Added;
+            await base.Update(obj);
+        }
+    }
 }

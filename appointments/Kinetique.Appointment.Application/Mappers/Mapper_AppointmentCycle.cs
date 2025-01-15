@@ -26,6 +26,6 @@ public static partial class Mapper
             DoctorId = cycleDto.DoctorId,
             PatientId = cycleDto.PatientId,
             Referral = cycleDto.Referral?.MapToEntity() ?? null,
-            Appointments = cycleDto.Appointments.Select(x => x.MapToEntity()).ToList()
+            Appointments = cycleDto.Appointments?.Select(x => x.MapToEntity()).ToList() ?? new List<Model.Appointment>()
         };
 }

@@ -5,12 +5,14 @@ using Kinetique.Appointment.Application.Storage;
 using Kinetique.Appointment.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kinetique.Appointment.API.Controllers;
 
 public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
-    IAppointmentCycleListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler) : BaseController
+    IAppointmentCycleListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler,
+    IAppointmentReferralAddHandler _appointmentReferralAddHandler) : BaseController
 {
 
     [HttpGet("{id:long}")]
@@ -53,5 +55,13 @@ public class AppointmentController(IAppointmentCreateHandler _appointmentCreateH
         var res = _storage.Get(ObjectConstants.AppointmentCycle);
         
         return CreatedAtAction(nameof(GetCycleById), new { id = res }, null);
+    }
+    
+    [HttpPost("referral")]
+    public async Task<ActionResult<AppointmentCycleDto>> AddReferral(ReferralDto referralDto)
+    {
+        await _appointmentReferralAddHandler.Handle(new AppointmentReferralAddCommand(referralDto));
+        
+        return Ok();
     }
 }

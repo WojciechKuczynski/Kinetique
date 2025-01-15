@@ -13,6 +13,7 @@ public abstract class InMemoryBaseRepository<T> : IBaseRepository<T> where T: Ba
     public virtual Task<T> Add(T obj)
     {
         _objects.Add(obj);
+        obj.Id = _objects.Count;
         
         return Task.FromResult(obj);
     }

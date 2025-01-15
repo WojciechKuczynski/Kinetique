@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Kinetique.Shared.Model;
 using Kinetique.Shared.Model.ValueObjects;
 
@@ -9,4 +10,7 @@ public class Referral : BaseModel
     public string Code { get; set; }
     public Pesel Pesel { get; set; }
     public DateTime CreatedOn { get; set; }
+    
+    [ForeignKey("AppointmentCycle")]
+    public long AppointmentCycleId { get; set; }
 }

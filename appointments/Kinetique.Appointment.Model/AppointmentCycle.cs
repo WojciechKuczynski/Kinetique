@@ -32,6 +32,7 @@ public class AppointmentCycle : BaseModel
         if (Referral != null)
             throw new Exception("Referral is already present in this cycle");
         Referral = referral;
+        referral.AppointmentCycleId = this.Id;
     }
     
     public void AddAppointment(Appointment appointment)

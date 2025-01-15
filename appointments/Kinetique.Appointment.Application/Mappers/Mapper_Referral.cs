@@ -8,11 +8,19 @@ public static partial class Mapper
         => new ReferralDto()
         {
             Id = referral.Id,
+            Uid = referral.Uid,
+            Pesel = referral.Pesel,
+            Code = referral.Code,
+            CreatedOn = referral.CreatedOn
         };
 
     public static Model.Referral MapToEntity(this ReferralDto referralDto)
         => new Model.Referral()
         {
             Id = referralDto.Id,
+            Uid = referralDto.Uid,
+            Pesel = referralDto.Pesel,
+            Code = referralDto.Code,
+            CreatedOn = referralDto.CreatedOn
         };
 }

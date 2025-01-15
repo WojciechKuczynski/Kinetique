@@ -24,6 +24,7 @@ public class PostgresRepositoryBase<T>(DbContext context) : IBaseRepository<T>
     public async Task Update(T obj)
     {
         _objects.Update(obj);
+        _objects.Entry(obj).State = EntityState.Modified;
         await context.SaveChangesAsync();
     }
 }

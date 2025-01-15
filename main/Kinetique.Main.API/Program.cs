@@ -1,3 +1,4 @@
+using Kinetique.Main.API.Services;
 using Kinetique.Main.Application;
 using Kinetique.Main.DAL;
 using Kinetique.Shared;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDAL(builder.Configuration)
     .CreateRabbitTopology(builder.Configuration)
     .AddApplication()
+    .AddHostedService<PatientDetailsRabbitService>()
     .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()
     .AddShared()
