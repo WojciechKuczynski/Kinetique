@@ -1,0 +1,76 @@
+@appointmentHost = http://localhost:5675/api
+@mainHost = http://localhost:5161/api
+@scheduleHost = http://localhost:5197/api
+
+
+### Create appointment
+@pesel = 93100695847
+
+### 0.1 Add Patient if not existing
+POST {{mainHost}}/patient
+Content-Type: application/json
+
+{
+  "firstName": "Jan",
+  "lastName": "Kowalski",
+  "phoneNumber": "+48777888555",
+  "address": "Random adress 2/5",
+  "gender": 1,
+  "pesel": "{{pesel}}"
+}
+
+
+### 0.2 Add Doctor if not exists
+POST {{mainHost}}/doctor
+Content-Type: application/json
+
+{
+  "firstName": "Adam",
+  "lastName": "Nowak",
+  "gender": 1,
+  "licence": "000444"
+}
+
+### 0.21 Get Doctors list
+GET {{mainHost}}/doctor
+Content-Type: application/json
+
+
+### 1.1 Get Patient by Pesel
+GET {{mainHost}}/patient/pesel/{{pesel}}
+Content-Type: application/json
+
+
+### 1.2 Get Doctor
+GET {{mainHost}}/doctor/1
+Content-Type: application/json
+
+### 2.1 Add Cycle without cycle
+POST {{appointmentHost}}/appointment/cycle/
+Content-Type: application/json
+
+{
+  "limit": 10,
+  "patientId": 7,
+  "doctorId": 1
+}
+
+### 2.2 Get Cycle list
+GET {{appointmentHost}}/appointment
+Content-Type: application/json
+
+
+### 2.3 Add Referral to cycle ( for patient )
+POST {{appointmentHost}}/appointment/referral
+Content-Type: application/json
+
+{
+  "uid": "000112",
+  "code": "someCode",
+  "pesel": {
+    "value": "{{pesel}}"
+  },
+  "createdOn": "2025-01-15T18:52:18.855Z"
+}
+
+### Add Appointment
