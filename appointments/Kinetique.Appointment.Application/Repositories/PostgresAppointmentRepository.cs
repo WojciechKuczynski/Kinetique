@@ -16,42 +16,14 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
     public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
     {
         var query = _appointments.Where(x => x.Cycle.DoctorId == doctorId);
-
-        if (start.HasValue)
-        {
-            query = query.Where(a => 
-                a.StartDate >= start.Value 
-                || a.StartDate.AddMinutes(a.Duration.TotalMinutes) > start.Value); 
-        }
-       
-        if (end.HasValue)
-        {
-            query = query.Where(a => 
-                a.StartDate <= end.Value 
-                && a.StartDate.AddMinutes(a.Duration.TotalMinutes) < end.Value); 
-        }
-
+        query = FindOverlappingAppointments(start, end, query);
         return await query.ToListAsync();
     }
-
+  
     public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(long patientId, DateTime? start = null, DateTime? end = null)
-    {
+     {
         var query = _appointments.Where(x => x.Cycle.PatientId == patientId);
-
-        if (start.HasValue)
-        {
-            query = query.Where(a => 
-                a.StartDate >= start.Value 
-                || a.StartDate.AddMinutes(a.Duration.TotalMinutes) >= start.Value); 
-        }
-       
-        if (end.HasValue)
-        {
-            query = query.Where(a => 
-                a.StartDate <= end.Value 
-                && a.StartDate.AddMinutes(a.Duration.TotalMinutes) <= end.Value); 
-        }
-
+        query = FindOverlappingAppointments(start, end, query);
         return await query.ToListAsync();
     }
 
@@ -97,14 +69,26 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         await Update(cycle);
         return cycle;
     }
-
-    public new async Task Update(AppointmentCycle obj)
+    
+    private static IQueryable<Model.Appointment> FindOverlappingAppointments(DateTime? start, DateTime? end, IQueryable<Model.Appointment> query)
     {
-        if (obj.Referral != null)
+        if (start.HasValue && end.HasValue)
         {
-            context.Set<Referral>().Add(obj.Referral);
-            // context.Entry(obj.Referral).State = EntityState.Added;
-            await base.Update(obj);
+            query = query.Where(a => 
+                a.StartDate < end.Value && 
+                a.StartDate.AddMinutes(a.Duration.TotalMinutes) > start.Value);
         }
+        else if (start.HasValue)
+        {
+            query = query.Where(a => 
+                a.StartDate.AddMinutes(a.Duration.TotalMinutes) > start.Value);
+        }
+        else if (end.HasValue)
+        {
+            query = query.Where(a => 
+                a.StartDate < end.Value);
+        }
+
+        return query;
     }
 }

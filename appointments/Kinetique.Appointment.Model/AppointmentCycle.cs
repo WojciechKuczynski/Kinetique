@@ -1,3 +1,4 @@
+using Kinetique.Appointment.Model.Exceptions;
 using Kinetique.Shared.Model;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -30,7 +31,7 @@ public class AppointmentCycle : BaseModel
     public void AddReferral(Referral referral)
     {
         if (Referral != null)
-            throw new Exception("Referral is already present in this cycle");
+            throw new CycleAlreadyHavingReferralException();
         Referral = referral;
         referral.AppointmentCycleId = this.Id;
     }

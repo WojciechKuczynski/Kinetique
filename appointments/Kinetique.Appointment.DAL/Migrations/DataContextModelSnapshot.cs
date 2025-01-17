@@ -53,7 +53,7 @@ namespace Kinetique.Appointment.DAL.Migrations
 
                     b.HasIndex("CycleId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointment", (string)null);
                 });
 
             modelBuilder.Entity("Kinetique.Appointment.Model.AppointmentCycle", b =>
@@ -84,7 +84,7 @@ namespace Kinetique.Appointment.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppointmentCycles");
+                    b.ToTable("AppointmentCycles", (string)null);
                 });
 
             modelBuilder.Entity("Kinetique.Appointment.Model.AppointmentJournal", b =>
@@ -112,7 +112,7 @@ namespace Kinetique.Appointment.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Journals");
+                    b.ToTable("Journals", (string)null);
                 });
 
             modelBuilder.Entity("Kinetique.Appointment.Model.Referral", b =>
@@ -149,7 +149,7 @@ namespace Kinetique.Appointment.DAL.Migrations
                     b.HasIndex("AppointmentCycleId")
                         .IsUnique();
 
-                    b.ToTable("Referral");
+                    b.ToTable("Referral", (string)null);
                 });
 
             modelBuilder.Entity("Kinetique.Appointment.Model.Appointment", b =>

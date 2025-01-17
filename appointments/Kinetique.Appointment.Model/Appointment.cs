@@ -8,5 +8,6 @@ public class Appointment : BaseModel
     public TimeSpan Duration { get; set; }
     public string Description { get; set; }
     
+    public long CycleId { get; set; }
     public virtual AppointmentCycle Cycle { get; set; }
 }

@@ -54,11 +54,11 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
             throw new Exception("You can create appointment only to valid cycle");
         
         var doctors = await
-            _appointmentRepository.GetAppointmentsForDoctor(appointmentDto.DoctorId, appointmentDto.StartDate,
+            _appointmentRepository.GetAppointmentsForDoctor(cycle.DoctorId, appointmentDto.StartDate,
                 appointmentDto.StartDate.Add(appointmentDto.Duration));
         
         var patients = await
-            _appointmentRepository.GetAppointmentsForPatient(appointmentDto.PatientId, appointmentDto.StartDate,
+            _appointmentRepository.GetAppointmentsForPatient(cycle.PatientId, appointmentDto.StartDate,
                 appointmentDto.StartDate.Add(appointmentDto.Duration));
 
         // if there is at least 1 slot for patient or doctor in same date range.

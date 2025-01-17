@@ -15,6 +15,8 @@ public class DataContext(DbContextOptions options, IClock clock) : DbContext(opt
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.Entity<AppointmentCycle>().HasMany(x => x.Appointments).WithOne(x => x.Cycle)
+            .HasForeignKey(x => x.CycleId);
         base.OnModelCreating(modelBuilder);
     }
 

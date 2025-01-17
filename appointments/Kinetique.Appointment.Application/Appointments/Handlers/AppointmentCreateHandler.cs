@@ -1,3 +1,4 @@
+using Kinetique.Appointment.Application.Exceptions;
 using Kinetique.Appointment.Application.Mappers;
 using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.Application.Storage;
@@ -27,7 +28,7 @@ internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _
         var onGoingCycle = await _appointmentRepository.GetOngoingCycleForPatient(command.AppointmentCycle.PatientId);
         if (onGoingCycle != null)
         {
-            throw new Exception("This patient is already having active cycle.");
+            throw new PatientHasActiveCycleException();
         }
         
         var cycle = await _appointmentRepository.Add(command.AppointmentCycle.MapToEntity());

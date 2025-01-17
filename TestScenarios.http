@@ -4,7 +4,7 @@
 
 
 ### Create appointment
-@pesel = 93100695847
+@pesel = 93100695867
 
 ### 0.1 Add Patient if not existing
 POST {{mainHost}}/patient
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "firstName": "Jan",
-  "lastName": "Kowalski",
+  "lastName": "Kowalski 2",
   "phoneNumber": "+48777888555",
   "address": "Random adress 2/5",
   "gender": 1,
@@ -45,13 +45,13 @@ Content-Type: application/json
 GET {{mainHost}}/doctor/1
 Content-Type: application/json
 
-### 2.1 Add Cycle without cycle
+### 2.1 Add Cycle without appointment
 POST {{appointmentHost}}/appointment/cycle/
 Content-Type: application/json
 
 {
   "limit": 10,
-  "patientId": 7,
+  "patientId": 8,
   "doctorId": 1
 }
 
@@ -59,18 +59,30 @@ Content-Type: application/json
 GET {{appointmentHost}}/appointment
 Content-Type: application/json
 
+### 2.21 Get Cycle by Id
+GET {{appointmentHost}}/appointment/cycle/2
+Content-Type: application/json
 
 ### 2.3 Add Referral to cycle ( for patient )
 POST {{appointmentHost}}/appointment/referral
 Content-Type: application/json
 
 {
-  "uid": "000112",
-  "code": "someCode",
+  "uid": "000113",
+  "code": "someCode 2",
   "pesel": {
     "value": "{{pesel}}"
   },
   "createdOn": "2025-01-15T18:52:18.855Z"
 }
 
-### Add Appointment
+### Add Appointment to cycle
+POST {{appointmentHost}}/appointment
+Content-Type: application/json
+
+{
+  "cycleId": 2,
+  "startDate": "2025-01-17T21:50:00Z",
+  "duration": "00:30:00",
+  "description": "Laser"
+}
