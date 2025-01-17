@@ -35,6 +35,11 @@ public class AppointmentCycle : BaseModel
         Referral = referral;
         referral.AppointmentCycleId = this.Id;
     }
+
+    public void RemoveReferral()
+    {
+        Referral = null;
+    }
     
     public void AddAppointment(Appointment appointment)
     {

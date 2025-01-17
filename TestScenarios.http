@@ -76,6 +76,10 @@ Content-Type: application/json
   "createdOn": "2025-01-15T18:52:18.855Z"
 }
 
+### 2.4 Remove Referral from Cycle
+DELETE {{appointmentHost}}/appointment/referral/2
+Content-Type: application/json
+
 ### Add Appointment to cycle
 POST {{appointmentHost}}/appointment
 Content-Type: application/json
