@@ -45,6 +45,10 @@ Content-Type: application/json
 GET {{mainHost}}/doctor/1
 Content-Type: application/json
 
+
+### set DoctorId
+@doctorId = 1
+
 ### 2.1 Add Cycle without appointment
 POST {{appointmentHost}}/appointment/cycle/
 Content-Type: application/json
@@ -59,7 +63,7 @@ Content-Type: application/json
 GET {{appointmentHost}}/appointment
 Content-Type: application/json
 
-### 2.21 Get Cycle by Id
+### 2.2.1 Get Cycle by Id
 GET {{appointmentHost}}/appointment/cycle/2
 Content-Type: application/json
 
@@ -79,6 +83,57 @@ Content-Type: application/json
 ### 2.4 Remove Referral from Cycle
 DELETE {{appointmentHost}}/appointment/referral/2
 Content-Type: application/json
+
+### 2.5 GetSlots for Doctor for period
+GET {{scheduleHost}}/schedule/1
+Content-Type: application/json
+
+### 2.5.1 Create Slots for Doctor for period
+POST {{scheduleHost}}/schedule/slot
+Content-Type: application/json
+
+{
+  "doctorId": "{{doctorId}}",
+  "startDate": {
+    "value": "2025-01-19T00:00:00Z"
+  },
+  "endDate": {
+    "value": "2025-01-19T00:00:00Z"
+  },
+  "slots": [
+    {
+      "day": 1,
+      "startTime": "10:00:00",
+      "endTime": "10:30:00"
+    },
+    {
+      "day": 1,
+      "startTime": "10:30:00",
+      "endTime": "11:00:00"
+    },
+    {
+      "day": 1,
+      "startTime": "11:00:00",
+      "endTime": "11:30:00"
+    },
+    {
+      "day": 2,
+      "startTime": "10:00:00",
+      "endTime": "10:30:00"
+    },
+    {
+      "day": 2,
+      "startTime": "10:30:00",
+      "endTime": "11:00:00"
+    },
+    {
+      "day": 2,
+      "startTime": "11:00:00",
+      "endTime": "11:30:00"
+    }
+  ]
+}
+
 
 ### Add Appointment to cycle
 POST {{appointmentHost}}/appointment

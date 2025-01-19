@@ -10,4 +10,9 @@ public class InMemoryScheduleRepository : InMemoryBaseRepository<DoctorSchedule>
     {
         return Task.FromResult(_objects.Where(x => x.DoctorId == doctorId && x.StartDate <= startTime && x.EndDate >= endTime));
     }
+
+    public Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctor(long doctorId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -30,4 +30,26 @@ public class ScheduleBookingService(IScheduleRepository _repository)
         
         return bookSlots.ToList();
     }
+
+    public async Task TryCreateDoctorSchedule(DoctorScheduleRequest request)
+    {
+        // if there is already some Schedule on same time
+        var scheduleInDb =
+            await _repository.GetSchedulesForDoctorPeriod(request.DoctorId, request.StartDate.Value,
+                request.EndDate.Value);
+        if (scheduleInDb.Any())
+            throw new Exception("There is already some slot for this doctor in this period of time.");
+
+        var schedule = new DoctorSchedule()
+        {
+            DoctorId = request.DoctorId,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate
+        };
+        var slots = request.Slots.Select(x => new DoctorScheduleSlot
+            { DayOfWeek = x.Day, StartTime = x.StartTime, EndTime = x.EndTime });
+        schedule.AddSlots(slots);
+
+        await _repository.Add(schedule);
+    }
 }
