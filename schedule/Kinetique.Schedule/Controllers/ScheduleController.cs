@@ -37,7 +37,7 @@ public class ScheduleController(DataContext context, IScheduleRepository schedul
         return Ok();
     }
 
-    [HttpGet("{code:string}")]
+    [HttpGet("{code:length(6)}")]
     public async Task<ActionResult<DoctorScheduleDto>> GetSlotsForDoctor(string code)
     {
         var result = await _doctorScheduleListHandler.Handle(new DoctorScheduleListQuery(code));

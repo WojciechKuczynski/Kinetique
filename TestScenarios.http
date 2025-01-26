@@ -45,9 +45,13 @@ Content-Type: application/json
 GET {{mainHost}}/doctor/1
 Content-Type: application/json
 
+################################
+######### APPOINTMENT ##########
+################################
+
 
 ### set DoctorId
-@doctorId = 1
+@doctorCode = 000444
 
 ### 2.1 Add Cycle without appointment
 POST {{appointmentHost}}/appointment/cycle/
@@ -74,18 +78,33 @@ Content-Type: application/json
 {
   "uid": "000113",
   "code": "someCode 2",
-  "pesel": {
-    "value": "{{pesel}}"
-  },
+  "pesel": "{{pesel}}",
   "createdOn": "2025-01-15T18:52:18.855Z"
+}
+
+### 2.3.1 Add Appointment to cycle
+POST {{appointmentHost}}/appointment
+Content-Type: application/json
+
+{
+  "cycleId": 2,
+  "startDate": "2025-01-17T21:50:00Z",
+  "duration": "00:30:00",
+  "description": "Laser"
 }
 
 ### 2.4 Remove Referral from Cycle
 DELETE {{appointmentHost}}/appointment/referral/2
 Content-Type: application/json
 
+
+################################
+########### SCHEDULE ###########
+################################
+
+
 ### 2.5 GetSlots for Doctor for period
-GET {{scheduleHost}}/schedule/1
+GET {{scheduleHost}}/schedule/{{doctorCode}}
 Content-Type: application/json
 
 ### 2.5.1 Create Slots for Doctor for period
@@ -93,7 +112,7 @@ POST {{scheduleHost}}/schedule/slot
 Content-Type: application/json
 
 {
-  "doctorId": "{{doctorId}}",
+  "doctorCode": "{{doctorCode}}",
   "startDate": {
     "value": "2025-01-19T00:00:00Z"
   },
@@ -132,16 +151,4 @@ Content-Type: application/json
       "endTime": "11:30:00"
     }
   ]
-}
-
-
-### Add Appointment to cycle
-POST {{appointmentHost}}/appointment
-Content-Type: application/json
-
-{
-  "cycleId": 2,
-  "startDate": "2025-01-17T21:50:00Z",
-  "duration": "00:30:00",
-  "description": "Laser"
 }
