@@ -6,7 +6,7 @@ namespace Kinetique.Schedule.Requests;
 
 [Serializable]
 public record DoctorScheduleRequest(
-    long DoctorId,
+    string DoctorCode,
     Date StartDate,
     Date EndDate, 
     IList<ScheduleSlotDto> Slots) : ICommandRequest;

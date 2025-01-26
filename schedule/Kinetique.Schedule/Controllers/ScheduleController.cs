@@ -37,10 +37,10 @@ public class ScheduleController(DataContext context, IScheduleRepository schedul
         return Ok();
     }
 
-    [HttpGet("{id:long}")]
-    public async Task<ActionResult<DoctorScheduleDto>> GetSlotsForDoctor(long id)
+    [HttpGet("{code:string}")]
+    public async Task<ActionResult<DoctorScheduleDto>> GetSlotsForDoctor(string code)
     {
-        var result = await _doctorScheduleListHandler.Handle(new DoctorScheduleListQuery(id));
+        var result = await _doctorScheduleListHandler.Handle(new DoctorScheduleListQuery(code));
         return Ok(result.Select(x => x.MapToDto()).ToList());
     }
 }

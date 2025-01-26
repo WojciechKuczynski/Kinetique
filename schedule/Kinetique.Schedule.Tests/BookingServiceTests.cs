@@ -23,12 +23,12 @@ public class BookingServiceTests
         // arrange
         var slots = GetSlots(now);
         var doctorSchedule = new DoctorSchedule()
-            { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
+            { DoctorCode = "12345", StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
         doctorSchedule.AddSlots(slots);
         repo.Add(doctorSchedule);
         
         var request = new BookTimeRequest()
-            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+            { DoctorCode = "12345", StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
         
         // act
         var result = service.GetSlotsForRequestedTime(request).Result;
@@ -53,13 +53,13 @@ public class BookingServiceTests
         };
 
         var doctorSchedule = new DoctorSchedule()
-            { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
+            { DoctorCode = "12345", StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
         doctorSchedule.AddSlots(slots);
         doctorSchedule.AddBlocks(new [] {block});
         repo.Add(doctorSchedule);
         
         var request = new BookTimeRequest()
-            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+            { DoctorCode = "12345", StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
         
         // act
         var result = service.GetSlotsForRequestedTime(request).Result;
@@ -77,11 +77,11 @@ public class BookingServiceTests
         var service = new ScheduleBookingService(repo);
 
         var doctorSchedule = new DoctorSchedule()
-            { DoctorId = 1, StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
+            { DoctorCode = "12345", StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
         repo.Add(doctorSchedule);
         
         var request = new BookTimeRequest()
-            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+            { DoctorCode = "12345", StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
 
 
         var result = service.GetSlotsForRequestedTime(request).Result;
@@ -99,7 +99,7 @@ public class BookingServiceTests
         var service = new ScheduleBookingService(repo);
 
         var request = new BookTimeRequest()
-            { DoctorId = 1, StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+            { DoctorCode = "12345", StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
 
 
         var result = service.GetSlotsForRequestedTime(request).Result;

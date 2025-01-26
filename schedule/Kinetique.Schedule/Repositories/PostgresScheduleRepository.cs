@@ -7,13 +7,13 @@ namespace Kinetique.Schedule.Repositories;
 
 public class PostgresScheduleRepository(DataContext context) : PostgresRepositoryBase<DoctorSchedule>(context), IScheduleRepository
 {
-    public async Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctorPeriod(long doctorId, DateTime startTime, DateTime endTime)
+    public async Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctorPeriod(string doctorCode, DateTime startTime, DateTime endTime)
     {
-        return await _objects.Where(x => x.DoctorId == doctorId && x.StartDate <= startTime && x.EndDate >= endTime).ToListAsync();
+        return await _objects.Where(x => x.DoctorCode == doctorCode && x.StartDate <= startTime && x.EndDate >= endTime).ToListAsync();
     }
 
-    public async Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctor(long doctorId)
+    public async Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctor(string doctorCode)
     {
-        return await _objects.Where(x => x.DoctorId == doctorId).ToListAsync();
+        return await _objects.Where(x => x.DoctorCode == doctorCode).ToListAsync();
     }
 }

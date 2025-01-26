@@ -16,6 +16,6 @@ public class ScheduleQueryHandler : IDoctorScheduleListHandler
     
     public async Task<IEnumerable<DoctorSchedule>> Handle(DoctorScheduleListQuery query, CancellationToken token = default)
     {
-        return await _scheduleRepository.GetSchedulesForDoctor(query.DoctorId);
+        return await _scheduleRepository.GetSchedulesForDoctor(query.DoctorCode);
     }
 }

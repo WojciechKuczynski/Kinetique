@@ -6,12 +6,12 @@ namespace Kinetique.Schedule.Tests;
 
 public class InMemoryScheduleRepository : InMemoryBaseRepository<DoctorSchedule>, IScheduleRepository
 {
-    public Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctorPeriod(long doctorId, DateTime startTime, DateTime endTime)
+    public Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctorPeriod(string doctorCode, DateTime startTime, DateTime endTime)
     {
-        return Task.FromResult(_objects.Where(x => x.DoctorId == doctorId && x.StartDate <= startTime && x.EndDate >= endTime));
+        return Task.FromResult(_objects.Where(x => x.DoctorCode == doctorCode && x.StartDate <= startTime && x.EndDate >= endTime));
     }
 
-    public Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctor(long doctorId)
+    public Task<IEnumerable<DoctorSchedule>> GetSchedulesForDoctor(string doctorCode)
     {
         throw new NotImplementedException();
     }

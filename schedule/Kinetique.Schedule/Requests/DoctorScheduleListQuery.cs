@@ -3,4 +3,4 @@ using Kinetique.Shared.Model.Abstractions;
 
 namespace Kinetique.Schedule.Requests;
 
-public record DoctorScheduleListQuery(long DoctorId) : IQuery<IEnumerable<DoctorSchedule>>;
+public record DoctorScheduleListQuery(string DoctorCode) : IQuery<IEnumerable<DoctorSchedule>>;

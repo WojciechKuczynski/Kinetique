@@ -9,7 +9,7 @@ public static class ScheduleMapper
     {
         return new DoctorScheduleDto()
         {
-            DoctorId = schedule.DoctorId,
+            DoctorCode = schedule.DoctorCode,
             StartDate = schedule.StartDate,
             EndDate = schedule.EndDate,
             Slots = schedule.Slots.Select(x => new ScheduleSlotDto(x.DayOfWeek,x.StartTime,x.EndTime) ).ToList()

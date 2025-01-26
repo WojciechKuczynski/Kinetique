@@ -9,7 +9,7 @@ public class ScheduleBookingService(IScheduleRepository _repository)
 {
     public async Task<List<DoctorScheduleSlot>> GetSlotsForRequestedTime(BookTimeRequest request)
     {
-        var schedulesFound = await _repository.GetSchedulesForDoctorPeriod(request.DoctorId, request.StartDate, request.EndDate);
+        var schedulesFound = await _repository.GetSchedulesForDoctorPeriod(request.DoctorCode, request.StartDate, request.EndDate);
         var requestDayOfWeek = request.StartDate.DayOfWeek;
         // schedule slots in current Datetime period for certain DayOfWeek
         var scheduleSlots = schedulesFound.SelectMany(x => x.Slots)
@@ -35,14 +35,14 @@ public class ScheduleBookingService(IScheduleRepository _repository)
     {
         // if there is already some Schedule on same time
         var scheduleInDb =
-            await _repository.GetSchedulesForDoctorPeriod(request.DoctorId, request.StartDate.Value,
+            await _repository.GetSchedulesForDoctorPeriod(request.DoctorCode, request.StartDate.Value,
                 request.EndDate.Value);
         if (scheduleInDb.Any())
             throw new Exception("There is already some slot for this doctor in this period of time.");
 
         var schedule = new DoctorSchedule()
         {
-            DoctorId = request.DoctorId,
+            DoctorCode = request.DoctorCode,
             StartDate = request.StartDate,
             EndDate = request.EndDate
         };
