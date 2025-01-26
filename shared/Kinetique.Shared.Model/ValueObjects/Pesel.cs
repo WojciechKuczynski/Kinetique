@@ -15,7 +15,14 @@ public sealed class Pesel
         
         Value = value;
     }
-    
+
+    private int? _hashCode;
+    public override int GetHashCode()
+    {
+        _hashCode ??= HashCode.Combine(Value);
+        return _hashCode.Value;
+    }
+
     public static implicit operator string(Pesel pesel) => pesel.Value;
     public static implicit operator Pesel(string pesel) => new(pesel);
     public override string ToString() => Value;

@@ -1,4 +1,5 @@
 using Kinetique.Schedule;
+using Kinetique.Schedule.BackgroundServices;
 using Kinetique.Schedule.DAL;
 using Kinetique.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddSwaggerGen()
     .AddShared()
+    .AddHostedService<DoctorScheduleRabbitService>()
     .AddDAL(builder.Configuration)
     .AddSchedule(builder.Configuration)
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);

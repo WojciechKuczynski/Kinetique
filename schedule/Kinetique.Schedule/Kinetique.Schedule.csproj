@@ -24,8 +24,4 @@
       <ProjectReference Include="..\..\shared\Kinetique.Shared\Kinetique.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="BackgroundServices\" />
-    </ItemGroup>
-
 </Project>

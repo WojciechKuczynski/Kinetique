@@ -4,7 +4,7 @@
 
 
 ### Create appointment
-@pesel = 93100695867
+@pesel = 93884383756
 
 ### 0.1 Add Patient if not existing
 POST {{mainHost}}/patient
@@ -87,10 +87,11 @@ POST {{appointmentHost}}/appointment
 Content-Type: application/json
 
 {
+  "doctorCode": "{{doctorCode}}",
   "cycleId": 2,
-  "startDate": "2025-01-17T21:50:00Z",
+  "startDate": "2025-01-20T21:50:00Z",
   "duration": "00:30:00",
-  "description": "Laser"
+  "description": "Test 123 Laser"
 }
 
 ### 2.4 Remove Referral from Cycle
