@@ -11,8 +11,8 @@ public static partial class Mapper
             Id = cycle.Id,
             StartDate = cycle.StartDate,
             Limit = cycle.Limit,
-            DoctorId = cycle.DoctorId,
-            PatientId = cycle.PatientId,
+            DoctorCode = cycle.DoctorCode,
+            PatientPesel = cycle.PatientPesel,
             Referral = cycle.Referral?.MapToDto() ?? null,
             Appointments = cycle.Appointments.Select(x => x.MapToDto()).ToList()
         };
@@ -23,8 +23,8 @@ public static partial class Mapper
             Id = cycleDto.Id,
             StartDate = cycleDto.StartDate,
             Limit = cycleDto.Limit,
-            DoctorId = cycleDto.DoctorId,
-            PatientId = cycleDto.PatientId,
+            DoctorCode = cycleDto.DoctorCode,
+            PatientPesel = cycleDto.PatientPesel,
             Referral = cycleDto.Referral?.MapToEntity() ?? null,
             Appointments = cycleDto.Appointments?.Select(x => x.MapToEntity()).ToList() ?? new List<Model.Appointment>()
         };

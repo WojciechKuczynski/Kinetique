@@ -1,5 +1,6 @@
 using Kinetique.Appointment.Model.Exceptions;
 using Kinetique.Shared.Model;
+using Kinetique.Shared.Model.ValueObjects;
 using Microsoft.AspNetCore.Http.Features;
 
 namespace Kinetique.Appointment.Model;
@@ -10,8 +11,8 @@ public class AppointmentCycle : BaseModel
     public byte Limit { get; init; }
     public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
     public virtual Referral? Referral { get; set; }
-    public long PatientId { get; set; }
-    public long DoctorId { get; set; }
+    public Pesel PatientPesel { get; set; }
+    public string DoctorCode { get; set; }
     public bool CycleFull { get; set; }
     public bool CycleReady => Referral != null && Limit > 0;
     public AppointmentCycle()

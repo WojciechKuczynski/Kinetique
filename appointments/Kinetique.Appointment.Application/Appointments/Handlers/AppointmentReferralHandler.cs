@@ -20,19 +20,11 @@ internal class AppointmentReferralHandler : IAppointmentReferralAddHandler, IApp
     }
     public async Task Handle(AppointmentReferralAddCommand command, CancellationToken cts = default)
     {
-        // validate referral UID
-        
-        var message = new PatientDetailsRequest(command.Referral.Pesel);
-        var client = new RpcClient<PatientDetailsRequest,PatientDetailsResponse>("patient-details-queue");
-        var response = await client.CallAsync(message,cts);
-        if (response != null)
+        var cycle = await _appointmentRepository.GetOngoingCycleForPatient(command.Referral.Pesel);
+        if (cycle != null)
         {
-            var cycle = await _appointmentRepository.GetOngoingCycleForPatient(response.Id);
-            if (cycle != null)
-            {
-                cycle.AddReferral(command.Referral.MapToEntity());
-                await _appointmentRepository.Update(cycle);
-            }
+            cycle.AddReferral(command.Referral.MapToEntity());
+            await _appointmentRepository.Update(cycle);
         }
     }
 

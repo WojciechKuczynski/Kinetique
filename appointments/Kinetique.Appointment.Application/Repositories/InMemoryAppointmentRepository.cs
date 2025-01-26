@@ -1,6 +1,7 @@
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
 using Kinetique.Shared.Model.Abstractions;
+using Kinetique.Shared.Model.ValueObjects;
 
 namespace Kinetique.Appointment.Application.Repositories;
 
@@ -11,9 +12,9 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
     private IQueryable<Model.Appointment> _appointments =>
         _appointmentCycles.AsQueryable().SelectMany(x => x.Appointments);
 
-    public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
+    public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(string doctorCode, DateTime? start = null, DateTime? end = null)
     {
-        var query = _appointments.Where(x => x.Cycle.DoctorId == doctorId);
+        var query = _appointments.Where(x => x.Cycle.DoctorCode == doctorCode);
 
         if (start.HasValue)
         {
@@ -35,9 +36,9 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
         return await Task.FromResult(result);
     }
 
-    public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(long patientId, DateTime? start = null, DateTime? end = null)
+    public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(Pesel patientPesel, DateTime? start = null, DateTime? end = null)
     {
-        var query = _appointments.Where(x => x.Cycle.PatientId == patientId);
+        var query = _appointments.Where(x => x.Cycle.PatientPesel.Equals(patientPesel));
 
         if (start.HasValue)
         {
@@ -98,15 +99,15 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
         return Task.CompletedTask;
     }
 
-    public Task<AppointmentCycle?> GetOngoingCycleForPatient(long patientId)
+    public Task<AppointmentCycle?> GetOngoingCycleForPatient(Pesel patientPesel)
     {
-        var cycle = _appointmentCycles.SingleOrDefault(x => x.PatientId == patientId && !x.CycleFull);
+        var cycle = _appointmentCycles.SingleOrDefault(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull);
         return Task.FromResult(cycle);
     }
 
-    public Task<IEnumerable<AppointmentCycle>> GetOngoingCyclesForDoctor(long doctorId)
+    public Task<IEnumerable<AppointmentCycle>> GetOngoingCyclesForDoctor(string doctorCode)
     {
-        var cycles = _appointmentCycles.Where(x => x.DoctorId == doctorId && !x.CycleFull);
+        var cycles = _appointmentCycles.Where(x => x.DoctorCode == doctorCode && !x.CycleFull);
         return Task.FromResult(cycles);
     }
 

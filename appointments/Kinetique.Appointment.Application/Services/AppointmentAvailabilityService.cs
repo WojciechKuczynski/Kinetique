@@ -6,6 +6,8 @@ using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.DAL;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
+using Kinetique.Shared.Messaging.Messages;
+using Kinetique.Shared.Rpc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Appointment.Application.Services;
@@ -13,6 +15,7 @@ namespace Kinetique.Appointment.Application.Services;
 internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
 {
     private readonly IAppointmentRepository _appointmentRepository;
+    
     public AppointmentAvailabilityService(IAppointmentRepository appointmentRepository)
     {
         _appointmentRepository = appointmentRepository;
@@ -20,7 +23,6 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
     
     public async Task<AppointmentDto> TryBook(AppointmentCreateCommand dto)
     {
-        //TODO: Check in schedule for doctor
         AppointmentCycle? cycle = null;
         var appointmentDto = dto.Appointment;
         if (appointmentDto.CycleId is > 0)
@@ -30,13 +32,13 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
         else
         {
             // if there is no cycle, create one if it is possible
-            cycle = await _appointmentRepository.GetOngoingCycleForPatient(appointmentDto.PatientId);
+            cycle = await _appointmentRepository.GetOngoingCycleForPatient(appointmentDto.PatientPesel);
             if (cycle == null)
             {
                 cycle = new AppointmentCycle(10) // default is 10 appointment cycle
                 {
-                    PatientId = appointmentDto.PatientId,
-                    DoctorId = appointmentDto.DoctorId
+                    PatientPesel = appointmentDto.PatientPesel,
+                    DoctorCode = appointmentDto.DoctorCode
                 };
                 if (dto.Referral != null)
                 {
@@ -45,7 +47,7 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
             }
             else
             {
-                if (cycle.DoctorId == appointmentDto.DoctorId)
+                if (cycle.DoctorCode == appointmentDto.DoctorCode)
                     throw new Exception("Patient already has active cycle with different Doctor");
             }
         }
@@ -54,11 +56,11 @@ internal class AppointmentAvailabilityService : IAppointmentAvailabilityService
             throw new Exception("You can create appointment only to valid cycle");
         
         var doctors = await
-            _appointmentRepository.GetAppointmentsForDoctor(cycle.DoctorId, appointmentDto.StartDate,
+            _appointmentRepository.GetAppointmentsForDoctor(cycle.DoctorCode, appointmentDto.StartDate,
                 appointmentDto.StartDate.Add(appointmentDto.Duration));
         
         var patients = await
-            _appointmentRepository.GetAppointmentsForPatient(cycle.PatientId, appointmentDto.StartDate,
+            _appointmentRepository.GetAppointmentsForPatient(cycle.PatientPesel, appointmentDto.StartDate,
                 appointmentDto.StartDate.Add(appointmentDto.Duration));
 
         // if there is at least 1 slot for patient or doctor in same date range.

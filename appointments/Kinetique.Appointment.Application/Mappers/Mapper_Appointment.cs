@@ -13,8 +13,8 @@ public static partial class Mapper
             Duration = appointment.Duration,
             StartDate = appointment.StartDate,
             CycleId = appointment.Cycle.Id,
-            DoctorId = appointment.Cycle.DoctorId,
-            PatientId = appointment.Cycle.PatientId
+            DoctorCode = appointment.Cycle.DoctorCode,
+            PatientPesel = appointment.Cycle.PatientPesel
         };
     
     public static AppointmentSharedDto MapToSharedDto(this Model.Appointment appointment)

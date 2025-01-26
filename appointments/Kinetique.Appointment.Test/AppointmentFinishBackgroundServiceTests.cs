@@ -39,12 +39,12 @@ public class AppointmentFinishBackgroundServiceTests
          var startDate = _clock.GetNow().AddMinutes(-10);
 
          var ongoing1 =
-             _appointmentFactory.CreateCycleWithOneAppointment(1, 1, startDate,
+             _appointmentFactory.CreateCycleWithOneAppointment("000444", "93884383756", startDate,
                  TimeSpan.FromMinutes(20), 1);
-         var ongoing2 = _appointmentFactory.CreateCycleWithOneAppointment(2, 2, startDate.AddMinutes(-10), TimeSpan.FromMinutes(40), 2);
+         var ongoing2 = _appointmentFactory.CreateCycleWithOneAppointment("000443", "93884383753", startDate.AddMinutes(-10), TimeSpan.FromMinutes(40), 2);
 
-         var finished1 = _appointmentFactory.CreateCycleWithOneAppointment(3, 3, startDate, TimeSpan.FromMinutes(1), 3);
-         var finished2 = _appointmentFactory.CreateCycleWithOneAppointment(4, 4, startDate, TimeSpan.FromMinutes(2), 4);
+         var finished1 = _appointmentFactory.CreateCycleWithOneAppointment("000442", "93884383751", startDate, TimeSpan.FromMinutes(1), 3);
+         var finished2 = _appointmentFactory.CreateCycleWithOneAppointment("000441", "93884383752", startDate, TimeSpan.FromMinutes(2), 4);
 
          await _appointmentRepository.Add(ongoing1);
          await _appointmentRepository.Add(ongoing2);
@@ -71,7 +71,7 @@ public class AppointmentFinishBackgroundServiceTests
          var startDate = _clock.GetNow().AddMinutes(-10);
          long appointmentId = 1;
          
-         var finishedAppointment = _appointmentFactory.CreateCycleWithOneAppointment(1,2,startDate,TimeSpan.FromMinutes(1),1);
+         var finishedAppointment = _appointmentFactory.CreateCycleWithOneAppointment("000444","93884383756",startDate,TimeSpan.FromMinutes(1),1);
          await _appointmentRepository.Add(finishedAppointment);
          
          // Act

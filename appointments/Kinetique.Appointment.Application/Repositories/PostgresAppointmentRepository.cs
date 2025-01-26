@@ -3,6 +3,7 @@ using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Appointment.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Repositories;
+using Kinetique.Shared.Model.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kinetique.Appointment.Application.Repositories;
@@ -13,16 +14,16 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
     private readonly IClock _clock = clock;
 
     private IQueryable<Model.Appointment> _appointments => _objects.AsQueryable().SelectMany(x => x.Appointments);
-    public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(long doctorId, DateTime? start = null, DateTime? end = null)
+    public async Task<IList<Model.Appointment>> GetAppointmentsForDoctor(string doctorCode, DateTime? start = null, DateTime? end = null)
     {
-        var query = _appointments.Where(x => x.Cycle.DoctorId == doctorId);
+        var query = _appointments.Where(x => x.Cycle.DoctorCode == doctorCode);
         query = FindOverlappingAppointments(start, end, query);
         return await query.ToListAsync();
     }
   
-    public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(long patientId, DateTime? start = null, DateTime? end = null)
+    public async Task<IList<Model.Appointment>> GetAppointmentsForPatient(Pesel patientPesel, DateTime? start = null, DateTime? end = null)
      {
-        var query = _appointments.Where(x => x.Cycle.PatientId == patientId);
+        var query = _appointments.Where(x => x.Cycle.PatientPesel.Equals(patientPesel));
         query = FindOverlappingAppointments(start, end, query);
         return await query.ToListAsync();
     }
@@ -50,15 +51,15 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         return await _objects.AsQueryable().SelectMany(x => x.Appointments).SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<AppointmentCycle?> GetOngoingCycleForPatient(long patientId)
+    public async Task<AppointmentCycle?> GetOngoingCycleForPatient(Pesel patientPesel)
     {
-        var cycles = await _objects.Where(x => x.PatientId == patientId && !x.CycleFull).SingleOrDefaultAsync();
+        var cycles = await _objects.Where(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull).SingleOrDefaultAsync();
         return cycles;
     }
 
-    public async Task<IEnumerable<AppointmentCycle>> GetOngoingCyclesForDoctor(long doctorId)
+    public async Task<IEnumerable<AppointmentCycle>> GetOngoingCyclesForDoctor(string doctorCode)
     {
-        var cycles = await _objects.Where(x => x.DoctorId == doctorId && !x.CycleFull).ToListAsync();
+        var cycles = await _objects.Where(x => x.DoctorCode == doctorCode && !x.CycleFull).ToListAsync();
         return cycles;
     }
 
