@@ -50,6 +50,9 @@ public static class Extensions
         channel.QueueDeclare("appointment-finished-queue", durable: true, exclusive: false, autoDelete: false);
         channel.QueueDeclare("patient-details-queue", durable: true, exclusive: false, autoDelete: false);
         channel.QueueDeclare("doctor-schedule-queue", durable: true, exclusive: false, autoDelete: false);
+        channel.QueueDeclare("appointment-created-queue", durable: true, exclusive: false, autoDelete: false);
+        
+        channel.QueueBind("appointment-created-queue", "appointment", "appointment.created");
 
         return services;
     }

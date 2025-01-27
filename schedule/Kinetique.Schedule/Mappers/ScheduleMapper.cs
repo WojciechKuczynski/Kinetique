@@ -12,7 +12,8 @@ public static class ScheduleMapper
             DoctorCode = schedule.DoctorCode,
             StartDate = schedule.StartDate,
             EndDate = schedule.EndDate,
-            Slots = schedule.Slots.Select(x => new ScheduleSlotDto(x.DayOfWeek,x.StartTime,x.EndTime) ).ToList()
+            Slots = schedule.Slots.Select(x => new ScheduleSlotDto(x.DayOfWeek,x.StartTime,x.EndTime) ).ToList(),
+            Blocks = schedule.Blockers.Select(x => new ScheduleBlockDto(x.StartDate,x.EndDate)).ToList()
         };
     }
 }

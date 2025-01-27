@@ -47,15 +47,16 @@ public class BookingServiceTests
         
         //Arrange
         var slots = GetSlots(now);
-        var block = new ScheduleBlocker()
-        {
-            DoctorId = 1, StartDate = now.AddHours(11),EndDate = now.AddHours(11).AddMinutes(59)
-        };
+        // var block = new ScheduleBlocker()
+        // {
+        //     DoctorId = 1, StartDate = now.AddHours(11),EndDate = now.AddHours(11).AddMinutes(59)
+        // };
 
         var doctorSchedule = new DoctorSchedule()
             { DoctorCode = "12345", StartDate = now.AddDays(-3), EndDate = now.AddDays(3) };
         doctorSchedule.AddSlots(slots);
-        doctorSchedule.AddBlocks(new [] {block});
+        // doctorSchedule.AddBlocks(new [] {block});
+        doctorSchedule.BlockTimeSlot(now.AddHours(11), now.AddHours(11).AddMinutes(59));
         repo.Add(doctorSchedule);
         
         var request = new BookTimeRequest()

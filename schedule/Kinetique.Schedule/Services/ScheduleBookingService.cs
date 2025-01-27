@@ -2,6 +2,8 @@ using Kinetique.Schedule.Models;
 using Kinetique.Schedule.Repositories;
 using Kinetique.Schedule.Requests;
 using Kinetique.Shared.ExtensionMethods;
+using Kinetique.Shared.Messaging.Messages;
+using DoctorScheduleRequest = Kinetique.Schedule.Requests.DoctorScheduleRequest;
 
 namespace Kinetique.Schedule.Services;
 
@@ -51,5 +53,18 @@ public class ScheduleBookingService(IScheduleRepository _repository)
         schedule.AddSlots(slots);
 
         await _repository.Add(schedule);
+    }
+    
+    public async Task BlockDoctorScheduleSlot(AppointmentCreatedEvent ev)
+    {
+        var scheduleInDb =
+            await _repository.GetSchedulesForDoctorPeriod(ev.DoctorCode, ev.StartDate,
+                ev.EndDate);
+        if (scheduleInDb.Any())
+        {
+            var schedule = scheduleInDb.First();
+            schedule.BlockTimeSlot(ev.StartDate, ev.EndDate);
+            await _repository.Update(schedule);
+        }
     }
 }

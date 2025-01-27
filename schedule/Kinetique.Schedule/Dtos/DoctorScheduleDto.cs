@@ -9,4 +9,5 @@ public class DoctorScheduleDto
     public Date StartDate { get; set; }
     public Date EndDate { get; set; }
     public List<ScheduleSlotDto> Slots { get; set; } = [];
+    public List<ScheduleBlockDto> Blocks { get; set; } = [];
 }

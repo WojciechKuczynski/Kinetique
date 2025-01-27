@@ -20,6 +20,10 @@ public class DataContext(DbContextOptions options, IClock clock) : DbContext(opt
             .HasMany(x => x.Slots)
             .WithOne(x => x.DoctorSchedule)
             .HasForeignKey(x => x.DoctorScheduleId);
+        modelBuilder.Entity<DoctorSchedule>()
+            .HasMany(x => x.Blockers)
+            .WithOne(x => x.DoctorSchedule)
+            .HasForeignKey(x => x.DoctorScheduleId);
         base.OnModelCreating(modelBuilder);
     }
 

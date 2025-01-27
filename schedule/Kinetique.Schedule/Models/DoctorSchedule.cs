@@ -17,6 +17,18 @@ public class DoctorSchedule : BaseModel
         Slots.AddRange(slots);
     }
 
+    public void BlockTimeSlot(DateTime startDate, DateTime endDate)
+    {
+        var slot = new ScheduleBlocker()
+        {
+            StartDate = startDate,
+            EndDate = endDate,
+            DoctorSchedule = this
+        };
+        
+        Blockers.Add(slot);
+    }
+    
     public void AddBlocks(IEnumerable<ScheduleBlocker> blocks)
     {
         Blockers.AddRange(blocks);
