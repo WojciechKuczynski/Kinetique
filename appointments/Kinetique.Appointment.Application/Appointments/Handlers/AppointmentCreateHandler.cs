@@ -3,6 +3,7 @@ using Kinetique.Appointment.Application.Mappers;
 using Kinetique.Appointment.Application.Services.Interfaces;
 using Kinetique.Appointment.Application.Storage;
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Messaging.Messages;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
@@ -15,9 +16,10 @@ public interface IAppointmentCreateHandler : ICommandHandler<AppointmentCreateCo
 }
 
 internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _appointmentAvailabilityService,
-    IResponseStorage _responseStorage, IAppointmentRepository _appointmentRepository)
+    IResponseStorage _responseStorage, IAppointmentRepository _appointmentRepository,IRabbitPublisher _rabbitPublisher)
     : IAppointmentCreateHandler
 {
+    
     public async Task Handle(AppointmentCreateCommand request, CancellationToken cancellationToken)
     {
         var client = new RpcClient<DoctorScheduleRequest, DoctorScheduleResponse>("doctor-schedule-queue");
@@ -29,7 +31,9 @@ internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _
         {
             throw new Exception("Slot is not available for this time");
         }
+        
         var appointment = await _appointmentAvailabilityService.TryBook(request);
+        _rabbitPublisher.PublishToExchange(new AppointmentCreatedEvent(message.DoctorCode, message.StartDate, message.EndDate), "appointment", "appointment.created");
         
         _responseStorage.Set(ObjectConstants.Appointment, appointment.Id);
     }
