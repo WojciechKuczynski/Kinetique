@@ -73,6 +73,11 @@ public class InMemoryAppointmentRepository(IClock clock) : IAppointmentRepositor
         return Task.FromResult(_appointments.SingleOrDefault(x => x.Id == id));
     }
 
+    public Task RemoveAppointment(Model.Appointment appointment)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IEnumerable<AppointmentCycle>> GetAll()
     {
         return Task.FromResult(_appointmentCycles.AsEnumerable());

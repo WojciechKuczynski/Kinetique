@@ -56,4 +56,13 @@ public class AppointmentCycle : BaseModel
         if (Appointments.Count == Limit)
             CycleFull = true;
     }
+
+    public void RemoveAppointment(Appointment appointment)
+    {
+        var localAppointment = Appointments.FirstOrDefault(x => x.Id == appointment.Id);
+        if (localAppointment == null) return;
+        
+        localAppointment.Cycle = null;
+        Appointments.Remove(localAppointment);
+    }
 }

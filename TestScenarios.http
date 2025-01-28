@@ -78,7 +78,7 @@ Content-Type: application/json
 {
   "uid": "000113",
   "code": "someCode 2",
-  "pesel": "{{pesel}}",
+  "pesel": {"value": "93884383756"},
   "createdOn": "2025-01-15T18:52:18.855Z"
 }
 
@@ -89,14 +89,20 @@ Content-Type: application/json
 {
   "doctorCode": "{{doctorCode}}",
   "cycleId": 2,
-  "startDate": "2025-01-20T21:50:00Z",
+  "startDate": "2025-01-28T10:00:00Z",
   "duration": "00:30:00",
   "description": "Test 123 Laser"
 }
 
+### 2.3.2 Remove Appointment
+DELETE {{appointmentHost}}/appointment/12
+Content-Type: application/json
+
+
 ### 2.4 Remove Referral from Cycle
 DELETE {{appointmentHost}}/appointment/referral/2
 Content-Type: application/json
+
 
 
 ################################
@@ -115,10 +121,10 @@ Content-Type: application/json
 {
   "doctorCode": "{{doctorCode}}",
   "startDate": {
-    "value": "2025-01-19T00:00:00Z"
+    "value": "2025-01-27T00:00:00Z"
   },
   "endDate": {
-    "value": "2025-01-19T00:00:00Z"
+    "value": "2025-01-31T00:00:00Z"
   },
   "slots": [
     {

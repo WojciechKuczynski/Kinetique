@@ -51,9 +51,16 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
         return await _objects.AsQueryable().SelectMany(x => x.Appointments).SingleOrDefaultAsync(x => x.Id == id);
     }
 
+    public async Task RemoveAppointment(Model.Appointment appointment)
+    {
+        var cycle = appointment.Cycle;
+        cycle.Appointments.Remove(appointment);
+        await Update(cycle);
+    }
+
     public async Task<AppointmentCycle?> GetOngoingCycleForPatient(Pesel patientPesel)
     {
-        var cycles = await _objects.Where(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull).SingleOrDefaultAsync();
+        var cycles = await _objects.Where(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull && x.StartDate != null).SingleOrDefaultAsync();
         return cycles;
     }
 

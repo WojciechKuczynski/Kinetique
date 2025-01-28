@@ -12,7 +12,8 @@ namespace Kinetique.Appointment.API.Controllers;
 
 public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
     IAppointmentCycleListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler,
-    IAppointmentReferralAddHandler _appointmentReferralAddHandler, IAppointmentReferralRemoveHandler _appointmentReferralRemoveHandler ) : BaseController
+    IAppointmentReferralAddHandler _appointmentReferralAddHandler, IAppointmentReferralRemoveHandler _appointmentReferralRemoveHandler,
+    IAppointmentRemoveHandler _appointmentRemoveHandler) : BaseController
 {
 
     [HttpGet("{id:long}")]
@@ -46,6 +47,14 @@ public class AppointmentController(IAppointmentCreateHandler _appointmentCreateH
         var res = _storage.Get(ObjectConstants.Appointment);
         
         return CreatedAtAction(nameof(GetById), new { id = res }, null);
+    }
+    
+    [HttpDelete("{id:long}")]
+    public async Task<ActionResult> Create(long id)
+    {
+        await _appointmentRemoveHandler.Handle(new AppointmentRemoveCommand(new AppointmentDto {Id = id}));
+
+        return Ok();
     }
     
     [HttpPost("cycle")]
