@@ -33,4 +33,13 @@ public class DoctorSchedule : BaseModel
     {
         Blockers.AddRange(blocks);
     }
+
+    public void RemoveBlockTimeSlot(DateTime evStartDate, DateTime evEndDate)
+    {
+        var blocksToRemove = Blockers.Where(x => x.StartDate == evStartDate && x.EndDate == evEndDate).ToList();
+        foreach(var blockToRemove in blocksToRemove)
+        {
+            Blockers.Remove(blockToRemove);
+        }
+    }
 }

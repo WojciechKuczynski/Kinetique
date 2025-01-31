@@ -67,4 +67,17 @@ public class ScheduleBookingService(IScheduleRepository _repository)
             await _repository.Update(schedule);
         }
     }
+
+    public async Task UnBlockDoctorScheduleSlot(AppointmentRemovedEvent ev)
+    {
+        var scheduleInDb =
+            await _repository.GetSchedulesForDoctorPeriod(ev.DoctorCode, ev.StartDate,
+                ev.EndDate);
+        if (scheduleInDb.Any())
+        {
+            var schedule = scheduleInDb.First();
+            schedule.RemoveBlockTimeSlot(ev.StartDate, ev.EndDate);
+            await _repository.Update(schedule);
+        }
+    }
 }

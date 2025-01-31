@@ -15,6 +15,7 @@ builder.Services
     .AddRabbitMq(builder.Configuration)
     .AddHostedService<DoctorScheduleRabbitService>()
     .AddHostedService<AppointmentCreatedSubscriber>()
+    .AddHostedService<AppointmentRemovedSubscriber>()
     .AddDAL(builder.Configuration)
     .AddSchedule(builder.Configuration)
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
