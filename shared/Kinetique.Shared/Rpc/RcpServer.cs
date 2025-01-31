@@ -17,14 +17,13 @@ public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, 
         var factory = new ConnectionFactory { HostName = "localhost" };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
-
         _channel.QueueDeclare(queue: queue,
-            durable: true,
+            durable: false,
             exclusive: false,
             autoDelete: false,
             arguments: null);
         _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-        
+
         _consumer = new EventingBasicConsumer(_channel);
 
         _consumer.Received += (model, ea) =>
@@ -52,7 +51,6 @@ public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, 
                 body: serializedResponse);
             _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
         };
-        
         _channel.BasicConsume(queue: queue,
             autoAck: false,
             consumer: _consumer);
