@@ -27,4 +27,10 @@ With more questions and later design some basic microservices were destilled wit
 
 ![image](https://github.com/user-attachments/assets/e6b66211-8d61-4b37-870c-13ed91d54666)
 
-to be continued...
+
+## Implementation
+
+With implementation we can already see that coupling between Appointment and Schedule service is getting intense. It might lead us to decision to maybe merge both services into one to lower some latency. But because goal of this project is to generate as much traffic on messageBroker I will leave it as it is.
+
+![image](https://github.com/user-attachments/assets/3cd29a62-c248-4d87-a97a-e48dbc4da559)
+
