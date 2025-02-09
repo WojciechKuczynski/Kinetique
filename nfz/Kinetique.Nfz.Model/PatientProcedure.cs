@@ -4,8 +4,10 @@ namespace Kinetique.Nfz.Model;
 
 public class PatientProcedure : BaseModel
 {
-    public long PatientId { get; init; }
-    public long AppointmentId { get; init; }
+    public string PatientPesel { get; init; }
+    public DateTime StartDate { get; init; }
+    public TimeSpan Duration { get; init; }
+    public long AppointmentExternalId { get; init; }
     
     public virtual Referral? Referral { get; set; }
     public virtual List<StatisticProcedure> Procedures { get; init; } = [];

@@ -25,7 +25,7 @@ public class ProceduresController(IProcedureEmptyListHandler procedureEmptyListH
     [HttpPost("appointment")]
     public async Task<ActionResult> AddProcedureToAppointment(PatientProcedureDto dto)
     {
-        await _procedureAddHandler.Handle(new ProceduresAddCommand(dto.AppointmentId, dto.Procedures));
+        await _procedureAddHandler.Handle(new ProceduresAddCommand(dto.AppointmentExternalId, dto.Procedures));
         return Ok();
     }
 
@@ -41,4 +41,8 @@ public class ProceduresController(IProcedureEmptyListHandler procedureEmptyListH
     {
         return Ok(await _procedureAllListHandler.Handle(new ProcedureAllListQuery()));
     }
+    
+    //TODO: zrobić
+    // [HttpPost("referral")]
+    // public async Task<ActionResult> AddReferral()
 }

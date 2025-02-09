@@ -1,3 +1,3 @@
 namespace Kinetique.Shared.Messaging.Messages;
 
-public record AppointmentEndRequest(long AppointmentId, long PatientId) : IRabbitRequest;
+public record AppointmentEndRequest(long AppointmentId, string PatientPesel) : IRabbitRequest;

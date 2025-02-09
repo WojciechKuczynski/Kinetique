@@ -3,6 +3,7 @@ using System;
 using Kinetique.Nfz.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Kinetique.Nfz.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250209212537_NewReferralAndPatientChanges")]
+    partial class NewReferralAndPatientChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,9 +39,6 @@ namespace Kinetique.Nfz.DAL.Migrations
                     b.Property<long>("AppointmentExternalId")
                         .HasColumnType("bigint");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("interval");
-
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("timestamp with time zone");
 
@@ -48,9 +48,6 @@ namespace Kinetique.Nfz.DAL.Migrations
 
                     b.Property<long?>("ReferralId")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

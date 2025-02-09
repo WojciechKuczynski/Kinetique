@@ -9,8 +9,8 @@ public static partial class Mapper
     {
         return new PatientProcedureDto
         {
-            PatientId = patientProcedure.PatientId,
-            AppointmentId = patientProcedure.AppointmentId,
+            PatientPesel = patientProcedure.PatientPesel,
+            AppointmentExternalId = patientProcedure.AppointmentExternalId,
             Procedures = patientProcedure.Procedures.Select(x => x.Code).ToList()
         };
     }

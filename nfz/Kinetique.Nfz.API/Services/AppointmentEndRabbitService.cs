@@ -1,5 +1,6 @@
 using Kinetique.Nfz.DAL.Repositories;
 using Kinetique.Nfz.Model;
+using Kinetique.Shared.Dtos;
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Messaging.Messages;
 
@@ -15,12 +16,14 @@ public class AppointmentEndRabbitService(IServiceProvider serviceProvider) : Bac
         var rabbitConsumer = scope.ServiceProvider.GetRequiredService<IRabbitConsumer>();
         var patientProcedureRepository = scope.ServiceProvider.GetRequiredService<IPatientProcedureRepository>();
         
-        await rabbitConsumer.OnMessageReceived<AppointmentEndRequest>("appointment-finished-queue", async message =>
+        await rabbitConsumer.OnMessageReceived<AppointmentSharedDto>("appointment-finished-queue", async message =>
         {
-            await patientProcedureRepository.Add(new PatientProcedure()
+            _ = await patientProcedureRepository.Add(new PatientProcedure()
             {
-                PatientId = message.PatientId,
-                AppointmentId = message.AppointmentId,
+                PatientPesel = message.PatientPesel,
+                AppointmentExternalId = message.Id,
+                StartDate = message.StartDate,
+                Duration = message.Duration,
                 Status = SendStatus.New
             });
         }, stoppingToken);

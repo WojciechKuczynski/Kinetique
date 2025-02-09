@@ -15,7 +15,7 @@ internal class ProceduresAddHandler(DataContext _context) : IProcedureAddHandler
         {
             throw new Exception("Patient appointment not found");
         }
-        
+        //TODO: Finish it.
         
         
     }

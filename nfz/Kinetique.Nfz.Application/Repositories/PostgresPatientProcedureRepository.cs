@@ -15,12 +15,12 @@ public class PostgresPatientProcedureRepository(DataContext context) : PostgresR
 
     public new async Task<PatientProcedure> Add(PatientProcedure obj)
     {
-        var appointmentPatient = await _objects.SingleOrDefaultAsync(x => x.AppointmentId == obj.AppointmentId);
+        var appointmentPatient = await _objects.FirstOrDefaultAsync(x => x.AppointmentExternalId == obj.AppointmentExternalId);
         if (appointmentPatient != null)
         {
             return appointmentPatient;
         }
-        
+
         var patientProcedure = await _objects.AddAsync(obj);
         await context.SaveChangesAsync();
         return patientProcedure.Entity;
