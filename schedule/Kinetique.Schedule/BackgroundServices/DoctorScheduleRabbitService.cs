@@ -1,3 +1,5 @@
+using Kinetique.Schedule.Requests;
+using Kinetique.Schedule.Requests.Handlers;
 using Kinetique.Shared.Messaging.Messages;
 using Kinetique.Shared.Rpc;
 
@@ -34,8 +36,14 @@ public class DoctorScheduleRabbitService : IHostedService
         return Task.CompletedTask;
     }
     
-    private Task<DoctorScheduleResponse?> HandleRequest(Shared.Messaging.Messages.DoctorScheduleRequest request)
+    private async Task<DoctorScheduleResponse?> HandleRequest(Shared.Messaging.Messages.DoctorScheduleRequest request)
     {
-        return Task.FromResult(new DoctorScheduleResponse(true));
+        using var scope = _serviceProvider.CreateScope();
+        var scheduleSlotQueryHandler = scope.ServiceProvider.GetRequiredService<IDoctorScheduleSlotHandler>();
+        var res = await scheduleSlotQueryHandler.Handle(new DoctorScheduleSlotQuery(request.StartDate, request.EndDate,
+            request.DoctorCode, false));
+        // For now just check if any.
+        //TODO: Check if it occupies more than 1 slot etc.
+        return new DoctorScheduleResponse(res.Any());
     }
 }

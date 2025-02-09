@@ -9,6 +9,11 @@ namespace Kinetique.Schedule.Services;
 
 public class ScheduleBookingService(IScheduleRepository _repository)
 {
+    /// <summary>
+    /// Gets free slots for requested time
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     public async Task<List<DoctorScheduleSlot>> GetSlotsForRequestedTime(BookTimeRequest request)
     {
         var schedulesFound = await _repository.GetSchedulesForDoctorPeriod(request.DoctorCode, request.StartDate, request.EndDate);
