@@ -5,6 +5,7 @@ using Kinetique.Appointment.Application.Storage;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Messaging.Messages;
+using Kinetique.Shared.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
 using Kinetique.Shared.Rpc;
@@ -29,7 +30,7 @@ internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _
         var response = await client.CallAsync(message, cancellationToken);
         if (response is not { CanAssign: true })
         {
-            throw new Exception("Slot is not available for this time");
+            throw new KinetiqueException("Slot is not available for this time");
         }
         
         var appointment = await _appointmentAvailabilityService.TryBook(request);

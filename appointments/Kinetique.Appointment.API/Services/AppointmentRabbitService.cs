@@ -1,5 +1,6 @@
 using Kinetique.Appointment.Application.Mappers;
 using Kinetique.Appointment.DAL.Repositories;
+using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Messaging.Messages;
 using Kinetique.Shared.Rpc;
 
@@ -19,8 +20,7 @@ public class AppointmentRabbitService: IHostedService
     {
         try
         {
-            // _rabbitServer =
-            //     new RcpServer<PatientAppointmentRequest, PatientAppointmentResponse>("appointment-queue", TestResponse);
+
         }
         catch
         {

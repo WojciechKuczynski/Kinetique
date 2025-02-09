@@ -23,7 +23,9 @@ public static partial class Mapper
             Id = appointment.Id,
             Description = appointment.Description,
             Duration = appointment.Duration,
-            StartDate = appointment.StartDate
+            StartDate = appointment.StartDate,
+            PatientPesel = appointment.Cycle.PatientPesel,
+            DoctorCode = appointment.Cycle.DoctorCode
         };
 
     public static Model.Appointment MapToEntity(this AppointmentDto appointmentDto)

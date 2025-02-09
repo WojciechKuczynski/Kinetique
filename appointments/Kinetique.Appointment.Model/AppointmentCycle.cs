@@ -45,7 +45,7 @@ public class AppointmentCycle : BaseModel
     public void AddAppointment(Appointment appointment)
     {
         if (Appointments.Count >= Limit)
-            throw new Exception("Limit reached out");
+            throw new KinetiqueException("Limit reached out");
 
         if (Appointments.Count == 0)
             StartDate = appointment.StartDate;
