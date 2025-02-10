@@ -11,12 +11,12 @@ public class ReservationController(IRabbitPublisher rabbitPublisher) : BaseContr
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
-        var message = new PatientAppointmentRequest(1);
-        var client = new RpcClient<PatientAppointmentRequest,PatientAppointmentResponse>("appointment-queue");
-        var cts = new CancellationTokenSource();
-        var token = cts.Token;
-        cts.CancelAfter(TimeSpan.FromSeconds(15));
-        var response = await client.CallAsync(message,token);
+        // var message = new PatientAppointmentRequest(1);
+        // var client = new RpcClient<PatientAppointmentRequest,PatientAppointmentResponse>("localhost");
+        // var cts = new CancellationTokenSource();
+        // var token = cts.Token;
+        // cts.CancelAfter(TimeSpan.FromSeconds(15));
+        // var response = await client.CallAsync(message,token);
         return Ok();
     }
 }

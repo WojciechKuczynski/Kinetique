@@ -8,15 +8,19 @@ namespace Kinetique.Shared.Rpc;
 
 public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, IRabbitRequest where TResponse : class, IRabbitRequest
 {
-    private readonly EventingBasicConsumer _consumer;
     private readonly IModel _channel;
     private readonly IConnection _connection;
-    
-    public RcpServer(string queue,Func<TRequest,Task<TResponse>> func)
+    private EventingBasicConsumer _consumer;
+
+    public RcpServer(string connectionString)
     {
-        var factory = new ConnectionFactory { HostName = "localhost" };
+        var factory = new ConnectionFactory() { Uri = new Uri(connectionString) };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
+    }
+
+    public void Configure(string queue, Func<TRequest, Task<TResponse>> func)
+    {
         _channel.QueueDeclare(queue: queue,
             durable: false,
             exclusive: false,
@@ -55,7 +59,6 @@ public class RcpServer<TRequest,TResponse> : IDisposable where TRequest: class, 
             autoAck: false,
             consumer: _consumer);
     }
-
     public void Dispose()
     {
         if (_connection is { IsOpen: true })

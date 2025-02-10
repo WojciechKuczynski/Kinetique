@@ -10,6 +10,7 @@ using Kinetique.Shared.Model.Repositories;
 using Kinetique.Shared.Model.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Kinetique.Appointment.Application;
 
@@ -41,7 +42,8 @@ public static class Extensions
             var appointmentJournalRepository = scope.ServiceProvider.GetRequiredService<IAppointmentJournalRepository>();
             var appointmentRepository = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
             var rabbitPublisher = scope.ServiceProvider.GetRequiredService<IRabbitPublisher>();
-            return new AppointmentFinishBackgroundService(appointmentJournalRepository, appointmentRepository, rabbitPublisher);
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<AppointmentFinishBackgroundService>>();
+            return new AppointmentFinishBackgroundService(appointmentJournalRepository, appointmentRepository, rabbitPublisher, logger);
         });
         
         return services;

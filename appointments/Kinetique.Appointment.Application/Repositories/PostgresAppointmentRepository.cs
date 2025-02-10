@@ -60,7 +60,7 @@ public class PostgresAppointmentRepository(DataContext context, IClock clock)
 
     public async Task<AppointmentCycle?> GetOngoingCycleForPatient(Pesel patientPesel)
     {
-        var cycles = await _objects.Where(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull && x.StartDate != null).SingleOrDefaultAsync();
+        var cycles = await _objects.Where(x => x.PatientPesel.Equals(patientPesel) && !x.CycleFull).SingleOrDefaultAsync();
         return cycles;
     }
 

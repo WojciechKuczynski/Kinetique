@@ -9,6 +9,8 @@ using Kinetique.Shared.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Model.Storage;
 using Kinetique.Shared.Rpc;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
 
 namespace Kinetique.Appointment.Application.Appointments.Handlers;
 
@@ -17,13 +19,16 @@ public interface IAppointmentCreateHandler : ICommandHandler<AppointmentCreateCo
 }
 
 internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _appointmentAvailabilityService,
-    IResponseStorage _responseStorage, IAppointmentRepository _appointmentRepository,IRabbitPublisher _rabbitPublisher)
+    IResponseStorage _responseStorage, IAppointmentRepository _appointmentRepository,IRabbitPublisher _rabbitPublisher, IConnection _connection, ILogger<AppointmentCreateHandler> _logger)
     : IAppointmentCreateHandler
 {
     
     public async Task Handle(AppointmentCreateCommand request, CancellationToken cancellationToken)
     {
-        var client = new RpcClient<DoctorScheduleRequest, DoctorScheduleResponse>("doctor-schedule-queue");
+        _logger.LogInformation($"Creating appointment for hostName {_connection.Endpoint.HostName}");
+        var client = new RpcClient<DoctorScheduleRequest, DoctorScheduleResponse>(_connection.Endpoint.ToString());
+        client.Configure("doctor-schedule-queue");
+        
         var message = new DoctorScheduleRequest(request.Appointment.DoctorCode, request.Appointment.StartDate,
             request.Appointment.StartDate.Add(request.Appointment.Duration));
 

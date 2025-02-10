@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDAL(builder.Configuration)
     .CreateRabbitTopology(builder.Configuration)
     .AddApplication()
-    .AddHostedService<PatientDetailsRabbitService>()
+    .AddHostedService<PatientDetailsRabbitService>(x => new PatientDetailsRabbitService(x,builder.Configuration))
     .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()
     .AddShared()

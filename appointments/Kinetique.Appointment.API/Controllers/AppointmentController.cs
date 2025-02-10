@@ -13,7 +13,7 @@ namespace Kinetique.Appointment.API.Controllers;
 public class AppointmentController(IAppointmentCreateHandler _appointmentCreateHandler,IAppointmentSingleHandler _appointmentSingleHandler, 
     IAppointmentCycleListHandler _appointmentListHandler,IResponseStorage _storage, IAppointmentJournalHandler _appointmentJournalHandler,
     IAppointmentReferralAddHandler _appointmentReferralAddHandler, IAppointmentReferralRemoveHandler _appointmentReferralRemoveHandler,
-    IAppointmentRemoveHandler _appointmentRemoveHandler) : BaseController
+    IAppointmentRemoveHandler _appointmentRemoveHandler, ILogger<AppointmentController> _logger) : BaseController
 {
 
     [HttpGet("{id:long}")]
@@ -69,6 +69,7 @@ public class AppointmentController(IAppointmentCreateHandler _appointmentCreateH
     [HttpPost("referral")]
     public async Task<ActionResult<AppointmentCycleDto>> AddReferral(ReferralDto referralDto)
     {
+        _logger.LogInformation("AppointmentController :: Received AddReferral request");
         await _appointmentReferralAddHandler.Handle(new AppointmentReferralAddCommand(referralDto));
         
         return Ok();
@@ -77,6 +78,7 @@ public class AppointmentController(IAppointmentCreateHandler _appointmentCreateH
     [HttpDelete("referral/{id:long}")]
     public async Task<ActionResult<AppointmentCycleDto>> RemoveReferral(long id)
     {
+        _logger.LogInformation("AppointmentController :: Received RemoveReferral request");
         await _appointmentReferralRemoveHandler.Handle(new AppointmentReferralRemoveCommand(id));
         return Ok();
     }

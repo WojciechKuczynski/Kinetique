@@ -13,7 +13,7 @@ builder.Services
     .AddSwaggerGen()
     .AddShared()
     .AddRabbitMq(builder.Configuration)
-    .AddHostedService<DoctorScheduleRabbitService>()
+    .AddHostedService<DoctorScheduleRabbitService>(x => new DoctorScheduleRabbitService(x, builder.Configuration))
     .AddHostedService<AppointmentCreatedSubscriber>()
     .AddHostedService<AppointmentRemovedSubscriber>()
     .AddDAL(builder.Configuration)

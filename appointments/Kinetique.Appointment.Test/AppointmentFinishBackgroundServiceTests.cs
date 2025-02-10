@@ -8,6 +8,7 @@ using Kinetique.Shared.Dtos;
 using Kinetique.Shared.Messaging;
 using Kinetique.Shared.Model.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
 
@@ -28,7 +29,8 @@ public class AppointmentFinishBackgroundServiceTests
         _appointmentJournalRepository = new InMemoryAppointmentJournalRepository(_clock);
         _appointmentRepository = new InMemoryAppointmentRepository(_clock);
         _mockRabbitPublisher = Substitute.For<IRabbitPublisher>();
-        _service = new AppointmentFinishBackgroundService(_appointmentJournalRepository, _appointmentRepository, _mockRabbitPublisher);
+        var logger = Substitute.For<ILogger<AppointmentFinishBackgroundService>>();
+        _service = new AppointmentFinishBackgroundService(_appointmentJournalRepository, _appointmentRepository, _mockRabbitPublisher, logger);
     }
 
      [Fact]

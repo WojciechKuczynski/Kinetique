@@ -1,8 +1,10 @@
 using Kinetique.Appointment.Application.Mappers;
 using Kinetique.Appointment.DAL.Repositories;
 using Kinetique.Shared.Messaging.Messages;
+using Kinetique.Shared.Model;
 using Kinetique.Shared.Model.Abstractions;
 using Kinetique.Shared.Rpc;
+using Microsoft.Extensions.Logging;
 
 namespace Kinetique.Appointment.Application.Appointments.Handlers;
 
@@ -13,18 +15,27 @@ public interface IAppointmentReferralRemoveHandler : ICommandHandler<Appointment
 internal class AppointmentReferralHandler : IAppointmentReferralAddHandler, IAppointmentReferralRemoveHandler
 {
     private readonly IAppointmentRepository _appointmentRepository;
+    private readonly ILogger<AppointmentReferralHandler> _logger;
     
-    public AppointmentReferralHandler(IAppointmentRepository appointmentRepository)
+    public AppointmentReferralHandler(IAppointmentRepository appointmentRepository, ILogger<AppointmentReferralHandler> logger)
     {
         _appointmentRepository = appointmentRepository;
+        _logger = logger;
     }
+    
     public async Task Handle(AppointmentReferralAddCommand command, CancellationToken cts = default)
     {
+        _logger.LogInformation("AppointmentReferralHandler :: Handle adding referral");
         var cycle = await _appointmentRepository.GetOngoingCycleForPatient(command.Referral.Pesel);
         if (cycle != null)
         {
+            _logger.LogInformation("AppointmentReferralHandler :: addingReferral");
             cycle.AddReferral(command.Referral.MapToEntity());
             await _appointmentRepository.Update(cycle);
+        }
+        else
+        {
+            throw new KinetiqueException($"No active cycle for Patient {command.Referral.Pesel}");
         }
     }
 

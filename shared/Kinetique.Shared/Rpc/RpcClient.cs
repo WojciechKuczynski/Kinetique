@@ -10,20 +10,24 @@ namespace Kinetique.Shared.Rpc;
 
 public class RpcClient<TRequest,TResponse> : IDisposable where TRequest: class, IRabbitRequest where TResponse: class, IRabbitRequest
 {
-    private readonly string _rpcQueueName;
-    private readonly string _rpcQueueNameReply; 
     private readonly IConnection _connection;
     private readonly IModel _channel;
-    private readonly IBasicProperties props;
     private readonly ConcurrentDictionary<string, TaskCompletionSource<TResponse>> _callbackMapper = new();
+    private IBasicProperties props;
+    private string _rpcQueueName;
+    private string _rpcQueueNameReply; 
 
-    public RpcClient(string queueName)
+    public RpcClient(string connectionString)
     {
-        _rpcQueueName = queueName;
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-
+        var factory = new ConnectionFactory() { Uri = new Uri(connectionString) };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
+    }
+
+    public void Configure(string queueName)
+    {
+        _rpcQueueName = queueName;
+
         _rpcQueueNameReply = _channel.QueueDeclare().QueueName;
 
         var consumer = new EventingBasicConsumer(_channel);
@@ -48,7 +52,8 @@ public class RpcClient<TRequest,TResponse> : IDisposable where TRequest: class, 
 
         _channel.BasicConsume(consumer: consumer, queue: _rpcQueueNameReply, autoAck: true);
     }
-
+    
+    
     public Task<TResponse> CallAsync(TRequest message, CancellationToken token = default)
     {
         var json = JsonSerializer.Serialize(message);

@@ -29,11 +29,4 @@ internal sealed class RabbitPublisher(IConnection connection) : IRabbitPublisher
             basicProperties: null,
             body: messageBytes);
     }
-
-    public async Task<TResponse> PublishRequest<TMessage, TResponse>(string queue, TMessage message, CancellationToken cancellationToken) where TMessage : class, IRabbitRequest where TResponse : class, IRabbitRequest
-    {
-        var rpcClient = new RpcClient<TMessage,TResponse>(queue);
-        var res = await rpcClient.CallAsync(message);
-        return res;
-    }
 }

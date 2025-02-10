@@ -41,6 +41,9 @@ public static class Extensions
     {
         var rabbitMqConnection = configuration.GetConnectionString(ConfigSection);
         var factory = new ConnectionFactory { Uri = new Uri(rabbitMqConnection!)};
+        Console.WriteLine("------------------");
+        Console.WriteLine(rabbitMqConnection);
+        Console.WriteLine("------------------");
         var connection = factory.CreateConnection();
         var channel = connection.CreateModel();
         
@@ -52,6 +55,7 @@ public static class Extensions
         
         channel.QueueBind("appointment-created-queue", "appointment", "appointment.created");
         channel.QueueBind("appointment-removed-queue", "appointment", "appointment.removed");
+        channel.QueueBind("appointment-finished-queue", "appointment", "appointment.finished");
 
         return services;
     }

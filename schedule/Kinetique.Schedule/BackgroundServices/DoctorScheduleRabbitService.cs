@@ -2,25 +2,32 @@ using Kinetique.Schedule.Requests;
 using Kinetique.Schedule.Requests.Handlers;
 using Kinetique.Shared.Messaging.Messages;
 using Kinetique.Shared.Rpc;
+using RabbitMQ.Client;
 
 namespace Kinetique.Schedule.BackgroundServices;
 
 public class DoctorScheduleRabbitService : IHostedService
 {
+    private const string ConfigSection = "RabbitMqConnection";
+    
     private RcpServer<Shared.Messaging.Messages.DoctorScheduleRequest, DoctorScheduleResponse> _rabbitServer;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IConfiguration _configuration;
 
-    public DoctorScheduleRabbitService(IServiceProvider serviceProvider)
+    public DoctorScheduleRabbitService(IServiceProvider serviceProvider, IConfiguration configuration)
     {
         _serviceProvider = serviceProvider;
+        _configuration = configuration;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         try
         {
+            var rabbitMqConnection = _configuration.GetConnectionString(ConfigSection);
             _rabbitServer =
-                new RcpServer<Shared.Messaging.Messages.DoctorScheduleRequest, DoctorScheduleResponse>("doctor-schedule-queue", HandleRequest);
+                new RcpServer<Shared.Messaging.Messages.DoctorScheduleRequest, DoctorScheduleResponse>(rabbitMqConnection);
+            _rabbitServer.Configure("doctor-schedule-queue", HandleRequest);
         }
         catch
         {

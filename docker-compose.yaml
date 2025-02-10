@@ -13,7 +13,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
 
   postgres:
-    image: postgres:15
+    image: postgres:17
     container_name: postgres-kinetique
     restart: unless-stopped
     environment:
@@ -40,6 +40,7 @@ services:
       - "5675:5675"
     environment:
       ASPNETCORE_URLS: http://+:5675
+      ASPNETCORE_ENVIRONMENT: Production
 
   mainService:
     image: kinetique/main.api
@@ -55,6 +56,7 @@ services:
       - "5161:5161"
     environment:
       ASPNETCORE_URLS: http://+:5161
+      ASPNETCORE_ENVIRONMENT: Production
 
   nfzService:
     image: kinetique/nfz.api
@@ -71,6 +73,7 @@ services:
       - "5020:5020"
     environment:
       ASPNETCORE_URLS: http://+:5020
+      ASPNETCORE_ENVIRONMENT: Production
 
   scheduleService:
     image: kinetique/schedule.api
@@ -85,6 +88,7 @@ services:
       - "5197:5197"
     environment:
       ASPNETCORE_URLS: http://+:5197
+      ASPNETCORE_ENVIRONMENT: Production
 
 volumes:
   postgres_data:

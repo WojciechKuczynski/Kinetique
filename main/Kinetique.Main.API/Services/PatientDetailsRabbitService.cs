@@ -9,20 +9,26 @@ namespace Kinetique.Main.API.Services;
 
 public class PatientDetailsRabbitService : IHostedService
 {
+    private const string ConfigSection = "RabbitMqConnection";
     private RcpServer<PatientDetailsRequest, PatientDetailsResponse> _rabbitServer;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IConfiguration _configuration;
 
-    public PatientDetailsRabbitService(IServiceProvider serviceProvider)
+    public PatientDetailsRabbitService(IServiceProvider serviceProvider, IConfiguration configuration)
     {
         _serviceProvider = serviceProvider;
+        _configuration = configuration;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         try
         {
+            var connectionString = _configuration.GetConnectionString(ConfigSection);
             _rabbitServer =
-                new RcpServer<PatientDetailsRequest, PatientDetailsResponse>("patient-details-queue", HandleRequest);
+                new RcpServer<PatientDetailsRequest, PatientDetailsResponse>(connectionString!);
+            _rabbitServer.Configure("patient-details-queue", HandleRequest!);
+            
         }
         catch
         {
