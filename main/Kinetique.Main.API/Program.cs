@@ -2,6 +2,7 @@ using Kinetique.Main.API.Services;
 using Kinetique.Main.Application;
 using Kinetique.Main.DAL;
 using Kinetique.Shared;
+using Kinetique.Shared.Filters;
 using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,11 @@ builder.Services.AddDAL(builder.Configuration)
     .AddRabbitMqRpc(builder.Configuration)
     .AddSwaggerGen()
     .AddShared()
-    .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+    .AddControllers(options =>
+    {
+        options.Filters.Add<LogActionFilter>();
+        options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    });
 
 var app = builder.Build();
 await using var scope = app.Services.CreateAsyncScope();

@@ -2,6 +2,7 @@ using Kinetique.Nfz.API.Services;
 using Kinetique.Nfz.Application;
 using Kinetique.Nfz.DAL;
 using Kinetique.Shared;
+using Kinetique.Shared.Filters;
 using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,11 @@ builder.Services
     .AddHostedService<AppointmentEndRabbitService>()
     .AddSwaggerGen()
     .AddShared()
-    .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+    .AddControllers(options =>
+    {
+        options.Filters.Add<LogActionFilter>();
+        options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    });
 
 var app = builder.Build();
 await using var scope = app.Services.CreateAsyncScope();

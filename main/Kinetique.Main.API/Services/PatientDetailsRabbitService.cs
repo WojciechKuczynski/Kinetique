@@ -48,18 +48,23 @@ public class PatientDetailsRabbitService : IHostedService
     {
         PatientDto? response;
         using var scope = _serviceProvider.CreateScope();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<PatientDetailsRabbitService>>();
         var patientSingleHandler = scope.ServiceProvider.GetRequiredService<IPatientSingleHandler>();
+        logger.LogTrace("Received request for patient details");
         if (request.PatientId == null)
         {
+            logger.LogTrace($"Searching for patient by pesel {request.Pesel}");
             response = await patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest() { Pesel = request.Pesel }));
         }
         else
         {
+            logger.LogTrace($"Searching for patient by patient Id {request.PatientId}");
             response = await patientSingleHandler.Handle(new PatientSingleQuery(new PatientQueryRequest(){Id = request.PatientId}));
         }
 
         if (response == null)
         {
+            logger.LogWarning("Patient not found");
             return null;
         }
         

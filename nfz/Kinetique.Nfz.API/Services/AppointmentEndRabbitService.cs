@@ -14,10 +14,15 @@ public class AppointmentEndRabbitService(IServiceProvider serviceProvider) : Bac
     {
         var scope = _serviceProvider.CreateScope();
         var rabbitConsumer = scope.ServiceProvider.GetRequiredService<IRabbitConsumer>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<AppointmentEndRabbitService>>();
+        
+        logger.LogTrace("AppointmentEndRabbitService :: Starting to listen for finished appointments");
         var patientProcedureRepository = scope.ServiceProvider.GetRequiredService<IPatientProcedureRepository>();
         
         await rabbitConsumer.OnMessageReceived<AppointmentSharedDto>("appointment-finished-queue", async message =>
         {
+            logger.LogTrace($"AppointmentEndRabbitService :: Received message for patient {message.PatientPesel}");
+            
             _ = await patientProcedureRepository.Add(new PatientProcedure()
             {
                 PatientPesel = message.PatientPesel,

@@ -2,6 +2,7 @@ using Kinetique.Schedule;
 using Kinetique.Schedule.BackgroundServices;
 using Kinetique.Schedule.DAL;
 using Kinetique.Shared;
+using Kinetique.Shared.Filters;
 using Kinetique.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,11 @@ builder.Services
     .AddHostedService<AppointmentRemovedSubscriber>()
     .AddDAL(builder.Configuration)
     .AddSchedule(builder.Configuration)
-    .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+    .AddControllers(options =>
+    {
+        options.Filters.Add<LogActionFilter>();
+        options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    });
 
 var app = builder.Build();
 await using var scope = app.Services.CreateAsyncScope();

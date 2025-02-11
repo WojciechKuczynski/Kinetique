@@ -32,7 +32,10 @@ internal sealed class AppointmentCreateHandler(IAppointmentAvailabilityService _
         var message = new DoctorScheduleRequest(request.Appointment.DoctorCode, request.Appointment.StartDate,
             request.Appointment.StartDate.Add(request.Appointment.Duration));
 
+        _logger.LogInformation("Checking if slot is available");
         var response = await client.CallAsync(message, cancellationToken);
+        if (response == null)
+            _logger.LogWarning("Not able to get response from schedule service");
         if (response is not { CanAssign: true })
         {
             throw new KinetiqueException("Slot is not available for this time");

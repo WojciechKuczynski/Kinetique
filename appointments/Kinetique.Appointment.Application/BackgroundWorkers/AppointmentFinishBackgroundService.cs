@@ -24,10 +24,10 @@ public class AppointmentFinishBackgroundService(
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogWarning("AppointmentFinishBackgroundService :: Checking for finished appointments");
+            _logger.LogTrace("AppointmentFinishBackgroundService :: Checking for finished appointments");
             await foreach(var appointment in GetFinishedAppointments(stoppingToken))
             {
-                _logger.LogWarning($"AppointmentFinishBackgroundService :: Sending appointment {appointment.Id}");
+                _logger.LogTrace($"AppointmentFinishBackgroundService :: Sending appointment {appointment.Id}");
                 // send appointment
                 _rabbitPublisher.PublishToExchange(appointment.MapToSharedDto(), "appointment", "appointment.finished");
                 // update journal

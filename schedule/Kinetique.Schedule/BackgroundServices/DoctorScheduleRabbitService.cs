@@ -46,7 +46,9 @@ public class DoctorScheduleRabbitService : IHostedService
     private async Task<DoctorScheduleResponse?> HandleRequest(Shared.Messaging.Messages.DoctorScheduleRequest request)
     {
         using var scope = _serviceProvider.CreateScope();
+        var logger = _serviceProvider.GetRequiredService<ILogger<DoctorScheduleRabbitService>>();
         var scheduleSlotQueryHandler = scope.ServiceProvider.GetRequiredService<IDoctorScheduleSlotHandler>();
+        logger.LogWarning($"Received request for schedule for doctor {request.DoctorCode}");
         var res = await scheduleSlotQueryHandler.Handle(new DoctorScheduleSlotQuery(request.StartDate, request.EndDate,
             request.DoctorCode, false));
         // For now just check if any.

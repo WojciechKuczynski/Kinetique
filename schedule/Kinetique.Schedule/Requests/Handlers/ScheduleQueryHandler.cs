@@ -13,14 +13,17 @@ public class ScheduleQueryHandler : IDoctorScheduleListHandler, IDoctorScheduleS
 {
     private readonly IScheduleRepository _scheduleRepository;
     private readonly ScheduleBookingService _scheduleBookingService;
-    public ScheduleQueryHandler(IScheduleRepository scheduleRepository)
+    private readonly ILogger<ScheduleQueryHandler> _logger;
+    public ScheduleQueryHandler(IScheduleRepository scheduleRepository, ILogger<ScheduleQueryHandler> logger)
     {
         _scheduleRepository = scheduleRepository;
         _scheduleBookingService = new ScheduleBookingService(scheduleRepository);
+        _logger = logger;
     }
     
     public async Task<IEnumerable<DoctorSchedule>> Handle(DoctorScheduleListQuery query, CancellationToken token = default)
     {
+        _logger.LogTrace("DoctorScheduleListQuery :: Handling request for doctor {DoctorCode}", query.DoctorCode);
         return await _scheduleRepository.GetSchedulesForDoctor(query.DoctorCode);
     }
 
