@@ -32,8 +32,8 @@ public class ScheduleBookingService(IScheduleRepository _repository)
             .Where(x => x.StartDate.IsBetween(request.StartDate,request.EndDate) 
                                   || x.EndDate.IsBetween(request.StartDate,request.EndDate));
         bookSlots = bookSlots.Where(x =>
-            blocks.All(y => !x.StartTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay)
-                                        && !x.EndTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay)));
+            blocks.All(y => !x.StartTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay, true)
+                                        && !x.EndTime.IsBetween(y.StartDate.TimeOfDay, y.EndDate.TimeOfDay, true)));
         
         return bookSlots.ToList();
     }

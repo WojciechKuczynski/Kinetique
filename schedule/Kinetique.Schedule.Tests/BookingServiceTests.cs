@@ -28,7 +28,7 @@ public class BookingServiceTests
         repo.Add(doctorSchedule);
         
         var request = new BookTimeRequest()
-            { DoctorCode = "12345", StartDate = now.AddHours(11).AddMinutes(30), EndDate = now.AddHours(12).AddMinutes(30) };
+            { DoctorCode = "12345", StartDate = now.AddHours(10).AddMinutes(30), EndDate = now.AddHours(11).AddMinutes(30) };
         
         // act
         var result = service.GetSlotsForRequestedTime(request).Result;
@@ -116,17 +116,17 @@ public class BookingServiceTests
             new DoctorScheduleSlot()
             {
                 DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("10:00:00"),
-                EndTime = TimeSpan.Parse("10:59:00")
+                EndTime = TimeSpan.Parse("10:30:00")
+            },
+            new DoctorScheduleSlot()
+            {
+                DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("10:30:00"),
+                EndTime = TimeSpan.Parse("11:00:00")
             },
             new DoctorScheduleSlot()
             {
                 DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("11:00:00"),
-                EndTime = TimeSpan.Parse("11:59:00")
-            },
-            new DoctorScheduleSlot()
-            {
-                DayOfWeek = now.DayOfWeek, StartTime = TimeSpan.Parse("12:00:00"),
-                EndTime = TimeSpan.Parse("12:59:00")
+                EndTime = TimeSpan.Parse("11:30:00")
             },
         };
         return slots;
