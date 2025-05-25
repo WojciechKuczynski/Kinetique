@@ -1,0 +1,75 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.9"
+services:
+  appointmentService:
+    build:
+      context: "/Users/wojciechkuczynski/Documents/repos/Kinetique"
+      dockerfile: "./appointments/Kinetique.Appointment.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/Kinetique.Appointment.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "kinetique/appointment.api:dev"
+    ports: []
+    volumes:
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique/appointments/Kinetique.Appointment.API:/app:rw"
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique:/src:rw"
+    - "/Users/wojciechkuczynski/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  mainService:
+    build:
+      context: "/Users/wojciechkuczynski/Documents/repos/Kinetique"
+      dockerfile: "./main/Kinetique.Main.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/Kinetique.Main.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "kinetique/main.api:dev"
+    ports: []
+    volumes:
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique/main/Kinetique.Main.API:/app:rw"
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique:/src:rw"
+    - "/Users/wojciechkuczynski/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  nfzService:
+    build:
+      context: "/Users/wojciechkuczynski/Documents/repos/Kinetique"
+      dockerfile: "./nfz/Kinetique.Nfz.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/Kinetique.Nfz.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "kinetique/nfz.api:dev"
+    ports: []
+    volumes:
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique/nfz/Kinetique.Nfz.API:/app:rw"
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique:/src:rw"
+    - "/Users/wojciechkuczynski/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  scheduleService:
+    build:
+      context: "/Users/wojciechkuczynski/Documents/repos/Kinetique"
+      dockerfile: "./schedule/Kinetique.Schedule/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/Kinetique.Schedule.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "kinetique/schedule.api:dev"
+    ports: []
+    volumes:
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique/schedule/Kinetique.Schedule:/app:rw"
+    - "/Users/wojciechkuczynski/Documents/repos/Kinetique:/src:rw"
+    - "/Users/wojciechkuczynski/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"

@@ -50,7 +50,7 @@ public class RpcClient<TRequest,TResponse> : IDisposable where TRequest: class, 
             }
         };
 
-        _channel.BasicConsume(consumer: consumer, queue: _rpcQueueNameReply, autoAck: true);
+        _channel.BasicConsume(consumer: consumer, queue: _rpcQueueNameReply, autoAck: false, exclusive: true);
     }
     
     

@@ -10,6 +10,8 @@ public class AppointmentAcceptHandler(IPatientProcedureRepository patientProcedu
 {
     public Task Handle(AppointmentAcceptCommand command, CancellationToken token = default)
     {
+        // check if patient procedures are filled already
+        
         // sending message to NFZ system
         Console.WriteLine("Message sent to NFZ system");
         return Task.CompletedTask;

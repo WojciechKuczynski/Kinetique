@@ -1,4 +1,5 @@
 using Kinetique.Nfz.DAL;
+using Kinetique.Nfz.Model;
 using Kinetique.Shared.Model.Abstractions;
 
 namespace Kinetique.Nfz.Application.Procedures.Handlers;
@@ -16,7 +17,21 @@ internal class ProceduresAddHandler(DataContext _context) : IProcedureAddHandler
             throw new Exception("Patient appointment not found");
         }
         //TODO: Finish it.
-        
-        
+        foreach(var proc in command.Procedures)
+        {
+            var procedure = new StatisticProcedure()
+            {
+                Code = proc.StatisticProcedure,
+                Treatment = proc.TreatmentCode,
+                SettlementProcedure = new SettlementProcedure()
+                {
+                    Code = proc.SettlementProcedureCode,
+                    Name = proc.SettlementProcedureCode,
+                    Points = proc.Points
+                }
+            };
+            patientAppointment.AddProcedure(procedure);
+        }
+        await _context.SaveChangesAsync(token);
     }
 }

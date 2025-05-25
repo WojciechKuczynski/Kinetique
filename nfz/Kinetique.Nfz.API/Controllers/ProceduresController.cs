@@ -22,10 +22,10 @@ public class ProceduresController(IProcedureEmptyListHandler procedureEmptyListH
         return Ok(await _procedureEmptyListQuery.Handle(new ProcedureEmptyListQuery()));
     }
     
-    [HttpPost("appointment")]
-    public async Task<ActionResult> AddProcedureToAppointment(PatientProcedureDto dto)
+    [HttpPost("procedure/{long:id}")]
+    public async Task<ActionResult> AddProcedure(long id, TreatmentProcedureDto procedure)
     {
-        await _procedureAddHandler.Handle(new ProceduresAddCommand(dto.AppointmentExternalId, dto.Procedures));
+        await _procedureAddHandler.Handle(new ProceduresAddCommand(id, new[] {procedure}));
         return Ok();
     }
 

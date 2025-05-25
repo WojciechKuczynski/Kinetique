@@ -17,6 +17,8 @@ public class DataContext(DbContextOptions options, IClock clock) : DbContext(opt
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         modelBuilder.Entity<AppointmentCycle>().HasMany(x => x.Appointments).WithOne(x => x.Cycle)
             .HasForeignKey(x => x.CycleId);
+
+        modelBuilder.Entity<AppointmentCycle>().HasQueryFilter(x => x.CycleReady);
         base.OnModelCreating(modelBuilder);
     }
 
